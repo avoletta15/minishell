@@ -1,0 +1,8 @@
+version: "1.0"
+services:
+  minishell:
+    image: "ubuntu:22.04"
+    container_name: "minishell_container"
+    volumes:
+      - .:/minishell
+    command: /bin/bash -c "apt update -y && apt upgrade -y && apt install build-essential -y && apt install valgrind -y && apt install libreadline-dev -y && cd /minishell && make re"

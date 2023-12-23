@@ -72,13 +72,24 @@ void		init_quotes_system(t_quotes_system *quotes_system);
 
 // lexer
 char		*first_filter(t_quotes_system *quote);
+char		*second_filter(t_quotes_system *quote);
+bool		lexer(t_quotes_system *quote);
 // lexer
 
 // prompt treatment
 void		remove_whitespaces(char *dest, char *src, t_quotes_system *quotes);
+void		delimit_special_chars(char *dest,
+				char *src, t_quotes_system *quote);
 // prompt treatment
 
 // memory
 void		free_project(t_quotes_system *quote, void (*call_back)(void));
 // memory
+
+// utils
+int			is_special_chars(char *set);
+void		copynstr(char *dest, char *src, size_t len);
+void		put_separator(char *dest, char *src, int *pos);
+// utils
+
 #endif

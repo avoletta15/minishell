@@ -5,4 +5,6 @@ services:
     container_name: "minishell_container"
     volumes:
       - .:/minishell
-    command: /bin/bash -c "apt update -y && apt upgrade -y && apt install build-essential -y && apt install valgrind -y && apt install libreadline-dev -y && cd /minishell && make re"
+    command: /bin/bash -c "apt update -y && apt upgrade -y && apt install build-essential -y && apt install valgrind -y && apt install wget && apt install libreadline-dev -y && cd /minishell && make re && tail -f > /dev/null"
+    tty: true
+    init: true

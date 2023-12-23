@@ -12,11 +12,40 @@
 
 #include "minishell.h"
 
+/// @brief This function places the separator character before
+/// and after the special characters, such as redirects and pipes,
+/// only outside quotes.
+/// @param dest 
+/// @param src 
+/// @param quote 
+void	delimit_special_chars(char *dest, char *src, t_quotes_system *quote)
 {
+	int		pos;
 
+	while (src && *src)
 	{
+		pos = is_special_chars(src);
+		if (pos != -1 && !quote->quote_state)
+			put_separator(dest, src, &pos);
+		else if (!quote->quote_state
+			&& (*src == '\'' || *src == '\"'))
+		{
+			quote->quote_state = true;
+			quote->quote = *src;
+			*dest++ = *src++;
+		}
+		else if (*src == quote->quote && quote->quote_state)
+		{
+			quote->quote = 0;
+			quote->quote_state = false;
+			*dest++ = *src++;
+		}
 		else
+			*dest++ = *src++;
 	}
+	*dest = '\0';
+}
+
 /// @brief This function removes the whitespaces from
 /// a string and replaces them for the a \1 char. It
 /// null terminates the destination.

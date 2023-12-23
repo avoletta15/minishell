@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 15:52:45 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/23 16:17:34 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ char	*second_filter(t_quotes_system *quote)
 	return (new_prompt);
 }
 
+/// @brief This function treats the original prompt and
+/// returns true if it was successfull, otherwise false.
+/// @param quote 
+/// @return 
 bool	lexer(t_quotes_system *quote)
 {
 	quote->prompt = first_filter(quote);

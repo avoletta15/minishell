@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 16:21:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 15:47:05 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/23 16:37:52 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	delimit_special_chars(char *dest, char *src, t_quotes_system *quote)
 	{
 		pos = is_special_chars(src);
 		if (pos != -1 && !quote->quote_state)
-			put_separator(dest, src, &pos);
+			put_separator(&dest, &src, &pos);
 		else if (!quote->quote_state
 			&& (*src == '\'' || *src == '\"'))
 		{

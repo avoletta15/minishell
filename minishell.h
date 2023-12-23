@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 15:54:38 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/23 16:22:18 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void		free_project(t_quotes_system *quote, void (*call_back)(void));
 // utils
 int			is_special_chars(char *set);
 void		copynstr(char *dest, char *src, size_t len);
-void		put_separator(char *dest, char *src, int *pos);
+void		put_separator(char **dest, char **src, int *pos);
 // utils
 
 #endif

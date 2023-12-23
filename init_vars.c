@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:39:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/20 12:19:50 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/23 15:53:23 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	init_quotes_system(t_quotes_system *quotes_system)
 	quotes_system->index = 0;
 	quotes_system->len = 0;
 	quotes_system->was_just_in_quotes = false;
-	quotes_system->quotes_state = false;
+	quotes_system->quote_state = false;
 	quotes_system->error = false;
-
 }

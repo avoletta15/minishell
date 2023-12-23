@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 16:22:18 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/23 17:13:48 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef enum e_characters_types {
 typedef struct s_quotes_system
 {
 	char	*prompt;
+	char	**prompt_splitted;
 	char	quote;
 	size_t	index;
 	size_t	len;

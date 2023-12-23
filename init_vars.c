@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:39:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 15:53:23 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/23 17:13:59 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	init_program(t_program *program)
 void	init_quotes_system(t_quotes_system *quotes_system)
 {
 	quotes_system->prompt = NULL;
+	quotes_system->prompt_splitted = NULL;
 	quotes_system->quote = 0;
 	quotes_system->index = 0;
 	quotes_system->len = 0;

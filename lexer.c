@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 16:17:34 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/23 17:14:50 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,19 @@ char	*second_filter(t_quotes_system *quote)
 	return (new_prompt);
 }
 
+char	**third_filter(t_quotes_system *quote)
+{
+	char	**prompt_splitted;
+
+	prompt_splitted = ft_split(quote->prompt, PARSER_SEP);
+	if (!prompt_splitted)
+	{
+		free_project(quote, &malloc_error);
+		return (NULL);
+	}
+	return (prompt_splitted);
+}
+
 /// @brief This function treats the original prompt and
 /// returns true if it was successfull, otherwise false.
 /// @param quote 
@@ -70,6 +83,9 @@ bool	lexer(t_quotes_system *quote)
 		return (false);
 	quote->prompt = second_filter(quote);
 	if (!quote->prompt)
+		return (false);
+	quote->prompt_splitted = third_filter(quote);
+	if (!quote->prompt_splitted)
 		return (false);
 	return (true);
 }

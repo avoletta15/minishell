@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:29:54 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 16:36:10 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/23 16:43:27 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,11 @@ int	is_special_chars(char *set)
 /// @param pos 
 void	put_separator(char **dest, char **src, int *pos)
 {
-	**dest = PARSER_SEP, (*dest)++;
+	**dest = PARSER_SEP;
+	(*dest)++;
 	copynstr(*dest, *src, *pos);
 	*dest += *pos;
 	*src += *pos;
-	**dest = PARSER_SEP, (*dest)++;
+	**dest = PARSER_SEP;
+	(*dest)++;
 }

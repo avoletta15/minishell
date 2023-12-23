@@ -64,13 +64,18 @@ typedef struct s_program
 void		bad_syntax_error(void);
 void		malloc_error(void);
 // error
+
 // init vars
+void		init_program(t_program *program);
+void		init_quotes_system(t_quotes_system *quotes_system);
 // init vars
 
 // lexer
+char		*first_filter(t_quotes_system *quote);
 // lexer
 
 // prompt treatment
+void		remove_whitespaces(char *dest, char *src, t_quotes_system *quotes);
 // prompt treatment
 
 // memory

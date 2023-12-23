@@ -6,45 +6,36 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/20 15:51:49 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/23 15:52:45 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*remove_whitespaces(char *prompt)
+/// @brief This function allocates a new buffer
+/// tries to copy the prompt replacing the
+/// whitespaces for a special char in valid 
+/// places and if something goes wrong it
+/// deallocates the memory and returns NULL.
+/// @param quote 
+/// @return 
+char	*first_filter(t_quotes_system *quote)
 {
-	bool	quote_state;
-	char	quote;
-	size_t	index;
 	char	*new_prompt;
 
-	quote_state = false;
-	quote = 0;
-	index = 0;
-	new_prompt = (char *)malloc(sizeof(char) * ft_strlen(prompt) + 1);
+	new_prompt = (char *)malloc(sizeof(char) * ft_strlen(quote->prompt) + 1);
 	if (!new_prompt)
-		return (NULL);
-	while (prompt[index])
 	{
-		if (ft_isspace(prompt[index]) && !quote_state)
-			new_prompt[index] = PARSER_SEP;
-		else if ((prompt[index] == '\'' || prompt[index] == '\"') && !quote_state)
-		{
-			quote_state = true;
-			quote = prompt[index];
-		}
-		else if (prompt[index] == quote && quote_state)
-		{
-			quote_state = false;
-			quote = 0;
-		}
-		else
-			new_prompt[index] = prompt[index];
-		index++;
-		// else if (ft_isspace(prompt[index]) && quote_state)
-		// 	new_prompt[index] = prompt[index];
+		free_project(quote, &malloc_error);
+		return (NULL);
 	}
-	prompt[index] = '\0';
-	return (prompt);
+	remove_whitespaces(new_prompt, quote->prompt, quote);
+	if (quote->quote_state)
+	{
+		free_project(quote, &bad_syntax_error);
+		return (NULL);
+	}
+	free(quote->prompt);
+	return (new_prompt);
+}
 }

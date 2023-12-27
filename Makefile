@@ -8,7 +8,7 @@ LIBFT_INC = libft/inc
 INC_FLAGS = -I $(LIBFT_INC)
 ALL_FLAGS = $(CFLAGS) $(READLINE_FLAGS) $(INC_FLAGS) -L$(LIBFT_DIR) -lft
 
-SRC = prompt_treatment.c init_vars.c lexer.c utils.c memory.c error.c
+SRC = prompt_treatment.c init_vars.c lexer.c utils.c memory.c error.c tokenize.c
 ROOT_DIR = ./
 OBJ_DIR = obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))
@@ -42,7 +42,7 @@ v: re readline.supp
 	@valgrind --show-leak-kinds=all --leak-check=full --suppressions=readline.supp --log-file="valgrind_log.txt" ./minishell
 
 readline.supp:
-	wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp
+	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp 2> /dev/null 1> /dev/null
 
 # cat Makefile | ls | echo "  $HOME 'test $PWD' $abc  " | wc
 # cat\1Makefile\1|\1ls\1|\1echo\1"  $HOME 'test $PWD' $abc  "\1|\1wc

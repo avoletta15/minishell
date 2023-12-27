@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 17:14:50 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/27 14:52:54 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,15 @@ char	*second_filter(t_quotes_system *quote)
 		return (NULL);
 	}
 	delimit_special_chars(new_prompt, quote->prompt, quote);
+	free(quote->prompt);
 	return (new_prompt);
 }
 
+/// @brief This function tranforms the modified prompt with the
+/// special character placed at the correct spots into an array
+/// of strings.
+/// @param quote 
+/// @return 
 char	**third_filter(t_quotes_system *quote)
 {
 	char	**prompt_splitted;
@@ -69,6 +75,7 @@ char	**third_filter(t_quotes_system *quote)
 		free_project(quote, &malloc_error);
 		return (NULL);
 	}
+	free(quote->prompt);
 	return (prompt_splitted);
 }
 
@@ -76,8 +83,11 @@ char	**third_filter(t_quotes_system *quote)
 /// returns true if it was successfull, otherwise false.
 /// @param quote 
 /// @return 
-bool	lexer(t_quotes_system *quote)
+bool	lexer(t_program *program)
 {
+	t_quotes_system	*quote;
+
+	quote = &program->quotes_system;
 	quote->prompt = first_filter(quote);
 	if (!quote->prompt)
 		return (false);
@@ -86,6 +96,9 @@ bool	lexer(t_quotes_system *quote)
 		return (false);
 	quote->prompt_splitted = third_filter(quote);
 	if (!quote->prompt_splitted)
+		return (false);
+	tokenize_prompt(quote->prompt_splitted, &program->tokens);
+	if (!program->tokens)
 		return (false);
 	return (true);
 }

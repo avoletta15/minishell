@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 17:17:33 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/27 14:57:07 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	main(int ac, char **av, char **env_path)
 {
 	t_program	program;
-	int			i;
 
 	(void)ac;
 	(void)av;
@@ -23,22 +22,13 @@ int	main(int ac, char **av, char **env_path)
 	init_program(&program);
 	while (1)
 	{
-		i = 0;
 		program.quotes_system.prompt = readline("minishell>");
-		if (!lexer(&program.quotes_system))
+		if (!ft_strlen(program.quotes_system.prompt))
 			continue ;
-		while (program.quotes_system.prompt_splitted[i])
-		{
-			// if (program.quotes_system.prompt[i] == PARSER_SEP)
-			// 	write(1, "\\1", 2);
-			// else
-			// 	write(1, &program.quotes_system.prompt[i], 1);
-			printf("%s\n", program.quotes_system.prompt_splitted[i++]);
-		}
-		i = 0;
-		while (program.quotes_system.prompt_splitted[i])
-			free(program.quotes_system.prompt_splitted[i++]);
-		free(program.quotes_system.prompt_splitted);
+		if (!lexer(&program))
+			continue ;
+		visualize_tokens(program.tokens);
+		free_tokens(program.tokens);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:39:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 17:13:59 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/27 14:07:18 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_program(t_program *program)
 {
 	program->command_line = NULL;
 	program->commands = NULL;
+	program->tokens = NULL;
 	init_quotes_system(&program->quotes_system);
 }
 

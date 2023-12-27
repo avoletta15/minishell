@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:29:54 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/23 16:43:27 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/27 07:56:27 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,29 @@ void	put_separator(char **dest, char **src, int *pos)
 	*src += *pos;
 	**dest = PARSER_SEP;
 	(*dest)++;
+}
+
+void	print_token(t_token *token)
+{
+	printf("	{\n");
+	printf("		token_id: %i,\n", token->token_id);
+	printf("		token: %s,\n", token->token);
+	printf("		prev: %p,\n", token->prev);
+	printf("		next: %p,\n", token->next);
+	printf("	}");
+}
+
+void	visualize_tokens(t_token *tokens)
+{
+	printf("[\n");
+	while (tokens)
+	{
+		print_token(tokens);
+		if (tokens->next)
+			printf(",\n");
+		else
+			printf("\n");
+		tokens = tokens->next;
+	}
+	printf("]\n");
 }

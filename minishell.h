@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/27 14:27:11 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:37:27 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@
 # define BAD_SYNTAX_ERROR "Error: Bad syntax\n"
 # define MALLOC_ERROR "Error: Malloc failed\n"
 
-# define SINGLE_QUOTE "\'"
-# define DOUBLE_QUOTE "\""
 # define PIPE "|"
 # define INPUT_REDIRECT "<"
 # define OUTPUT_REDIRECT ">"
@@ -34,16 +32,12 @@
 # define APPEND ">>"
 
 typedef enum e_token_types {
-	SINGLE_QUOTE_ID = 1,
-	DOUBLE_QUOTE_ID = 2,
-	INPUT_REDIRECT_ID = 3,
-	OUTPUT_REDIRECT_ID = 4,
-	PIPE_ID = 5,
-	HERE_DOC_ID = 6,
-	APPEND_ID = 7,
-	ARGS_ID = 8,
-	INFILE_ID = 9,
-	OUTFILE_ID = 10,
+	INPUT_REDIRECT_ID = 1,
+	OUTPUT_REDIRECT_ID,
+	PIPE_ID,
+	HERE_DOC_ID,
+	APPEND_ID,
+	ARGS_ID,
 }			t_token_types;
 
 typedef struct s_quotes_system
@@ -51,12 +45,7 @@ typedef struct s_quotes_system
 	char	*prompt;
 	char	**prompt_splitted;
 	char	quote;
-	size_t	index;
-	size_t	len;
 	bool	quote_state;
-	bool	changed;
-	bool	error;
-	bool	was_just_in_quotes;
 }				t_quotes_system;
 
 typedef struct s_command

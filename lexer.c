@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/27 14:52:54 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/29 19:26:21 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,66 +17,70 @@
 /// whitespaces for a special char in valid 
 /// places and if something goes wrong it
 /// deallocates the memory and returns NULL.
-/// @param quote 
+/// @param program 
 /// @return 
-char	*first_filter(t_quotes_system *quote)
+bool	first_filter(t_program *program)
 {
 	char	*new_prompt;
 
-	new_prompt = (char *)malloc(sizeof(char) * ft_strlen(quote->prompt) + 1);
+	new_prompt = (char *)malloc(sizeof(char) * ft_strlen(program->prompt) + 1);
 	if (!new_prompt)
 	{
-		free_project(quote, &malloc_error);
-		return (NULL);
+		free_project(program, &malloc_error);
+		exit(EXIT_FAILURE);
 	}
-	remove_whitespaces(new_prompt, quote->prompt, quote);
-	if (quote->quote_state)
+	remove_whitespaces(new_prompt, program->prompt, &program->quotes_system);
+	if (program->quotes_system.quote_state)
 	{
-		free_project(quote, &bad_syntax_error);
-		return (NULL);
+		free_project(program, &unclosed_quote_error);
+		return (false);
 	}
-	free(quote->prompt);
-	return (new_prompt);
+	free(program->prompt);
+	program->prompt = new_prompt;
+	return (true);
 }
 
 /// @brief This function allocates a new buffer and places before
 /// and after each special character, such as redirects and pipes,
 /// the separator character, preparing it to the split function.
-/// @param quote 
+/// @param program 
 /// @return 
-char	*second_filter(t_quotes_system *quote)
+bool	second_filter(t_program *program)
 {
 	char	*new_prompt;
 
 	new_prompt = (char *)malloc(sizeof(char)
-			* ft_strlen(quote->prompt) * 2 + 1);
+			* ft_strlen(program->prompt) * 3 + 1);
 	if (!new_prompt)
 	{
-		free_project(quote, &malloc_error);
-		return (NULL);
+		free_project(program, &malloc_error);
+		exit(EXIT_FAILURE);
 	}
-	delimit_special_chars(new_prompt, quote->prompt, quote);
-	free(quote->prompt);
-	return (new_prompt);
+	delimit_special_chars(new_prompt, program->prompt, &program->quotes_system);
+	free(program->prompt);
+	program->prompt = new_prompt;
+	return (true);
 }
 
 /// @brief This function tranforms the modified prompt with the
 /// special character placed at the correct spots into an array
 /// of strings.
-/// @param quote 
+/// @param program
 /// @return 
-char	**third_filter(t_quotes_system *quote)
+bool	third_filter(t_program *program)
 {
 	char	**prompt_splitted;
 
-	prompt_splitted = ft_split(quote->prompt, PARSER_SEP);
+	prompt_splitted = ft_split(program->prompt, PARSER_SEP);
 	if (!prompt_splitted)
 	{
-		free_project(quote, &malloc_error);
-		return (NULL);
+		free_project(program, &malloc_error);
+		exit(EXIT_FAILURE);
 	}
-	free(quote->prompt);
-	return (prompt_splitted);
+	free(program->prompt);
+	program->prompt = NULL;
+	program->prompt_splitted = prompt_splitted;
+	return (true);
 }
 
 /// @brief This function treats the original prompt and
@@ -85,20 +89,12 @@ char	**third_filter(t_quotes_system *quote)
 /// @return 
 bool	lexer(t_program *program)
 {
-	t_quotes_system	*quote;
-
-	quote = &program->quotes_system;
-	quote->prompt = first_filter(quote);
-	if (!quote->prompt)
+	if (!first_filter(program))
 		return (false);
-	quote->prompt = second_filter(quote);
-	if (!quote->prompt)
-		return (false);
-	quote->prompt_splitted = third_filter(quote);
-	if (!quote->prompt_splitted)
-		return (false);
-	tokenize_prompt(quote->prompt_splitted, &program->tokens);
-	if (!program->tokens)
+	second_filter(program);
+	third_filter(program);
+	tokenize_prompt(program, &program->tokens);
+	if (!tokens_checker(program))
 		return (false);
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/28 20:37:27 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:12:47 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,11 @@
 
 # define PARSER_SEP '\1'
 
-# define BAD_SYNTAX_ERROR "Error: Bad syntax\n"
+# define UNCLOSED_QUOTE_ERROR "Error: Bad syntax\n"
 # define MALLOC_ERROR "Error: Malloc failed\n"
+# define BAD_SYNTAX_ERROR1 "minishell: bad syntax "
+# define BAD_SYNTAX_ERROR2 "error near to the unexpected token "
+# define NEW_LINE "newline"
 
 # define PIPE "|"
 # define INPUT_REDIRECT "<"
@@ -34,9 +37,9 @@
 typedef enum e_token_types {
 	INPUT_REDIRECT_ID = 1,
 	OUTPUT_REDIRECT_ID,
-	PIPE_ID,
 	HERE_DOC_ID,
 	APPEND_ID,
+	PIPE_ID,
 	ARGS_ID,
 }			t_token_types;
 
@@ -57,7 +60,7 @@ typedef struct s_command
 
 typedef struct s_token
 {
-	int				token_id;
+	t_token_types	token_id;
 	char			*token;
 	struct s_token	*prev;
 	struct s_token	*next;
@@ -65,25 +68,31 @@ typedef struct s_token
 
 typedef struct s_program
 {
-	char			*command_line;
+	char			*prompt;
+	char			**prompt_splitted;
 	t_command		*commands;
 	t_token			*tokens;
+	int				exit_status;
 	t_quotes_system	quotes_system;
 }				t_program;
 
 // error
-void		bad_syntax_error(void);
+void		unclosed_quote_error(void);
 void		malloc_error(void);
+void		bad_syntax_error(char *str);
+void		invalid_token_error(t_program *program, char *str);
 // error
 
 // init vars
-void		init_program(t_program *program);
+void		reset_program(t_program *program, bool reset_all);
+void		init_program(t_program *program, bool reset_all);
 void		init_quotes_system(t_quotes_system *quotes_system);
 // init vars
 
 // lexer
-char		*first_filter(t_quotes_system *quote);
-char		*second_filter(t_quotes_system *quote);
+bool		first_filter(t_program *program);
+bool		second_filter(t_program *program);
+bool		third_filter(t_program *program);
 bool		lexer(t_program *program);
 // lexer
 
@@ -95,7 +104,7 @@ void		free_prompt(char **prompt_splitted);
 // prompt treatment
 
 // memory
-void		free_project(t_quotes_system *quote, void (*call_back)(void));
+void		free_project(t_program *program, void (*call_back)(void));
 // memory
 
 // tokenize
@@ -103,7 +112,7 @@ int			get_token_id(char *token);
 t_token		*create_token(char *token);
 void		add_token(t_token **tokens, t_token *new_token);
 void		free_tokens(t_token *tokens);
-void		tokenize_prompt(char **prompt_splitted, t_token **tokens);
+void		tokenize_prompt(t_program *program, t_token **tokens);
 // tokenize
 
 // utils
@@ -113,5 +122,13 @@ void		put_separator(char **dest, char **src, int *pos);
 void		print_token(t_token *token);
 void		visualize_tokens(t_token *tokens);
 // utils
+
+// utils 2
+bool		is_redirect_token(t_token_types token_id);
+bool		is_token_sequence_invalid(t_token *token);
+bool		is_pipe_sequence_invalid(t_token *token);
+bool		is_redirect_invalid(t_token *token);
+bool		tokens_checker(t_program *program);
+// utils 2
 
 #endif

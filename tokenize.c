@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 06:18:26 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/27 14:54:09 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/29 18:52:56 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,26 +74,29 @@ void	add_token(t_token **tokens, t_token *new_token)
 
 /// @brief This function transforms the given array
 /// of strings into a linked list of tokens.
-/// @param prompt_splitted 
+/// @param program
 /// @param tokens 
-void	tokenize_prompt(char **prompt_splitted, t_token **tokens)
+void	tokenize_prompt(t_program *program, t_token **tokens)
 {
 	t_token	*curr;
+	char	**prompt_splitted;
 	int		i;
 
+	prompt_splitted = program->prompt_splitted;
 	i = 0;
 	while (prompt_splitted && prompt_splitted[i])
 	{
 		curr = create_token(prompt_splitted[i]);
 		if (!curr)
 		{
-			malloc_error();
+			free_project(program, &malloc_error);
 			free_prompt(prompt_splitted);
 			free_tokens(*tokens);
-			return ;
+			exit(EXIT_FAILURE);
 		}
 		add_token(tokens, curr);
 		i++;
 	}
 	free_prompt(prompt_splitted);
+	program->prompt_splitted = NULL;
 }

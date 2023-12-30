@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:39:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/28 20:36:24 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:12:47 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 /// @brief This function initializes the program's variable.
 /// @param program 
-void	init_program(t_program *program)
+void	init_program(t_program *program, bool reset_all)
 {
-	program->command_line = NULL;
+	program->prompt = NULL;
+	program->prompt_splitted = NULL;
 	program->commands = NULL;
 	program->tokens = NULL;
+	if (reset_all)
+		program->exit_status = 0;
 	init_quotes_system(&program->quotes_system);
 }
 
@@ -26,8 +29,15 @@ void	init_program(t_program *program)
 /// @param quotes_system 
 void	init_quotes_system(t_quotes_system *quotes_system)
 {
-	quotes_system->prompt = NULL;
-	quotes_system->prompt_splitted = NULL;
 	quotes_system->quote = 0;
 	quotes_system->quote_state = false;
+}
+
+/// @brief This function resets the variables
+/// from the program, such as prompt, prompt_splitted,
+/// commands, tokens, and quotes_system.
+/// @param program 
+void	reset_program(t_program *program, bool reset_all)
+{
+	return (init_program(program, reset_all));
 }

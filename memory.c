@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:47:23 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/27 14:55:27 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/29 18:26:49 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 /// @brief This function deallocates all memory dynamically allocated
 /// for the project.
-/// @param quote 
+/// @param program 
 /// @param call_back 
-void	free_project(t_quotes_system *quote, void (*call_back)(void))
+void	free_project(t_program *program, void (*call_back)(void))
 {
 	if (call_back)
 		call_back();
-	free(quote->prompt);
+	if (program->prompt)
+	{
+		free(program->prompt);
+		program->prompt = NULL;
+	}
 }
 
 /// @brief This function deallocates the array of strings used to parse

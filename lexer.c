@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/29 19:26:21 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:31:01 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,69 +17,69 @@
 /// whitespaces for a special char in valid 
 /// places and if something goes wrong it
 /// deallocates the memory and returns NULL.
-/// @param program 
+/// @param terminal 
 /// @return 
-bool	first_filter(t_program *program)
+bool	first_filter(t_terminal *terminal)
 {
 	char	*new_prompt;
 
-	new_prompt = (char *)malloc(sizeof(char) * ft_strlen(program->prompt) + 1);
+	new_prompt = (char *)malloc(sizeof(char) * ft_strlen(terminal->prompt) + 1);
 	if (!new_prompt)
 	{
-		free_project(program, &malloc_error);
+		free_project(terminal, &malloc_error);
 		exit(EXIT_FAILURE);
 	}
-	remove_whitespaces(new_prompt, program->prompt, &program->quotes_system);
-	if (program->quotes_system.quote_state)
+	remove_whitespaces(new_prompt, terminal->prompt, &terminal->quotes_system);
+	if (terminal->quotes_system.quote_state)
 	{
-		free_project(program, &unclosed_quote_error);
+		free_project(terminal, &unclosed_quote_error);
 		return (false);
 	}
-	free(program->prompt);
-	program->prompt = new_prompt;
+	free(terminal->prompt);
+	terminal->prompt = new_prompt;
 	return (true);
 }
 
 /// @brief This function allocates a new buffer and places before
 /// and after each special character, such as redirects and pipes,
 /// the separator character, preparing it to the split function.
-/// @param program 
+/// @param terminal 
 /// @return 
-bool	second_filter(t_program *program)
+bool	second_filter(t_terminal *terminal)
 {
 	char	*new_prompt;
 
 	new_prompt = (char *)malloc(sizeof(char)
-			* ft_strlen(program->prompt) * 3 + 1);
+			* ft_strlen(terminal->prompt) * 3 + 1);
 	if (!new_prompt)
 	{
-		free_project(program, &malloc_error);
+		free_project(terminal, &malloc_error);
 		exit(EXIT_FAILURE);
 	}
-	delimit_special_chars(new_prompt, program->prompt, &program->quotes_system);
-	free(program->prompt);
-	program->prompt = new_prompt;
+	delimit_special_chars(new_prompt, terminal->prompt, &terminal->quotes_system);
+	free(terminal->prompt);
+	terminal->prompt = new_prompt;
 	return (true);
 }
 
 /// @brief This function tranforms the modified prompt with the
 /// special character placed at the correct spots into an array
 /// of strings.
-/// @param program
+/// @param terminal
 /// @return 
-bool	third_filter(t_program *program)
+bool	third_filter(t_terminal *terminal)
 {
 	char	**prompt_splitted;
 
-	prompt_splitted = ft_split(program->prompt, PARSER_SEP);
+	prompt_splitted = ft_split(terminal->prompt, PARSER_SEP);
 	if (!prompt_splitted)
 	{
-		free_project(program, &malloc_error);
+		free_project(terminal, &malloc_error);
 		exit(EXIT_FAILURE);
 	}
-	free(program->prompt);
-	program->prompt = NULL;
-	program->prompt_splitted = prompt_splitted;
+	free(terminal->prompt);
+	terminal->prompt = NULL;
+	terminal->prompt_splitted = prompt_splitted;
 	return (true);
 }
 
@@ -87,14 +87,14 @@ bool	third_filter(t_program *program)
 /// returns true if it was successfull, otherwise false.
 /// @param quote 
 /// @return 
-bool	lexer(t_program *program)
+bool	lexer(t_terminal *terminal)
 {
-	if (!first_filter(program))
+	if (!first_filter(terminal))
 		return (false);
-	second_filter(program);
-	third_filter(program);
-	tokenize_prompt(program, &program->tokens);
-	if (!tokens_checker(program))
+	second_filter(terminal);
+	third_filter(terminal);
+	tokenize_prompt(terminal, &terminal->tokens);
+	if (!tokens_checker(terminal))
 		return (false);
 	return (true);
 }

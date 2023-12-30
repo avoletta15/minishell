@@ -6,23 +6,23 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:39:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:12:47 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:31:56 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/// @brief This function initializes the program's variable.
-/// @param program 
-void	init_program(t_program *program, bool reset_all)
+/// @brief This function initializes the terminal's variable.
+/// @param terminal 
+void	init_program(t_terminal *terminal, bool reset_all)
 {
-	program->prompt = NULL;
-	program->prompt_splitted = NULL;
-	program->commands = NULL;
-	program->tokens = NULL;
+	terminal->prompt = NULL;
+	terminal->prompt_splitted = NULL;
+	terminal->commands = NULL;
+	terminal->tokens = NULL;
 	if (reset_all)
-		program->exit_status = 0;
-	init_quotes_system(&program->quotes_system);
+		terminal->exit_status = 0;
+	init_quotes_system(&terminal->quotes_system);
 }
 
 /// @brief This function initializes the quotes system variables.
@@ -34,10 +34,10 @@ void	init_quotes_system(t_quotes_system *quotes_system)
 }
 
 /// @brief This function resets the variables
-/// from the program, such as prompt, prompt_splitted,
+/// from the terminal, such as prompt, prompt_splitted,
 /// commands, tokens, and quotes_system.
-/// @param program 
-void	reset_program(t_program *program, bool reset_all)
+/// @param terminal 
+void	reset_terminal(t_terminal *terminal, bool reset_all)
 {
-	return (init_program(program, reset_all));
+	return (init_program(terminal, reset_all));
 }

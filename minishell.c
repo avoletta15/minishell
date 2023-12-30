@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:13:55 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:31:56 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 int	main(int ac, char **av, char **env_path)
 {
-	t_program	program;
+	t_terminal	terminal;
 
 	(void)ac;
 	(void)av;
 	(void)env_path;
-	init_program(&program, true);
+	init_program(&terminal, true);
 	while (1)
 	{
-		program.prompt = readline("minishell>");
-		if (!ft_strlen(program.prompt))
+		terminal.prompt = readline("minishell>");
+		if (!ft_strlen(terminal.prompt))
 		{
-			reset_program(&program, true);
+			reset_terminal(&terminal, true);
 			continue ;
 		}
-		if (!lexer(&program))
+		if (!lexer(&terminal))
 			continue ;
-		visualize_tokens(program.tokens);
-		free_tokens(program.tokens);
-		reset_program(&program, false);
+		visualize_tokens(terminal.tokens);
+		free_tokens(terminal.tokens);
+		reset_terminal(&terminal, false);
 	}
 	return (0);
 }

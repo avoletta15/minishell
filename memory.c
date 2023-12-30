@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:47:23 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/29 18:26:49 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:31:01 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 /// @brief This function deallocates all memory dynamically allocated
 /// for the project.
-/// @param program 
+/// @param terminal 
 /// @param call_back 
-void	free_project(t_program *program, void (*call_back)(void))
+void	free_project(t_terminal *terminal, void (*call_back)(void))
 {
 	if (call_back)
 		call_back();
-	if (program->prompt)
+	if (terminal->prompt)
 	{
-		free(program->prompt);
-		program->prompt = NULL;
+		free(terminal->prompt);
+		terminal->prompt = NULL;
 	}
 }
 

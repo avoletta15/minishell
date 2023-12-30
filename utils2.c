@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:39:39 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:13:34 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:31:01 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,24 @@ bool	is_redirect_invalid(t_token *token)
 }
 
 /// @brief This function verifies if the tokens syntax is correct.
-/// @param program 
+/// @param terminal 
 /// @return 
-bool	tokens_checker(t_program *program)
+bool	tokens_checker(t_terminal *terminal)
 {
 	t_token	*tokens;
 
-	tokens = program->tokens;
-	program->exit_status = 2;
+	tokens = terminal->tokens;
+	terminal->exit_status = 2;
 	while (tokens)
 	{
 		if (is_token_sequence_invalid(tokens))
-			return (invalid_token_error(program, tokens->next->token), false);
+			return (invalid_token_error(terminal, tokens->next->token), false);
 		if (is_pipe_sequence_invalid(tokens))
-			return (invalid_token_error(program, tokens->token), false);
+			return (invalid_token_error(terminal, tokens->token), false);
 		if (is_redirect_invalid(tokens))
-			return (invalid_token_error(program, NEW_LINE), false);
+			return (invalid_token_error(terminal, NEW_LINE), false);
 		tokens = tokens->next;
 	}
-	program->exit_status = 0;
+	terminal->exit_status = 0;
 	return (true);
 }

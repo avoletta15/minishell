@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:53:34 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/29 19:50:02 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:31:01 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	bad_syntax_error(char *str)
 
 /// @brief This function displays an error informing
 /// the user about the invalid token syntax sequence.
-/// @param program 
+/// @param terminal 
 /// @param str 
-void	invalid_token_error(t_program *program, char *str)
+void	invalid_token_error(t_terminal *terminal, char *str)
 {
 	bad_syntax_error(str);
-	free_tokens(program->tokens);
-	program->tokens = NULL;
+	free_tokens(terminal->tokens);
+	terminal->tokens = NULL;
 }

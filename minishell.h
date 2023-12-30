@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:12:47 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/30 17:31:56 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,26 +74,26 @@ typedef struct s_program
 	t_token			*tokens;
 	int				exit_status;
 	t_quotes_system	quotes_system;
-}				t_program;
+}				t_terminal;
 
 // error
 void		unclosed_quote_error(void);
 void		malloc_error(void);
 void		bad_syntax_error(char *str);
-void		invalid_token_error(t_program *program, char *str);
+void		invalid_token_error(t_terminal *terminal, char *str);
 // error
 
 // init vars
-void		reset_program(t_program *program, bool reset_all);
-void		init_program(t_program *program, bool reset_all);
+void		reset_terminal(t_terminal *terminal, bool reset_all);
+void		init_program(t_terminal *terminal, bool reset_all);
 void		init_quotes_system(t_quotes_system *quotes_system);
 // init vars
 
 // lexer
-bool		first_filter(t_program *program);
-bool		second_filter(t_program *program);
-bool		third_filter(t_program *program);
-bool		lexer(t_program *program);
+bool		first_filter(t_terminal *terminal);
+bool		second_filter(t_terminal *terminal);
+bool		third_filter(t_terminal *terminal);
+bool		lexer(t_terminal *terminal);
 // lexer
 
 // prompt treatment
@@ -104,7 +104,7 @@ void		free_prompt(char **prompt_splitted);
 // prompt treatment
 
 // memory
-void		free_project(t_program *program, void (*call_back)(void));
+void		free_project(t_terminal *terminal, void (*call_back)(void));
 // memory
 
 // tokenize
@@ -112,7 +112,7 @@ int			get_token_id(char *token);
 t_token		*create_token(char *token);
 void		add_token(t_token **tokens, t_token *new_token);
 void		free_tokens(t_token *tokens);
-void		tokenize_prompt(t_program *program, t_token **tokens);
+void		tokenize_prompt(t_terminal *terminal, t_token **tokens);
 // tokenize
 
 // utils
@@ -128,7 +128,7 @@ bool		is_redirect_token(t_token_types token_id);
 bool		is_token_sequence_invalid(t_token *token);
 bool		is_pipe_sequence_invalid(t_token *token);
 bool		is_redirect_invalid(t_token *token);
-bool		tokens_checker(t_program *program);
+bool		tokens_checker(t_terminal *terminal);
 // utils 2
 
 #endif

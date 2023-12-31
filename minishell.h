@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:31:56 by arabelo-         ###   ########.fr       */
+/*   Updated: 2023/12/30 18:03:05 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -85,7 +86,7 @@ void		invalid_token_error(t_terminal *terminal, char *str);
 
 // init vars
 void		reset_terminal(t_terminal *terminal, bool reset_all);
-void		init_program(t_terminal *terminal, bool reset_all);
+void		init_terminal(t_terminal *terminal, bool reset_all);
 void		init_quotes_system(t_quotes_system *quotes_system);
 // init vars
 

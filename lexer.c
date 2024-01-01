@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:31:01 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/01 13:06:44 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ bool	first_filter(t_terminal *terminal)
 	if (terminal->quotes_system.quote_state)
 	{
 		free_project(terminal, &unclosed_quote_error);
+		reset_terminal(terminal, false);
+		terminal->exit_status = 2;
 		return (false);
 	}
 	free(terminal->prompt);

@@ -8,7 +8,7 @@ LIBFT_INC = libft/inc
 INC_FLAGS = -I $(LIBFT_INC)
 ALL_FLAGS = $(CFLAGS) $(READLINE_FLAGS) $(INC_FLAGS) -L$(LIBFT_DIR) -lft
 
-SRC = prompt_treatment.c init_vars.c lexer.c utils.c utils2.c memory.c error.c tokenize.c
+SRC = prompt_treatment.c init_vars.c lexer.c utils.c utils2.c utils3.c memory.c error.c tokenize.c
 ROOT_DIR = ./
 OBJ_DIR = obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))

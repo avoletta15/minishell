@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 06:18:26 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:31:01 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/01 16:49:23 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 /// @return 
 int	get_token_id(char *token)
 {
+	int	res;
+
 	if (!ft_strncmp(token, PIPE, ft_strlen(PIPE)))
 		return (PIPE_ID);
 	if (!ft_strncmp(token, INPUT_REDIRECT, ft_strlen(INPUT_REDIRECT)))
@@ -27,6 +29,9 @@ int	get_token_id(char *token)
 		return (HERE_DOC_ID);
 	if (!ft_strncmp(token, APPEND, ft_strlen(APPEND)))
 		return (APPEND_ID);
+	res = is_built_in(token);
+	if (res)
+		return (res);
 	return (ARGS_ID);
 }
 

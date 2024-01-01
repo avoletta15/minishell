@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 18:03:05 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/01 15:40:17 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define PARSER_SEP '\1'
 
-# define UNCLOSED_QUOTE_ERROR "Error: Bad syntax\n"
+# define UNCLOSED_QUOTE_ERROR "Error: unclosed quote\n"
 # define MALLOC_ERROR "Error: Malloc failed\n"
 # define BAD_SYNTAX_ERROR1 "minishell: bad syntax "
 # define BAD_SYNTAX_ERROR2 "error near to the unexpected token "
@@ -34,6 +34,13 @@
 # define OUTPUT_REDIRECT ">"
 # define HERE_DOC "<<"
 # define APPEND ">>"
+# define ECHO "echo"
+# define CD "cd"
+# define PWD "pwd"
+# define EXPORT "export"
+# define UNSET "unset"
+# define ENV "env"
+# define EXIT "exit"
 
 typedef enum e_token_types {
 	INPUT_REDIRECT_ID = 1,
@@ -41,6 +48,7 @@ typedef enum e_token_types {
 	HERE_DOC_ID,
 	APPEND_ID,
 	PIPE_ID,
+	BUILT_IN_ID,
 	ARGS_ID,
 }			t_token_types;
 
@@ -131,5 +139,9 @@ bool		is_pipe_sequence_invalid(t_token *token);
 bool		is_redirect_invalid(t_token *token);
 bool		tokens_checker(t_terminal *terminal);
 // utils 2
+
+// utils 3
+int			is_built_in(char *token);
+// utils 3
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/02 11:47:08 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/02 12:35:39 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,9 +138,5 @@ bool		is_pipe_sequence_invalid(t_token *token);
 bool		is_redirect_invalid(t_token *token);
 bool		tokens_checker(t_terminal *terminal);
 // utils 2
-
-// utils 3
-int			is_built_in(char *token);
-// utils 3
 
 #endif

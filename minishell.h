@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/01 15:40:17 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/02 11:47:08 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef enum e_token_types {
 	HERE_DOC_ID,
 	APPEND_ID,
 	PIPE_ID,
-	BUILT_IN_ID,
 	ARGS_ID,
 }			t_token_types;
 

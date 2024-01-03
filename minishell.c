@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:33:54 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/03 19:06:41 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ int	main(int ac, char **av, char **env_path)
 		}
 		if (!lexer(&terminal))
 			continue ;
-		visualize_tokens(terminal.tokens);
-		free_tokens(terminal.tokens);
-		reset_terminal(&terminal, false);
+		parser(&terminal);
+		visualize_commands(terminal.commands);
+		free_structs(&terminal, false, NULL);
+		reset_terminal(&terminal, SUCCESS);
 	}
 	return (0);
 }

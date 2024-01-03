@@ -6,26 +6,11 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:47:23 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:31:01 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/03 16:53:38 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/// @brief This function deallocates all memory dynamically allocated
-/// for the project.
-/// @param terminal 
-/// @param call_back 
-void	free_project(t_terminal *terminal, void (*call_back)(void))
-{
-	if (call_back)
-		call_back();
-	if (terminal->prompt)
-	{
-		free(terminal->prompt);
-		terminal->prompt = NULL;
-	}
-}
 
 /// @brief This function deallocates the array of strings used to parse
 /// the user prompt.
@@ -54,4 +39,47 @@ void	free_tokens(t_token *tokens)
 		free(tokens);
 		tokens = curr;
 	}
+}
+
+/// @brief This function deallocates all args.
+/// @param arg 
+void	free_args(t_args *arg)
+{
+	t_args	*curr;
+
+	curr = arg;
+	while (curr)
+	{
+		curr = arg->next;
+		free(arg->args);
+		free(arg);
+		arg = curr;
+	}
+}
+
+/// @brief This function deallocates all redirection.
+/// @param redirect 
+void	free_redirect(t_redirect *redirect)
+{
+	t_redirect	*curr;
+
+	curr = redirect;
+	while (curr)
+	{
+		curr = redirect->next;
+		free(redirect->content);
+		free(redirect);
+		redirect = curr;
+	}
+}
+
+/// @brief This function deallocates all redirections
+/// and all args, displays the malloc_error function and exits.
+/// @param terminal 
+void	free_redir_args(t_terminal *terminal)
+{
+	free_args(terminal->args);
+	free_redirect(terminal->redirects);
+	visualize_tokens(terminal->tokens);
+	free_tokens(terminal->tokens);
 }

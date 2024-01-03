@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 06:18:26 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/02 12:10:22 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/03 16:38:15 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,10 @@ t_token	*create_token(char *token)
 		return (NULL);
 	token_infos->token = ft_strdup(token);
 	if (!token_infos->token)
+	{
+		free(token_infos);
 		return (NULL);
+	}
 	token_infos->token_id = get_token_id(token);
 	token_infos->next = NULL;
 	token_infos->prev = NULL;
@@ -89,7 +92,7 @@ void	tokenize_prompt(t_terminal *terminal, t_token **tokens)
 		curr = create_token(prompt_splitted[i]);
 		if (!curr)
 		{
-			free_project(terminal, &malloc_error);
+			malloc_error();
 			free_prompt(prompt_splitted);
 			free_tokens(*tokens);
 			exit(EXIT_FAILURE);

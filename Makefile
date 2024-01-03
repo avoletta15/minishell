@@ -1,14 +1,17 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address,undefined
 READLINE_FLAGS =  -lreadline -lncurses
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_INC = libft/inc
-INC_FLAGS = -I $(LIBFT_INC)
+INC_FLAGS = -I $(LIBFT_INC) -I ./
 ALL_FLAGS = $(CFLAGS) $(READLINE_FLAGS) $(INC_FLAGS) -L$(LIBFT_DIR) -lft
 
-SRC = prompt_treatment.c init_vars.c lexer.c utils.c utils2.c memory.c error.c tokenize.c
+SRC = 	prompt_treatment.c init_vars.c lexer.c utils.c\
+		utils2.c memory.c error.c tokenize.c\
+		parser.c args_redirects.c helpers.c memory2.c\
+		helpers2.c
 ROOT_DIR = ./
 OBJ_DIR = obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/03 19:06:41 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:23:09 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ int	main(int ac, char **av, char **env_path)
 	(void)av;
 	(void)env_path;
 	init_terminal(&terminal, true);
+	// int	i = 0;
 	while (1)
 	{
+		// if (i++ == 2)
+		// 	return (0);
 		terminal.prompt = readline("minishell>");
 		if (!ft_strlen(terminal.prompt))
 		{

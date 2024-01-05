@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/03 19:01:02 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:26:59 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,9 @@ typedef struct s_redirect
 
 typedef struct s_command
 {
+	char				*cmd_path;
 	char				**args;
+	int					fd[2];
 	t_redirect			*redirections;
 	struct s_command	*next;
 }				t_command;
@@ -166,6 +168,7 @@ void		tokenize_prompt(t_terminal *terminal, t_token **tokens);
 int			is_special_chars(char *set);
 void		copynstr(char *dest, char *src, size_t len);
 void		put_separator(char **dest, char **src, int *pos);
+bool		only_white_spaces(char *str);
 // utils
 
 // utils 2

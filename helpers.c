@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:41:06 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/03 16:56:24 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/04 10:11:32 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	print_args(char **args)
 			printf("%s ", *args);
 		args++;
 	}
-	printf("]\n");
+	printf("],\n");
 }
 
 void	print_redir(t_redirect *redirect)
@@ -62,5 +62,5 @@ void	print_redir(t_redirect *redirect)
 			redirect->toked_id, redirect->content);
 		redirect = redirect->next;
 	}
-	printf("NULL\n");
+	printf("NULL,\n");
 }

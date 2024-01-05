@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:29:54 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/03 16:58:44 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:26:45 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,19 @@ size_t	count_args(t_terminal *terminal)
 		curr = curr->next;
 	}
 	return (counter);
+}
+
+/// @brief This function checks if the given string
+/// is only composed by white spaces.
+/// @param str 
+/// @return 
+bool	only_white_spaces(char *str)
+{
+	while (*str)
+	{
+		if (!ft_isspace(*str))
+			return (false);
+		str++;
+	}
+	return (true);
 }

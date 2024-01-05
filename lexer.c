@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/03 16:54:32 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:24:22 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ bool	third_filter(t_terminal *terminal)
 /// @return 
 bool	lexer(t_terminal *terminal)
 {
+	if (!only_white_spaces(terminal->prompt))
+		add_history(terminal->prompt);
 	if (!first_filter(terminal))
 		return (false);
 	second_filter(terminal);

@@ -11,7 +11,7 @@ ALL_FLAGS = $(CFLAGS) $(READLINE_FLAGS) $(INC_FLAGS) -L$(LIBFT_DIR) -lft
 SRC = 	prompt_treatment.c init_vars.c lexer.c utils.c\
 		utils2.c memory.c error.c tokenize.c\
 		parser.c args_redirects.c helpers.c memory2.c\
-		helpers2.c utils3.c
+		helpers2.c
 ROOT_DIR = ./
 OBJ_DIR = obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))
@@ -46,6 +46,9 @@ v: re readline.supp
 
 readline.supp:
 	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp 2> /dev/null 1> /dev/null
+
+
+# ls | wc | echo " test $HOME '$PWD'    " >> text.txt hello this is my test
 
 # cat Makefile | ls | echo "  $HOME 'test $PWD' $abc  " | wc
 # cat\1Makefile\1|\1ls\1|\1echo\1"  $HOME 'test $PWD' $abc  "\1|\1wc

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/06 11:31:01 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/16 18:22:42 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <readline/history.h>
 
 # define PARSER_SEP '\1'
+# define DOUBLE_QUOTE '\2'
+# define SINGLE_QUOTE '\3'
 
 # define UNCLOSED_QUOTE_ERROR "Error: unclosed quote\n"
 # define MALLOC_ERROR "Error: Malloc failed\n"
@@ -68,11 +70,11 @@ typedef struct s_token
 	struct s_token	*next;
 }				t_token;
 
-typedef struct s_arg
+typedef struct s_args
 {
 	t_token_types	toked_id;
 	char			*args;
-	struct s_arg	*next;
+	struct s_args	*next;
 }				t_args;
 
 typedef struct s_redirect
@@ -135,7 +137,7 @@ bool		lexer(t_terminal *terminal);
 void		remove_whitespaces(char *dest, char *src, t_quotes_system *quotes);
 void		delimit_special_chars(char *dest,
 				char *src, t_quotes_system *quote);
-void		free_prompt(char **prompt_splitted);
+void		subsquote(char *new_prompt, t_quotes_system *quote);
 // prompt treatment
 
 // memory
@@ -192,6 +194,7 @@ void		print_redir(t_redirect *redirect);
 // helpers
 
 // helpers 2
+void		put_cmd(char *str);
 void		printf_command(t_command *command);
 void		visualize_commands(t_command *command);
 // helpers 2

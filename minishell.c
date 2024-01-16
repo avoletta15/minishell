@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/16 19:46:36 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/16 19:49:48 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	main(int ac, char **av, char **env_path)
 		env = env->next;
 	}
 	init_terminal(&terminal, true);
+	terminal.env = env;
 	init_shell(terminal);
 	free_env_list(&env);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/05 15:26:59 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/06 11:31:01 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_program
 {
 	char				*prompt;
 	char				**prompt_splitted;
+	char				**env;
 	t_command			*commands;
 	t_token				*tokens;
 	t_args				*args;
@@ -178,6 +179,10 @@ bool		is_pipe_sequence_invalid(t_token *token);
 bool		is_redirect_invalid(t_token *token);
 bool		tokens_checker(t_terminal *terminal);
 // utils 2
+
+// utils 3
+void		find_paths(t_terminal *terminal);
+// utils 3
 
 // helpers
 void		print_token(t_token *token);

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/05 15:23:09 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/16 11:34:54 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(int ac, char **av, char **env_path)
 
 	(void)ac;
 	(void)av;
-	(void)env_path;
+	terminal.env = env_path;
 	init_terminal(&terminal, true);
 	// int	i = 0;
 	while (1)

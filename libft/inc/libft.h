@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 00:38:40 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/11/01 22:34:50 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:14:46 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include "ft_printf.h"
+# include "get_next_line.h"
 
 # ifndef INT32_MAX
 #  define INT32_MAX 2147483647

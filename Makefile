@@ -11,7 +11,7 @@ ALL_FLAGS = $(CFLAGS) $(READLINE_FLAGS) $(INC_FLAGS) -L$(LIBFT_DIR) -lft
 SRC = 	prompt_treatment.c init_vars.c lexer.c utils.c\
 		utils2.c memory.c error.c tokenize.c\
 		parser.c args_redirects.c helpers.c memory2.c\
-		helpers2.c
+		helpers2.c utils3.c
 ROOT_DIR = ./
 OBJ_DIR = obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))

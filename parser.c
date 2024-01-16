@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:20:27 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/03 16:58:35 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/05 18:34:20 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,5 +136,6 @@ bool	parser(t_terminal *terminal)
 	}
 	free_tokens(terminal->tokens);
 	terminal->tokens = NULL;
+	find_paths(terminal);
 	return (true);
 }

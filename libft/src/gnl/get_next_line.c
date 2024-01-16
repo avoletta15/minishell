@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 13:54:34 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/07/24 14:56:00 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/06 15:17:36 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*update_buffer(char *buffer, int fd)
 	temp = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1);
 	if (!temp)
 		return (NULL);
-	while (!ft_strchr(buffer, '\n') && r_status)
+	while (!gnl_strchr(buffer, '\n') && r_status)
 	{
 		r_status = read(fd, temp, BUFFER_SIZE);
 		if (r_status == -1)
@@ -46,7 +46,7 @@ char	*update_buffer(char *buffer, int fd)
 			return (NULL);
 		}
 		temp[r_status] = '\0';
-		buffer = ft_strjoin(buffer, temp);
+		buffer = gnl_strjoin(buffer, temp);
 	}
 	free(temp);
 	return (buffer);

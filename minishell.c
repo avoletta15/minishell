@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/11 12:13:41 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/16 18:46:07 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,14 @@ int	main(int ac, char **av, char **env_path)
 		exit(EXIT_FAILURE);
 	(void)av;
 	i = -1;
-	while(env_path[++i])
+	while(env_path && env_path[++i])
 		env = env_structure(env_path[i], env);
+	while(env && env->next)
+	{
+		printf("\n[\n%s\n", env->info);
+		printf("%p]", env);
+		env = env->next;
+	}
 	init_terminal(&terminal, true);
 	init_shell(terminal);
 	free_env_list(&env);

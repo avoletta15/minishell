@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/01 15:40:17 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/11 11:40:00 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,13 @@ typedef struct s_token
 	struct s_token	*prev;
 	struct s_token	*next;
 }				t_token;
+
+typedef struct s_env
+{
+	char			*info;
+	struct s_env	*previous;
+	struct s_env	*next;
+}				t_env;
 
 typedef struct s_program
 {
@@ -144,4 +151,11 @@ bool		tokens_checker(t_terminal *terminal);
 int			is_built_in(char *token);
 // utils 3
 
+// env_utils
+t_env	*structure_tail_node(t_env *env);
+void	add_node_tail(t_env **head, t_env *new_structure);
+t_env	*new_node(char *env_path);
+t_env	*env_structure(char *env_path, t_env *env);
+void	free_env_list(t_env **env_structure);
+// env_utils
 #endif

@@ -5,25 +5,29 @@ READLINE_FLAGS =  -lreadline -lncurses
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_INC = libft/inc
-INC_FLAGS = -I $(LIBFT_INC) -I ./
+INCLUDES = includes/
+INC_FLAGS = -I $(LIBFT_INC) -I $(INCLUDES)
 ALL_FLAGS = $(CFLAGS) $(READLINE_FLAGS) $(INC_FLAGS) -L$(LIBFT_DIR) -lft
 
-SRC = 	prompt_treatment.c init_vars.c lexer.c utils.c\
-		utils2.c memory.c error.c tokenize.c\
-		parser.c args_redirects.c helpers.c memory2.c\
-		helpers2.c env_utils.c
+## DIRECTORIES ##
+ENV = env/env_management.c env/env_utils.c
+HELPER = helper/helpers.c helper/helpers2.c
+PARSER = parser/args_redirects.c parser/lexer.c parser/parser.c parser/prompt_treatment.c parser/tokenize.c
+UTILS = utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c utils/utils.c utils/utils2.c 
+
+SRC = 	$(ENV:%=src/%) $(HELPER:%=src/%) $(PARSER:%=src/%) $(UTILS:%=src/%)
 ROOT_DIR = ./
 OBJ_DIR = obj/
-OBJS = $(addprefix $(OBJ_DIR), $(SRC:%.c=%.o))
+OBJS = $(addprefix $(OBJ_DIR), $(SRC:src/%.c=%.o))
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) $(NAME).c -o $(NAME) $(OBJS) $(ALL_FLAGS)
+	@$(CC) src/$(NAME).c -o $(NAME) $(OBJS) $(ALL_FLAGS)
 
-$(OBJ_DIR)%.o: $(ROOT_DIR)%.c
-	@mkdir -p $(OBJ_DIR)
-	@$(CC) -c $(CFLAGS) $(INC_FLAGS) $^ -o $@
+$(OBJ_DIR)%.o: src/%.c
+	@mkdir -p $(dir $@) 
+	@$(CC) -c $(CFLAGS) $(INC_FLAGS) $< -o $@
 
 $(LIBFT):
 	@make -s -C $(LIBFT_DIR)

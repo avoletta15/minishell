@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 16:21:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/27 14:44:24 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/16 16:26:23 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,33 @@ void	remove_whitespaces(char *dest, char *src, t_quotes_system *quote)
 		index++;
 	}
 	dest[index] = '\0';
+}
+
+void	subsquote(char *new_prompt, t_quotes_system *quote)
+{
+	while (*new_prompt)
+	{
+		if (*new_prompt == '\'' && !quote->quote_state)
+		{
+			quote->quote = *new_prompt;
+			*new_prompt = SINGLE_QUOTE;
+			quote->quote_state = true;
+		}
+		else if (*new_prompt == '\"' && !quote->quote_state)
+		{
+			quote->quote = *new_prompt;
+			*new_prompt = DOUBLE_QUOTE;
+			quote->quote_state = true;
+		}
+		else if (*new_prompt == quote->quote && quote->quote_state)
+		{
+			if (*new_prompt == '\'')
+				*new_prompt = SINGLE_QUOTE;
+			else
+				*new_prompt = DOUBLE_QUOTE;
+			quote->quote_state = false;
+			quote->quote = 0;
+		}
+		new_prompt++;
+	}
 }

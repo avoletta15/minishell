@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   exit_status.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/06 21:34:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/04 10:31:41 by arabelo-         ###   ########.fr       */
+/*   Created: 2024/01/02 16:34:27 by arabelo-          #+#    #+#             */
+/*   Updated: 2024/01/02 19:40:01 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef EXIT_STATUS_H
+# define EXIT_STATUS_H
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	len;
+# define SUCCESS 0
+# define FAILURE 1
+# define BAD_SYNTAX 2
+# define NOT_EXECUTABLE 126
+# define NOT_FOUND 127
 
-	len = 0;
-	while (str && str[len])
-		len++;
-	return (len);
-}
+#endif

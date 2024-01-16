@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/16 18:46:07 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/16 19:46:36 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,11 @@
 
 void	init_shell(t_terminal terminal)
 {
+	// int	i = 0;
 	while (1)
 	{
+		// if (i++ == 2)
+		// 	return (0);
 		terminal.prompt = readline("minishell>");
 		if (!ft_strlen(terminal.prompt))
 		{
@@ -25,9 +28,10 @@ void	init_shell(t_terminal terminal)
 		}
 		if (!lexer(&terminal))
 			continue ;
-		visualize_tokens(terminal.tokens);
-		free_tokens(terminal.tokens);
-		reset_terminal(&terminal, false);
+		parser(&terminal);
+		visualize_commands(terminal.commands);
+		free_structs(&terminal, false, NULL);
+		reset_terminal(&terminal, SUCCESS);
 	}
 }
 

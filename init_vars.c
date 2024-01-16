@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:39:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:33:54 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/02 16:25:44 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 /// @brief This function initializes the terminal's variable.
 /// @param terminal 
-void	init_terminal(t_terminal *terminal, bool reset_all)
+void	init_terminal(t_terminal *terminal, int exit_status)
 {
 	terminal->prompt = NULL;
 	terminal->prompt_splitted = NULL;
 	terminal->commands = NULL;
 	terminal->tokens = NULL;
-	if (reset_all)
-		terminal->exit_status = 0;
+	terminal->args = NULL;
+	terminal->redirects = NULL;
+	terminal->exit_status = exit_status;
 	init_quotes_system(&terminal->quotes_system);
 }
 
@@ -37,7 +38,7 @@ void	init_quotes_system(t_quotes_system *quotes_system)
 /// from the terminal, such as prompt, prompt_splitted,
 /// commands, tokens, and quotes_system.
 /// @param terminal 
-void	reset_terminal(t_terminal *terminal, bool reset_all)
+void	reset_terminal(t_terminal *terminal, int exit_status)
 {
-	return (init_terminal(terminal, reset_all));
+	return (init_terminal(terminal, exit_status));
 }

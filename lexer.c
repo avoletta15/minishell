@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/01 13:06:44 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/16 15:26:43 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,19 @@ bool	first_filter(t_terminal *terminal)
 	new_prompt = (char *)malloc(sizeof(char) * ft_strlen(terminal->prompt) + 1);
 	if (!new_prompt)
 	{
-		free_project(terminal, &malloc_error);
+		free(terminal->prompt);
+		malloc_error();
 		exit(EXIT_FAILURE);
 	}
 	remove_whitespaces(new_prompt, terminal->prompt, &terminal->quotes_system);
 	if (terminal->quotes_system.quote_state)
 	{
-		free_project(terminal, &unclosed_quote_error);
-		reset_terminal(terminal, false);
-		terminal->exit_status = 2;
+		free(new_prompt);
+		unclosed_quote_error();
+		reset_terminal(terminal, BAD_SYNTAX);
 		return (false);
 	}
+	subsquote(new_prompt, &terminal->quotes_system);
 	free(terminal->prompt);
 	terminal->prompt = new_prompt;
 	return (true);
@@ -55,10 +57,12 @@ bool	second_filter(t_terminal *terminal)
 			* ft_strlen(terminal->prompt) * 3 + 1);
 	if (!new_prompt)
 	{
-		free_project(terminal, &malloc_error);
+		free(terminal->prompt);
+		malloc_error();
 		exit(EXIT_FAILURE);
 	}
-	delimit_special_chars(new_prompt, terminal->prompt, &terminal->quotes_system);
+	delimit_special_chars(new_prompt, terminal->prompt,
+		&terminal->quotes_system);
 	free(terminal->prompt);
 	terminal->prompt = new_prompt;
 	return (true);
@@ -76,7 +80,8 @@ bool	third_filter(t_terminal *terminal)
 	prompt_splitted = ft_split(terminal->prompt, PARSER_SEP);
 	if (!prompt_splitted)
 	{
-		free_project(terminal, &malloc_error);
+		free(terminal->prompt);
+		malloc_error();
 		exit(EXIT_FAILURE);
 	}
 	free(terminal->prompt);
@@ -91,6 +96,8 @@ bool	third_filter(t_terminal *terminal)
 /// @return 
 bool	lexer(t_terminal *terminal)
 {
+	if (!only_white_spaces(terminal->prompt))
+		add_history(terminal->prompt);
 	if (!first_filter(terminal))
 		return (false);
 	second_filter(terminal);

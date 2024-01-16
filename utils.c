@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:29:54 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/27 07:56:27 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/05 15:26:45 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,36 @@ void	put_separator(char **dest, char **src, int *pos)
 	(*dest)++;
 }
 
-void	print_token(t_token *token)
+/// @brief This function counts the number of arguments
+/// in the terminal list and returns it.
+/// @param terminal 
+/// @return 
+size_t	count_args(t_terminal *terminal)
 {
-	printf("	{\n");
-	printf("		token_id: %i,\n", token->token_id);
-	printf("		token: %s,\n", token->token);
-	printf("		prev: %p,\n", token->prev);
-	printf("		next: %p,\n", token->next);
-	printf("	}");
+	t_args	*curr;
+	size_t	counter;
+
+	counter = 0;
+	curr = terminal->args;
+	while (curr)
+	{
+		counter++;
+		curr = curr->next;
+	}
+	return (counter);
 }
 
-void	visualize_tokens(t_token *tokens)
+/// @brief This function checks if the given string
+/// is only composed by white spaces.
+/// @param str 
+/// @return 
+bool	only_white_spaces(char *str)
 {
-	printf("[\n");
-	while (tokens)
+	while (*str)
 	{
-		print_token(tokens);
-		if (tokens->next)
-			printf(",\n");
-		else
-			printf("\n");
-		tokens = tokens->next;
+		if (!ft_isspace(*str))
+			return (false);
+		str++;
 	}
-	printf("]\n");
+	return (true);
 }

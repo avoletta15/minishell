@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:39:39 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:31:01 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/20 21:44:56 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ bool	tokens_checker(t_terminal *terminal)
 		if (is_pipe_sequence_invalid(tokens))
 			return (invalid_token_error(terminal, tokens->token), false);
 		if (is_redirect_invalid(tokens))
+			return (invalid_token_error(terminal, NEW_LINE), false);
+		if (ft_strncmp(tokens->token, ";", ft_strlen(";")))
 			return (invalid_token_error(terminal, NEW_LINE), false);
 		tokens = tokens->next;
 	}

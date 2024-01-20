@@ -1,0 +1,29 @@
+env registry:
+	- string array to env var linked list -- done
+	- helper functions to manipulate the linked list -- done
+
+expansion:
+	- DO NOT RUN ON HEREDOC ARG TOKENS OR PIPES OR REDIRS
+	- skip single quoted characters -- done
+	- find dolar single -- done
+	** count how many valid characters are present in the var key ** 
+		- 0 skip dollar and the next characters -- done
+	** count == 1 && key[0] == '?'** -- done
+		- return exit status itoa'd
+	- else -> find key's value using the helper functions
+	- replace the dollar + key with the returned value (non existest keys replaced with "")
+	- move the iterator cursosr after the replaced value
+	** on finish **
+		- if the token is completely emptt, skip iterator- else
+			run lexer's first pass (replace white spaces with \1)
+
+
+HERE DOC
+>> $PWD
+> vv
+> ar
+> $USR
+> $PWD 
+
+exemplo: nesse caso $PWD nao expande, pq foi setado como delmitador do here doc.
+como verificar isso? verifica se o previous token eh o here doc

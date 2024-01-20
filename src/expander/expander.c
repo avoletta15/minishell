@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/01/20 19:34:39 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/20 21:24:02 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*ft_should_expand(char *str, int *i, t_terminal terminal)
 	
 }
 
-char	*ft_expansion_check(t_terminal terminal, int flag)
+char	*ft_expansion_check(t_terminal terminal, char flag)
 {
 	int			i;
 	char		*var_key;
@@ -93,11 +93,11 @@ char	*ft_expansion_check(t_terminal terminal, int flag)
 			terminal.tokens->token[i] == DOUBLE_QUOTE)
 		{
 			if (!flag)
-				flag = 1;
+				flag = terminal.tokens->token[i];
 			else	
-			 /* verificar se nao tem de ser char */;
+				flag = '\0';
 		}
-		if (flag == 1 || terminal.tokens->token[i] != '$')
+		if (flag == SINGLE_QUOTE || terminal.tokens->token[i] != '$')
 		{
 			i++;
 			continue ;
@@ -110,4 +110,16 @@ char	*ft_expansion_check(t_terminal terminal, int flag)
 	}
 	//free??????
 	return (var_key);
+}
+
+int	verify_command_syntax(t_terminal terminal)
+{
+	int	i;
+
+	i = 0;
+	while(terminal.tokens->next)
+	{
+		if (terminal.tokens->token == ';')
+			;
+	}
 }

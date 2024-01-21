@@ -14,8 +14,9 @@ ENV = env/env_management.c env/env_utils.c
 HELPER = helper/helpers.c helper/helpers2.c
 PARSER = parser/args_redirects.c parser/lexer.c parser/parser.c parser/prompt_treatment.c parser/tokenize.c
 UTILS = utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c utils/utils.c utils/utils2.c 
+EXPANDER = expander/expander.c
 
-SRC = 	$(ENV:%=src/%) $(HELPER:%=src/%) $(PARSER:%=src/%) $(UTILS:%=src/%)
+SRC = 	$(ENV:%=src/%) $(HELPER:%=src/%) $(PARSER:%=src/%) $(UTILS:%=src/%) $(EXPANDER:%=src/%)
 ROOT_DIR = ./
 OBJ_DIR = obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:src/%.c=%.o))

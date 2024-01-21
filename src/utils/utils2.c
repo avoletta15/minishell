@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:39:39 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/20 21:44:56 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/20 23:20:18 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ bool	tokens_checker(t_terminal *terminal)
 			return (invalid_token_error(terminal, tokens->token), false);
 		if (is_redirect_invalid(tokens))
 			return (invalid_token_error(terminal, NEW_LINE), false);
-		if (ft_strncmp(tokens->token, ";", ft_strlen(";")))
+		if (!ft_strncmp(tokens->token, ";", ft_strlen(";")))
 			return (invalid_token_error(terminal, NEW_LINE), false);
 		tokens = tokens->next;
 	}

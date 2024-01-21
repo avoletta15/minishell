@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:55:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/04 10:14:11 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/21 00:50:50 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,16 @@ void	visualize_commands(t_command *command)
 		command = command->next;
 	}
 	printf("]\n");
+}
+void	visualise_expanded_var(t_terminal *terminal)
+{
+	char	*str;
+	while (terminal->tokens)
+	{
+		str = ft_expansion_check(terminal, 0);
+		printf(">>	%s	<<\n", str);
+		printf("*********************************************\n\n");
+		free(str);
+		terminal->tokens = terminal->tokens->next;
+	}
 }

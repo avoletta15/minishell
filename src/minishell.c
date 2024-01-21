@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/20 19:44:47 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/21 14:44:40 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	init_shell(t_terminal terminal)
 		}
 		if (!lexer(&terminal))
 			continue ;
+		visualise_expanded_var(&terminal);
 		parser(&terminal);
 		//visualize_commands(terminal.commands);
 		free_structs(&terminal, false, NULL);

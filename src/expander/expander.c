@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/01/21 01:35:16 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/21 14:43:47 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,20 @@ char	*variable_alias(char *str)
 }
 char	*ft_search_variable(char *var, t_terminal *terminal)
 {
-	while (terminal->env->next)
+	t_env	*env;
+
+	env = terminal->env;
+	while (env->next)
 	{
-		printf("env: %s\n", terminal->env->info);
-		if (!ft_strncmp(var, terminal->env->info, ft_strlen(var)))
+		printf("env: %s\n", env->info);
+		if (!ft_strncmp(var, env->info, ft_strlen(var)))
 			break ;
-		terminal->env = terminal->env->next;
+		env = env->next;
 	}
-	if (!terminal->env)
+	if (!env)
 		return(ft_strdup(""));
-	printf("dup: %s\n", ft_strdup(terminal->env->info + (ft_strlen(var) + 1)));
-	return (ft_strdup(terminal->env->info + (ft_strlen(var) + 1)));
+	printf("dup: %s\n", ft_strdup(env->info + (ft_strlen(var) + 1)));
+	return (ft_strdup(env->info + (ft_strlen(var) + 1)));
 }
 
 char	*ft_should_expand(char *str, int *i, t_terminal *terminal)

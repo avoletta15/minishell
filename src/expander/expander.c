@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/01/20 21:24:02 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/21 01:35:16 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,83 +43,96 @@ char	*variable_alias(char *str)
 	return(expand_var);
 
 }
-char	*ft_search_variable(char *var, t_terminal terminal)
+char	*ft_search_variable(char *var, t_terminal *terminal)
 {
-	while (terminal.env->next)
+	while (terminal->env->next)
 	{
-		if (!ft_strncmp(var, terminal.env->info, ft_strlen(var)))
+		printf("env: %s\n", terminal->env->info);
+		if (!ft_strncmp(var, terminal->env->info, ft_strlen(var)))
 			break ;
-		terminal.env->next;
+		terminal->env = terminal->env->next;
 	}
-	if (!terminal.env)
+	if (!terminal->env)
 		return(ft_strdup(""));
-	return (ft_strdup(terminal.env->info + (ft_strlen(var) + 1)));
+	printf("dup: %s\n", ft_strdup(terminal->env->info + (ft_strlen(var) + 1)));
+	return (ft_strdup(terminal->env->info + (ft_strlen(var) + 1)));
 }
 
-char	*ft_should_expand(char *str, int *i, t_terminal terminal)
+char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 {
  	char	*expand_var;
 	
 	expand_var = variable_alias(&str[*i]);
 	if (ft_strncmp(expand_var, "$", ft_strlen("$")))
 	{
+		*i += ft_strlen(expand_var) + 1; /* verificar se precisa mesmo do +1 */
 		expand_var = ft_search_variable(expand_var, terminal);
 		if (!expand_var)
 		{
-			// free
+			free(expand_var);
+			free(terminal->prompt);
+			malloc_error();
+			exit(EXIT_FAILURE);
 			return (NULL);
 		}
-		*i += ft_strlen(expand_var) + 1; /* verificar se precisa mesmo do +1 */
 	}
 	else
 		*i += 1;
 	if (!ft_strncmp(expand_var, "?", ft_strlen("?")))
-		expand_var = ft_itoa(terminal.exit_status);
+		expand_var = ft_itoa(terminal->exit_status);
+	//printf(">>\n%s\n<<\n", expand_var);
 	return (expand_var);
 	
 }
 
-char	*ft_expansion_check(t_terminal terminal, char flag)
+char	ft_checking_quotes(char c, char flag)
+{
+	if (c == SINGLE_QUOTE || c == DOUBLE_QUOTE)
+	{
+		if (!flag)
+			flag = c;
+		else	
+			flag = '\0';
+	}
+	return (flag);
+}
+
+char	*ft_expansion_check(t_terminal *terminal, char flag)
 {
 	int			i;
 	char		*var_key;
 	char		*temp;
-
-	var_key = ft_strdup(terminal.tokens->token);
+	
+	var_key = ft_strdup(terminal->tokens->token);
 	i = 0;
-	while (terminal.tokens->token[i])
+	while (terminal->tokens && terminal->tokens->token[i])
 	{
-		if (terminal.tokens->token[i] == SINGLE_QUOTE || \
-			terminal.tokens->token[i] == DOUBLE_QUOTE)
-		{
-			if (!flag)
-				flag = terminal.tokens->token[i];
-			else	
-				flag = '\0';
-		}
-		if (flag == SINGLE_QUOTE || terminal.tokens->token[i] != '$')
+		flag = ft_checking_quotes(terminal->tokens->token[i], flag);
+		if (flag == SINGLE_QUOTE || terminal->tokens->token[i] != '$')
 		{
 			i++;
 			continue ;
 		}
 		temp = ft_substr(var_key, 0, i);
 		free(var_key);
-		temp = ft_strjoin(temp, ft_should_expand(terminal.tokens->token, &i, terminal));
-		var_key = ft_strjoin(temp, ft_substr(terminal.tokens->token, i, ft_strlen(terminal.tokens->token)));
+		printf("*********************************************\n");
+		printf("index = %i\n", i);
+		temp = ft_strjoin(temp, ft_should_expand(terminal->tokens->token, &i, terminal));
+		printf("index = %i\n", i);
+		var_key = ft_strjoin(temp, ft_substr(terminal->tokens->token, i, ft_strlen(terminal->tokens->token)));
 		
 	}
-	//free??????
+	//free(temp);
 	return (var_key);
 }
 
-int	verify_command_syntax(t_terminal terminal)
-{
-	int	i;
 
-	i = 0;
-	while(terminal.tokens->next)
-	{
-		if (terminal.tokens->token == ';')
-			;
-	}
-}
+
+/* if (terminal.tokens->token[i] == SINGLE_QUOTE || \
+			terminal.tokens->token[i] == DOUBLE_QUOTE)
+		{
+			if (!flag)
+				flag = terminal.tokens->token[i];
+			else	
+				flag = '\0';
+		} */

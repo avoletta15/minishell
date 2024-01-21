@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/16 19:52:50 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/21 01:30:15 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,16 @@ void		print_redir(t_redirect *redirect);
 void		put_cmd(char *str);
 void		printf_command(t_command *command);
 void		visualize_commands(t_command *command);
+void		visualise_expanded_var(t_terminal *terminal);
 // helpers 2
+
+// expander
+char	*ft_expansion_check(t_terminal *terminal, char flag);
+char	ft_checking_quotes(char c, char flag);
+char	*ft_should_expand(char *str, int *i, t_terminal *terminal);
+char	*ft_search_variable(char *var, t_terminal *terminal);
+char	*variable_alias(char *str);
+bool	ft_forbidden_expansion(char c, int i);
+// expander
 
 #endif

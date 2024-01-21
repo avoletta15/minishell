@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:55:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/21 00:50:50 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/21 18:35:38 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	visualise_expanded_var(t_terminal *terminal)
 	while (terminal->tokens)
 	{
 		str = ft_expansion_check(terminal, 0);
-		printf(">>	%s	<<\n", str);
+		printf("*********************************************\n\n");
+		printf("final: %s\n", str);
 		printf("*********************************************\n\n");
 		free(str);
 		terminal->tokens = terminal->tokens->next;

@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/21 01:30:15 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/22 19:47:57 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_program
 	t_redirect			*redirects;
 	t_env				*env;
 	int					exit_status;
+	int					i;
 	t_quotes_system		quotes_system;
 }				t_terminal;
 
@@ -211,7 +212,7 @@ void		visualise_expanded_var(t_terminal *terminal);
 
 // expander
 char	*ft_expansion_check(t_terminal *terminal, char flag);
-char	ft_checking_quotes(char c, char flag);
+char	ft_checking_quotes(char *str, char flag, int *i);
 char	*ft_should_expand(char *str, int *i, t_terminal *terminal);
 char	*ft_search_variable(char *var, t_terminal *terminal);
 char	*variable_alias(char *str);

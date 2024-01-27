@@ -6,12 +6,17 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/01/22 19:22:38 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/27 17:13:31 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/// @brief This function searchs for chars that are
+/// not allowed to form variables' names.
+/// @param c 
+/// @param i 
+/// @return 
 bool	ft_forbidden_expansion(char c, int i)
 {
 	if ((ft_isalpha(c) || c == '_') && i == 1)
@@ -21,7 +26,11 @@ bool	ft_forbidden_expansion(char c, int i)
 	return (true);
 }
 
-char	*variable_alias(char *str) //$USER
+/// @brief This function checks if the variable after the $
+/// is formed by valide chars.
+/// @param str 
+/// @return 
+char	*variable_alias(char *str)
 {
 	char	*expand_var; 
 	int		i;
@@ -41,6 +50,12 @@ char	*variable_alias(char *str) //$USER
 	return(expand_var);
 
 }
+
+/// @brief This function searchs for the variable on
+/// the env and returns its correspondent.
+/// @param var 
+/// @param terminal 
+/// @return 
 char	*ft_search_variable(char *var, t_terminal *terminal)
 {
 	t_env	*env;
@@ -57,6 +72,26 @@ char	*ft_search_variable(char *var, t_terminal *terminal)
 	return (ft_strdup(env->info + (ft_strlen(var) + 1)));
 }
 
+/// @brief This funtions protects in case of a NULL string
+/// is returned.
+/// (Build outside the orignal scope because of Norminette requirements).
+/// @param terminal 
+/// @param expand_var 
+void	sei_la(t_terminal *terminal, char *expand_var)
+{
+	free(expand_var);
+	free(terminal->prompt);
+	malloc_error();
+	exit(EXIT_FAILURE);
+}
+
+/// @brief This function starts the process of checking if
+/// the variable is allowed and also calls the function to
+/// search the vaiable on the env.
+/// @param str 
+/// @param i 
+/// @param terminal 
+/// @return 
 char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 {
  	char	*expand_var;
@@ -67,20 +102,14 @@ char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 		*i += 1;
 		return(expand_var);
 	}
-	expand_var = variable_alias(&str[*i]); //$USER
+	expand_var = variable_alias(&str[*i]);
 	printf("<< %s >>\n", expand_var);
 	if (ft_strncmp(expand_var, "$", ft_strlen("$")))
 	{
 		*i += ft_strlen(expand_var) + 1;
 		expand_var = ft_search_variable(expand_var, terminal);
 		if (!expand_var)
-		{
-			free(expand_var);
-			free(terminal->prompt);
-			malloc_error();
-			exit(EXIT_FAILURE);
-			return (NULL);
-		}
+			sei_la(terminal, expand_var);
 	}
 	else if (!ft_strncmp(expand_var, "?", ft_strlen("?")))
 		return(ft_itoa(terminal->exit_status));
@@ -92,6 +121,13 @@ char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 	return (expand_var);
 }
 
+/// @brief This function checks if the token is between
+/// single or double qoutes, and activates a flag if
+/// the token has to be expanded (double quotes).
+/// @param str 
+/// @param flag 
+/// @param i 
+/// @return 
 char	ft_checking_quotes(char *str, char flag, int *i)
 {
 	if (str[*i] == SINGLE_QUOTE || str[*i] == DOUBLE_QUOTE)
@@ -109,6 +145,13 @@ char	ft_checking_quotes(char *str, char flag, int *i)
 	return(flag);
 }
 
+/// @brief This function joins strings and free the original ones.
+/// (Build outside the orignal scope because of Norminette requirements).
+/// @param test 
+/// @param i 
+/// @param temp 
+/// @param terminal 
+/// @return 
 char	*ft_join_free(char *test, int i, char *temp, t_terminal *terminal)
 {
 	char	*var_key;
@@ -118,36 +161,34 @@ char	*ft_join_free(char *test, int i, char *temp, t_terminal *terminal)
 	return(var_key);
 }
 
+/// @brief This function will start the process of checking
+/// if a token has to be expanded or not.
+/// @param terminal 
+/// @param flag 
+/// @return 
 char	*ft_expansion_check(t_terminal *terminal, char flag)
 {
-	int			i;
-	char		*var_key;
-	char		*temp;
-	char		*new_index;
-	char		*key;
 
-	i = 0;
-	terminal->i = 0;
-	var_key = ft_strdup(terminal->tokens->token);
-	new_index = 0;
-	key = 0;
-	while (terminal->tokens && terminal->tokens->token[i])
+	terminal->vars.i = 0;
+	terminal->vars.j = 0;
+	terminal->vars.var_key = ft_strdup(terminal->tokens->token);
+	terminal->vars.new_index = 0;
+	terminal->vars.key = 0;
+	while (terminal->tokens && terminal->tokens->token[terminal->vars.i])
 	{
-		if (ft_checking_quotes(terminal->tokens->token, flag, &i) == SINGLE_QUOTE)
-			key = ft_substr(terminal->tokens->token, terminal->i, i);
-		if (!new_index)
-			temp = ft_substr(var_key, 0, i);
+		if (ft_checking_quotes(terminal->tokens->token, flag, &terminal->vars.i) == SINGLE_QUOTE)
+			terminal->vars.key = ft_substr(terminal->tokens->token, terminal->vars.j, terminal->vars.i);
+		if (!terminal->vars.new_index)
+			terminal->vars.temp = ft_substr(terminal->vars.var_key, 0, terminal->vars.i);
 		else
-			temp = ft_substr(var_key, 0, ft_strlen(new_index));
-		if(i > 0)
-			terminal->i = i;
-		new_index = ft_should_expand(terminal->tokens->token, &i, terminal);
-		if(!key)
-			key = ft_strjoin(temp, new_index);
+			terminal->vars.temp = ft_substr(terminal->vars.var_key, 0, ft_strlen(terminal->vars.new_index));
+		if(terminal->vars.i > 0)
+			terminal->vars.j = terminal->vars.i;
+		terminal->vars.new_index = ft_should_expand(terminal->tokens->token, &terminal->vars.i, terminal);
+		if(!terminal->vars.key)
+			terminal->vars.key = ft_strjoin(terminal->vars.temp, terminal->vars.new_index);
 		else
-			key = ft_strjoin(key, new_index);
+			terminal->vars.key = ft_strjoin(terminal->vars.key, terminal->vars.new_index);
 	}
-	return (key);
+	return (terminal->vars.key);
 }
-
-

@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/22 19:47:57 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/27 15:33:33 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,16 @@ typedef struct s_command
 	struct s_command	*next;
 }				t_command;
 
+typedef struct s_variables
+{
+	int			i;
+	int			j;
+	char		*var_key;
+	char		*temp;
+	char		*new_index;
+	char		*key;
+}				t_vars;
+
 typedef struct s_program
 {
 	char				*prompt;
@@ -110,6 +120,7 @@ typedef struct s_program
 	t_env				*env;
 	int					exit_status;
 	int					i;
+	t_vars				vars;
 	t_quotes_system		quotes_system;
 }				t_terminal;
 

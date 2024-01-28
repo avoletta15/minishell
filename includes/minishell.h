@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/27 15:33:33 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/28 00:40:51 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,11 +223,23 @@ void		visualise_expanded_var(t_terminal *terminal);
 
 // expander
 char	*ft_expansion_check(t_terminal *terminal, char flag);
+void	sei_la_xx(t_terminal *terminal);
+void	sei_la(t_terminal *terminal);
+void	ft_init_vars(t_terminal *terminal);
 char	ft_checking_quotes(char *str, char flag, int *i);
 char	*ft_should_expand(char *str, int *i, t_terminal *terminal);
 char	*ft_search_variable(char *var, t_terminal *terminal);
-char	*variable_alias(char *str);
-bool	ft_forbidden_expansion(char c, int i);
 // expander
+
+// expander utils
+bool	ft_forbidden_expansion(char c, int i);
+char	*ft_get_home();
+char	*variable_alias(char *str);
+// expander utils
+
+// expand free
+char	*ft_join_free(char *test, int i, char *temp, t_terminal *terminal);
+void	ft_protection_free(t_terminal *terminal, char *var);
+// expand free
 
 #endif

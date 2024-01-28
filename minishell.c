@@ -6,21 +6,26 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/28 14:19:54 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/27 23:40:55 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-void	init_shell(t_terminal terminal)
+int	main(int ac, char **av, char **env_path)
 {
+	t_terminal	terminal;
+
+	(void)ac;
+	(void)av;
+	terminal.env = env_path;
+	init_terminal(&terminal, true);
 	// int	i = 0;
 	while (1)
 	{
 		// if (i++ == 2)
 		// 	return (0);
-		terminal.prompt = readline("minishell> ");
+		terminal.prompt = readline("minishell>");
 		if (!ft_strlen(terminal.prompt))
 		{
 			reset_terminal(&terminal, true);
@@ -28,37 +33,10 @@ void	init_shell(t_terminal terminal)
 		}
 		if (!lexer(&terminal))
 			continue ;
-		visualise_expanded_var(&terminal);
 		visualize_tokens(terminal.tokens);
-		parser(&terminal);
-		visualize_commands(terminal.commands);
-		free_structs(&terminal, false, NULL);
+		// parser(&terminal);
+		// visualize_commands(terminal.commands);
+		// free_structs(&terminal, false, NULL);
 		reset_terminal(&terminal, SUCCESS);
 	}
-}
-
-
-int	main(int ac, char **av, char **env_path)
-{
-	t_terminal	terminal;
-	t_env		*env;
-	env = NULL;
-	int			i;
-	if (ac != 1)
-		exit(EXIT_FAILURE);
-	(void)av;
-	i = -1;
-	while(env_path && env_path[++i])
-		env = env_structure(env_path[i], env);
-	// while(env && env->next)
-	// {
-	// 	printf("\n[\n%s\n", env->info);
-	// 	printf("%p]", env);
-	// 	env = env->next;
-	// }
-	init_terminal(&terminal, true);
-	terminal.env = env;
-	init_shell(terminal);
-	free_env_list(&env);
 	return (0);
-}

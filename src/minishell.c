@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/28 14:19:54 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/01/28 17:05:58 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	init_shell(t_terminal terminal)
 		}
 		if (!lexer(&terminal))
 			continue ;
-		visualise_expanded_var(&terminal);
-		visualize_tokens(terminal.tokens);
+		// visualise_expanded_var(&terminal);
+		// visualize_tokens(terminal.tokens);
 		parser(&terminal);
 		visualize_commands(terminal.commands);
 		free_structs(&terminal, false, NULL);

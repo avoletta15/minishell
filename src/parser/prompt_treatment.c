@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 16:21:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/28 14:20:53 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/02 11:52:05 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,11 @@ void	remove_whitespaces(char *dest, char *src, t_quotes_system *quote)
 	dest[index] = '\0';
 }
 
+/// @brief This function substitutes the valid quotes inside of the prompt
+/// for a `\2` in case of the `double quote(\")` and for a `\3` if the valid
+/// quote is a `single quote(\')`.
+/// @param new_prompt 
+/// @param quote 
 void	subsquote(char *new_prompt, t_quotes_system *quote)
 {
 	while (*new_prompt)

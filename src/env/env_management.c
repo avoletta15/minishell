@@ -3,12 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   env_management.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:55 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/01/16 20:07:37 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/02 11:55:58 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-

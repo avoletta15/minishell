@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/01/27 17:13:31 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/02 12:03:12 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,14 @@ bool	ft_forbidden_expansion(char c, int i)
 /// @return 
 char	*variable_alias(char *str)
 {
-	char	*expand_var; 
+	char	*expand_var;
 	int		i;
 
 	i = 0;
-	while(str && str[++i])
+	while (str && str[++i])
 	{
-		if((str[i] == '?' && i == 1) || ft_forbidden_expansion(str[i], i) == true)
+		if ((str[i] == '?' && i == 1)
+			|| ft_forbidden_expansion(str[i], i) == true)
 			break ;
 	}
 	if (i == 1 && str[i - 1] == '$' && str[i] != '?')
@@ -47,8 +48,7 @@ char	*variable_alias(char *str)
 		expand_var = ft_substr(str, 1, i);
 	else
 		expand_var = ft_substr(str, 1, (i - 1));
-	return(expand_var);
-
+	return (expand_var);
 }
 
 /// @brief This function searchs for the variable on
@@ -68,7 +68,7 @@ char	*ft_search_variable(char *var, t_terminal *terminal)
 		env = env->next;
 	}
 	if (!env->next)
-		return(ft_strdup(""));
+		return (ft_strdup(""));
 	return (ft_strdup(env->info + (ft_strlen(var) + 1)));
 }
 
@@ -94,13 +94,13 @@ void	sei_la(t_terminal *terminal, char *expand_var)
 /// @return 
 char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 {
- 	char	*expand_var;
-	
-	if(str[*i] != '$')
+	char	*expand_var;
+
+	if (str[*i] != '$')
 	{
 		expand_var = ft_substr(str, *i, 1);
 		*i += 1;
-		return(expand_var);
+		return (expand_var);
 	}
 	expand_var = variable_alias(&str[*i]);
 	printf("<< %s >>\n", expand_var);
@@ -112,11 +112,11 @@ char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 			sei_la(terminal, expand_var);
 	}
 	else if (!ft_strncmp(expand_var, "?", ft_strlen("?")))
-		return(ft_itoa(terminal->exit_status));
+		return (ft_itoa(terminal->exit_status));
 	else
 	{
 		*i += ft_strlen("$") + 1;
-		return(ft_strdup("$"));
+		return (ft_strdup("$"));
 	}
 	return (expand_var);
 }
@@ -155,10 +155,12 @@ char	ft_checking_quotes(char *str, char flag, int *i)
 char	*ft_join_free(char *test, int i, char *temp, t_terminal *terminal)
 {
 	char	*var_key;
+
 	free(temp);
 	temp = test;
-	var_key = ft_strjoin(temp, ft_substr(terminal->tokens->token, i, ft_strlen(terminal->tokens->token)));
-	return(var_key);
+	var_key = ft_strjoin(temp, ft_substr(terminal->tokens->token,
+		i, ft_strlen(terminal->tokens->token)));
+	return (var_key);
 }
 
 /// @brief This function will start the process of checking

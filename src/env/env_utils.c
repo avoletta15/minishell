@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:46:57 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/01/16 18:08:45 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/02 11:59:30 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,19 @@ t_env	*structure_tail_node(t_env *env)
 		return (NULL);
 	while (env->next)
 		env = env->next;
-	return(env);
+	return (env);
 }
+
 /// @brief Adds a node at the end of the list
 /// @param head 
 /// @param new_structure 
 void	add_node_tail(t_env **head, t_env *new_structure)
 {
 	t_env	*last_node;
-	if(!head)
+
+	if (!head)
 		return ;
-	if(!*head)
+	if (!*head)
 		*head = new_structure;
 	else
 	{
@@ -40,6 +42,7 @@ void	add_node_tail(t_env **head, t_env *new_structure)
 		new_structure->previous = last_node;
 	}
 }
+
 /// @brief Create a new node structure and sets
 /// values for its variables
 /// @param env_path 
@@ -47,14 +50,16 @@ void	add_node_tail(t_env **head, t_env *new_structure)
 t_env	*new_node(char *env_path)
 {
 	t_env	*node;
+
 	node = (t_env *)malloc(sizeof(t_env));
-	if(!node)
-		return(NULL);
+	if (!node)
+		return (NULL);
 	node->info = ft_strdup(env_path);
 	node->next = NULL;
 	node->previous = NULL;
-	return(node);
+	return (node);
 }
+
 /// @brief Creates the first node, if does not existe yet.
 /// Else it adds a new node at the end of the list.
 /// @param env_path
@@ -65,10 +70,10 @@ t_env	*env_structure(char *env_path, t_env *env)
 	t_env	*new_structure;
 
 	new_structure = NULL;
-	if(!env)
+	if (!env)
 	{
 		env = new_node(env_path);
-		if(!env)
+		if (!env)
 		{
 			free_env_list(&env);
 			exit(EXIT_FAILURE);
@@ -77,7 +82,7 @@ t_env	*env_structure(char *env_path, t_env *env)
 	else
 	{
 		new_structure = new_node(env_path);
-		if(!new_structure)
+		if (!new_structure)
 		{
 			free_env_list(&new_structure);
 			exit(EXIT_FAILURE);
@@ -86,6 +91,7 @@ t_env	*env_structure(char *env_path, t_env *env)
 	}
 	return (env);
 }
+
 /// @brief  Free the contents of the list
 /// and the struct itself
 /// @param env_structure 
@@ -95,7 +101,7 @@ void	free_env_list(t_env **env_structure)
 
 	tmp = NULL;
 	if (!*env_structure)
-		return;
+		return ;
 	while (*env_structure)
 	{
 		tmp = (*env_structure)->next;

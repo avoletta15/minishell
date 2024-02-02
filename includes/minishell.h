@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/27 15:33:33 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/02 11:01:09 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,19 @@
 # define ENV "env"
 # define EXIT "exit"
 
-typedef enum e_token_types {
+typedef enum e_builtin_types
+{
+	ECHO_ID = 1,
+	CD_ID,
+	PWD_ID,
+	EXPORT_ID,
+	UNSET_ID,
+	ENV_ID,
+	EXIT_ID,
+}			t_builtin_types;
+
+typedef enum e_token_types
+{
 	INPUT_REDIRECT_ID = 1,
 	OUTPUT_REDIRECT_ID,
 	HERE_DOC_ID,
@@ -111,17 +123,17 @@ typedef struct s_variables
 
 typedef struct s_program
 {
-	char				*prompt;
-	char				**prompt_splitted;
-	t_command			*commands;
-	t_token				*tokens;
-	t_args				*args;
-	t_redirect			*redirects;
-	t_env				*env;
-	int					exit_status;
-	int					i;
-	t_vars				vars;
-	t_quotes_system		quotes_system;
+	char			*prompt;
+	char			**prompt_splitted;
+	t_command		*commands;
+	t_token			*tokens;
+	t_args			*args;
+	t_redirect		*redirects;
+	t_env			*env;
+	int				exit_status;
+	int				i;
+	t_vars			vars;
+	t_quotes_system	quotes_system;
 }				t_terminal;
 
 // args_redirects
@@ -201,11 +213,11 @@ bool		tokens_checker(t_terminal *terminal);
 // utils 2
 
 // env_utils
-t_env	*structure_tail_node(t_env *env);
-void	add_node_tail(t_env **head, t_env *new_structure);
-t_env	*new_node(char *env_path);
-t_env	*env_structure(char *env_path, t_env *env);
-void	free_env_list(t_env **env_structure);
+t_env		*structure_tail_node(t_env *env);
+void		add_node_tail(t_env **head, t_env *new_structure);
+t_env		*new_node(char *env_path);
+t_env		*env_structure(char *env_path, t_env *env);
+void		free_env_list(t_env **env_structure);
 // env_utils
 // helpers
 void		print_token(t_token *token);
@@ -222,12 +234,20 @@ void		visualise_expanded_var(t_terminal *terminal);
 // helpers 2
 
 // expander
-char	*ft_expansion_check(t_terminal *terminal, char flag);
-char	ft_checking_quotes(char *str, char flag, int *i);
-char	*ft_should_expand(char *str, int *i, t_terminal *terminal);
-char	*ft_search_variable(char *var, t_terminal *terminal);
-char	*variable_alias(char *str);
-bool	ft_forbidden_expansion(char c, int i);
+char		*ft_expansion_check(t_terminal *terminal, char flag);
+char		ft_checking_quotes(char *str, char flag, int *i);
+char		*ft_should_expand(char *str, int *i, t_terminal *terminal);
+char		*ft_search_variable(char *var, t_terminal *terminal);
+char		*variable_alias(char *str);
+bool		ft_forbidden_expansion(char c, int i);
 // expander
+
+// builtins
+void		echo(char **av);
+// builtins
+
+// executor
+void		mini_executor(t_command *cmds);
+// executor
 
 #endif

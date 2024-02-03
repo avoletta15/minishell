@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/02 11:01:09 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/03 00:40:53 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 # define MINISHELL_H
 
 # include <libft.h>
+# include <errno.h>
 # include <exit_status.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <stdbool.h>
 # include <fcntl.h>
 # include <readline/readline.h>
@@ -212,6 +214,10 @@ bool		is_redirect_invalid(t_token *token);
 bool		tokens_checker(t_terminal *terminal);
 // utils 2
 
+// utils 3
+size_t		ft_str_count(char **strs);
+// utils 3
+
 // env_utils
 t_env		*structure_tail_node(t_env *env);
 void		add_node_tail(t_env **head, t_env *new_structure);
@@ -219,6 +225,7 @@ t_env		*new_node(char *env_path);
 t_env		*env_structure(char *env_path, t_env *env);
 void		free_env_list(t_env **env_structure);
 // env_utils
+
 // helpers
 void		print_token(t_token *token);
 void		visualize_tokens(t_token *tokens);
@@ -244,6 +251,8 @@ bool		ft_forbidden_expansion(char c, int i);
 
 // builtins
 void		echo(char **av);
+void		cd(char **dir_path);
+void		pwd(void);
 // builtins
 
 // executor

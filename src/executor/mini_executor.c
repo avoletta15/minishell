@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/02 11:49:34 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/03 00:37:03 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,10 @@ void	parent_excution(char **args)
 	builtin_cheker = is_builtin(*args);
 	if (builtin_cheker == ECHO_ID)
 		echo(++args);
+	else if (builtin_cheker == CD_ID)
+		cd(++args);
+	else if (builtin_cheker == PWD_ID)
+		pwd();
 }
 
 void	mini_executor(t_command *cmds)

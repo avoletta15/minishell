@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/05 22:38:37 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/05 23:26:04 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_shell(t_terminal terminal)
 {
-	build_minimum_env(terminal.env);
+	// build_minimum_env(terminal.env);
 	while (1)
 	{
 		terminal.prompt = readline("minishell> ");
@@ -27,9 +27,9 @@ void	init_shell(t_terminal terminal)
 			continue ;
 		//visualise_expanded_var(&terminal);
 		parser(&terminal);
-		visualize_commands(terminal.commands);
-		ft_expansion_check_refac(&terminal, 0);
-		visualize_commands(terminal.commands);
+		// visualize_commands(terminal.commands);
+		// ft_expansion_check_refac(&terminal, 0);
+		// visualize_commands(terminal.commands);
 		mini_executor(terminal.commands, terminal.env);
 		free_structs(&terminal, false, NULL);
 		reset_terminal(&terminal, SUCCESS);

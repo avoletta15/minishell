@@ -16,15 +16,15 @@ PARSER = 	parser/args_redirects.c parser/lexer.c parser/parser.c\
 			parser/prompt_treatment.c parser/tokenize.c
 UTILS = 	utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c\
 			utils/utils.c utils/utils2.c utils/utils3.c
-EXPANDER =	expander/expander.c expander/expand_utils.c expander/expand_free.c\
-			expander/expander_refact.c
+# EXPANDER =	expander/expander.c expander/expand_utils.c expander/expand_free.c\
+# 			expander/expander_refact.c
 EXECUTOR = 	executor/mini_executor.c
 BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c\
 			executor/builtins/env.c
 
 SRC_DIR = src/
 SRC = 	$(ENV:%=$(SRC_DIR)%) $(HELPER:%=$(SRC_DIR)%) $(PARSER:%=$(SRC_DIR)%)\
-		$(UTILS:%=$(SRC_DIR)%) $(EXPANDER:%=$(SRC_DIR)%) $(EXECUTOR:%=$(SRC_DIR)%)\
+		$(UTILS:%=$(SRC_DIR)%) $(EXECUTOR:%=$(SRC_DIR)%)\
 		$(BUILTINS:%=$(SRC_DIR)%)
 OBJ_DIR = obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:$(SRC_DIR)%.c=%.o))

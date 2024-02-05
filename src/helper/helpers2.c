@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:55:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/05 22:45:45 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/05 23:28:02 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,27 @@ void	visualize_commands(t_command *command)
 	printf("]\n");
 }
 
-void	visualise_expanded_var(t_terminal *terminal)
-{
-	char	*str;
+// void	visualise_expanded_var(t_terminal *terminal)
+// {
+// 	char	*str;
 
-	while (terminal->tokens)
-	{
-		str = ft_expansion_check(terminal, 0);
-		printf("*********************************************\n\n");
-		printf("final: %s\n", str);
-		printf("*********************************************\n\n");
-		free(str);
-		terminal->tokens = terminal->tokens->next;
-	}
-}
+// 	while (terminal->tokens)
+// 	{
+// 		str = ft_expansion_check(terminal, 0);
+// 		printf("*********************************************\n\n");
+// 		printf("final: %s\n", str);
+// 		printf("*********************************************\n\n");
+// 		free(str);
+// 		terminal->tokens = terminal->tokens->next;
+// 	}
+// }
 
 void	visualize_env(t_env *env)
 {
 	while (env)
 	{
-		printf("%s\n", env->info);
+		if (env->value)
+			printf("%s=%s\n", env->key, env->value);
 		env = env->next;
 	}
 }

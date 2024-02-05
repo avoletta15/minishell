@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/03 00:40:53 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/05 22:26:10 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ typedef struct s_env
 	struct s_env	*previous;
 	struct s_env	*next;
 }				t_env;
+
 typedef struct s_args
 {
 	t_token_types	toked_id;
@@ -123,7 +124,7 @@ typedef struct s_variables
 	char		*key;
 }				t_vars;
 
-typedef struct s_program
+typedef struct s_terminal
 {
 	char			*prompt;
 	char			**prompt_splitted;
@@ -238,6 +239,7 @@ void		put_cmd(char *str);
 void		printf_command(t_command *command);
 void		visualize_commands(t_command *command);
 void		visualise_expanded_var(t_terminal *terminal);
+void		visualize_env(t_env *env);
 // helpers 2
 
 // expander
@@ -253,10 +255,11 @@ bool		ft_forbidden_expansion(char c, int i);
 void		echo(char **av);
 void		cd(char **dir_path);
 void		pwd(void);
+void		env(t_env *env);
 // builtins
 
 // executor
-void		mini_executor(t_command *cmds);
+void		mini_executor(t_command *cmds, t_env *env);
 // executor
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:32:54 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/03 00:40:36 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/03 11:29:03 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ void	pwd(void)
 	path = getcwd(NULL, 0);
 	if (!path)
 	{
-		write(2, "pwd: Couldn't get path\n", 23);
+		write(2, "pwd: couldn't get path\n", 23);
 		return ;
 	}
 	printf("%s\n", path);
+	free(path);
 }

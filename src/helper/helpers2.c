@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:55:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/02 12:03:56 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/04 08:20:17 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,14 @@ void	visualise_expanded_var(t_terminal *terminal)
 		printf("*********************************************\n\n");
 		free(str);
 		terminal->tokens = terminal->tokens->next;
+	}
+}
+
+void	visualize_env(t_env *env)
+{
+	while (env)
+	{
+		printf("%s\n", env->info);
+		env = env->next;
 	}
 }

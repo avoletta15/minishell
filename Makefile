@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
-READLINE_FLAGS =  -lreadline -lncurses
+READLINE_FLAGS = -lreadline -lncurses
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_INC = libft/inc
@@ -10,27 +10,31 @@ INC_FLAGS = -I $(LIBFT_INC) -I $(INCLUDES)
 ALL_FLAGS = $(CFLAGS) $(READLINE_FLAGS) $(INC_FLAGS) -L$(LIBFT_DIR) -lft
 
 ## DIRECTORIES ##
-ENV = env/env_management.c env/env_utils.c
-HELPER = helper/helpers.c helper/helpers2.c
-PARSER = parser/args_redirects.c parser/lexer.c parser/parser.c parser/prompt_treatment.c parser/tokenize.c
-UTILS = utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c utils/utils.c utils/utils2.c utils/utils3.c
-EXPANDER = expander/expander.c
-EXECUTOR = executor/mini_executor.c
-BUILTINS = executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c
+ENV = 		env/env_management.c env/env_utils.c
+HELPER = 	helper/helpers.c helper/helpers2.c
+PARSER = 	parser/args_redirects.c parser/lexer.c parser/parser.c\
+			parser/prompt_treatment.c parser/tokenize.c
+UTILS = 	utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c\
+			utils/utils.c utils/utils2.c utils/utils3.c
+EXPANDER = 	expander/expander.c
+EXECUTOR = 	executor/mini_executor.c
+BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c\
+			executor/builtins/env.c
 
-SRC = 	$(ENV:%=src/%) $(HELPER:%=src/%) $(PARSER:%=src/%) $(UTILS:%=src/%) $(EXPANDER:%=src/%)\
-		$(EXECUTOR:%=src/%) $(BUILTINS:%=src/%)
-ROOT_DIR = ./
+SRC_DIR = src/
+SRC = 	$(ENV:%=$(SRC_DIR)%) $(HELPER:%=$(SRC_DIR)%) $(PARSER:%=$(SRC_DIR)%)\
+		$(UTILS:%=$(SRC_DIR)%) $(EXPANDER:%=$(SRC_DIR)%) $(EXECUTOR:%=$(SRC_DIR)%)\
+		$(BUILTINS:%=$(SRC_DIR)%)
 OBJ_DIR = obj/
-OBJS = $(addprefix $(OBJ_DIR), $(SRC:src/%.c=%.o))
+OBJS = $(addprefix $(OBJ_DIR), $(SRC:$(SRC_DIR)%.c=%.o))
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) src/$(NAME).c -o $(NAME) $(OBJS) $(ALL_FLAGS)
+	@$(CC) $(SRC_DIR)$(NAME).c -o $(NAME) $(OBJS) $(ALL_FLAGS)
 
-$(OBJ_DIR)%.o: src/%.c
-	@mkdir -p $(dir $@) 
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(dir $@)
 	@$(CC) -c $(CFLAGS) $(INC_FLAGS) $< -o $@
 
 $(LIBFT):

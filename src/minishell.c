@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/02 11:55:39 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/04 09:27:47 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	init_shell(t_terminal terminal)
 {
+	build_minimum_env(terminal.env);
 	while (1)
 	{
 		terminal.prompt = readline("minishell> ");
@@ -25,7 +26,7 @@ void	init_shell(t_terminal terminal)
 		if (!lexer(&terminal))
 			continue ;
 		parser(&terminal);
-		mini_executor(terminal.commands);
+		mini_executor(terminal.commands, terminal.env);
 		free_structs(&terminal, false, NULL);
 		reset_terminal(&terminal, SUCCESS);
 	}
@@ -44,12 +45,7 @@ int	main(int ac, char **av, char **env_path)
 	i = -1;
 	while (env_path && env_path[++i])
 		env = env_structure(env_path[i], env);
-	// while(env && env->next)
-	// {
-	// 	printf("\n[\n%s\n", env->info);
-	// 	printf("%p]", env);
-	// 	env = env->next;
-	// }
+	// visualize_env(env);
 	init_terminal(&terminal, true);
 	terminal.env = env;
 	init_shell(terminal);

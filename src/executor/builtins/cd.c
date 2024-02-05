@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 12:06:09 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/03 00:53:13 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/03 17:45:22 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void	cd(char **dir_path)
 	/// and if it exits expand and change to this directory, otherwise displays and
 	/// error message that this variable is not defined.
 	res = chdir(*dir_path);
+	/// When change the current directory we should check if we have the $PWD environment variable
+	/// defined, if so we update its value. Similar to it, we should check for $OLDPWD
+	/// if it is not defined, by change the current directory we set it to an empty string,
+	/// else to the old "current" directory
 	if (res == -1)
 	{
 		write(2, "minishell: ", 11);

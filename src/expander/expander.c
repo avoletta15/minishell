@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/05 10:14:51 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/05 10:49:06 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 {
  	char	*expand_var;
 	
-	if((str[*i] == '~' && ft_strlen(str) == 1) || \
-			(str[*i] == '~' && ft_forbidden_expansion(str[*i + 1], 0)))
-	{
-		*i += 1;
-		expand_var = ft_get_home();
-		if (!expand_var)
-			ft_protection_free(terminal, expand_var);
-		return (expand_var);
-	}
+	// if((str[*i] == '~' && ft_strlen(str) == 1) || \
+	// 		(str[*i] == '~' && ft_forbidden_expansion(str[*i + 1], 0)))
+	// {
+	// 	*i += 1;
+	// 	expand_var = ft_get_home();
+	// 	if (!expand_var)
+	// 		ft_protection_free(terminal, expand_var);
+	// 	return (expand_var);
+	// }
 	if(str[*i] != '$')
 	{
 		expand_var = ft_substr(str, *i, 1);
@@ -69,6 +69,7 @@ char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 	if (ft_strncmp(expand_var, "$", ft_strlen("$")))
 	{
 		*i += ft_strlen(expand_var) + 1;
+		printf("<< %s >>\n", expand_var);
 		expand_var = ft_search_variable(expand_var, terminal);
 		if (!expand_var)
 			ft_protection_free(terminal, expand_var);
@@ -79,8 +80,7 @@ char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 	{
 		*i += ft_strlen("$") + 1;
 		return(ft_strdup("$"));
-	}	
-	printf("expanded_var: %s\n", expand_var);
+	}
 	return (expand_var);
 }
 
@@ -113,7 +113,7 @@ char	ft_checking_quotes(char *str, char flag, int *i)
 /// @param terminal 
 void	ft_init_vars(t_terminal *terminal)
 {
-	terminal->vars.i = 0;
+	// terminal->vars.i = 0;
 	terminal->vars.j = 0;
 	terminal->vars.new_index = 0;
 	terminal->vars.key = 0;
@@ -145,17 +145,15 @@ void	sei_la(t_terminal *terminal)
 /// @param terminal 
 void	sei_la_xx(t_terminal *terminal)
 {
-	if(!terminal->vars.var_key)
+	if(!terminal->vars.key)
 	{
-		printf("** I AM HERE **\n");
-		terminal->vars.var_key = ft_strjoin(terminal->vars.temp, terminal->vars.new_index);
+		terminal->vars.key = ft_strjoin(terminal->vars.temp, terminal->vars.new_index);
 		if (!terminal->vars.var_key)
 			ft_protection_free(terminal, terminal->vars.var_key);
 	}
 	else
 	{
-		terminal->vars.var_key = ft_strjoin(terminal->vars.key, terminal->vars.new_index);
-		// printf("<< %s >>\n", terminal->vars.key);
+		terminal->vars.key = ft_strjoin(terminal->vars.key, terminal->vars.new_index);
 		if (!terminal->vars.var_key)
 			ft_protection_free(terminal, terminal->vars.var_key);
 	}
@@ -185,5 +183,5 @@ char	*ft_expansion_check(t_terminal *terminal, char flag)
 			ft_protection_free(terminal, terminal->vars.new_index);
 		sei_la_xx(terminal);
 	}
-	return (terminal->vars.var_key);
+	return (terminal->vars.key);
 }

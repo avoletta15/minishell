@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/28 00:40:51 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/03 17:04:04 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ void	ft_init_vars(t_terminal *terminal);
 char	ft_checking_quotes(char *str, char flag, int *i);
 char	*ft_should_expand(char *str, int *i, t_terminal *terminal);
 char	*ft_search_variable(char *var, t_terminal *terminal);
+void	ft_expansion_check_refac(t_terminal *terminal, char flag);
 // expander
 
 // expander utils

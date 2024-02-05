@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 READLINE_FLAGS =  -lreadline -lncurses
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -14,7 +14,7 @@ ENV = env/env_management.c env/env_utils.c
 HELPER = helper/helpers.c helper/helpers2.c
 PARSER = parser/args_redirects.c parser/lexer.c parser/parser.c parser/prompt_treatment.c parser/tokenize.c
 UTILS = utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c utils/utils.c utils/utils2.c 
-EXPANDER = expander/expander.c expander/expand_utils.c expander/expand_free.c
+EXPANDER = expander/expander.c expander/expand_utils.c expander/expand_free.c expander/expander_refact.c
 
 SRC = 	$(ENV:%=src/%) $(HELPER:%=src/%) $(PARSER:%=src/%) $(UTILS:%=src/%) $(EXPANDER:%=src/%)
 ROOT_DIR = ./

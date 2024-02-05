@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/05 10:49:06 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/05 13:58:01 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 	if (ft_strncmp(expand_var, "$", ft_strlen("$")))
 	{
 		*i += ft_strlen(expand_var) + 1;
-		printf("<< %s >>\n", expand_var);
 		expand_var = ft_search_variable(expand_var, terminal);
 		if (!expand_var)
 			ft_protection_free(terminal, expand_var);
@@ -113,6 +112,7 @@ char	ft_checking_quotes(char *str, char flag, int *i)
 /// @param terminal 
 void	ft_init_vars(t_terminal *terminal)
 {
+	terminal->vars.len = 0;
 	// terminal->vars.i = 0;
 	terminal->vars.j = 0;
 	terminal->vars.new_index = 0;
@@ -120,6 +120,8 @@ void	ft_init_vars(t_terminal *terminal)
 	terminal->vars.var_key = ft_strdup(terminal->commands->args[0]);
 	if (!terminal->vars.var_key)
 		ft_protection_free(terminal, terminal->vars.var_key);
+	while(terminal->commands->args[terminal->vars.len] != NULL)
+		++terminal->vars.len;
 }
 /// @brief Auxiliar function to ft_expansion_check().
 /// (Build outside the orignal scope because of Norminette requirements).

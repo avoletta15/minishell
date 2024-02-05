@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/03 17:04:04 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/05 14:20:38 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_command
 
 typedef struct s_variables
 {
+	int			len;
 	int			i;
 	int			j;
 	char		*var_key;
@@ -230,6 +231,7 @@ char	ft_checking_quotes(char *str, char flag, int *i);
 char	*ft_should_expand(char *str, int *i, t_terminal *terminal);
 char	*ft_search_variable(char *var, t_terminal *terminal);
 void	ft_expansion_check_refac(t_terminal *terminal, char flag);
+void	ft_repelacement(t_terminal *terminal, int *i);
 // expander
 
 // expander utils

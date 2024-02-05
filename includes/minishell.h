@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/05 22:47:01 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/05 23:17:24 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ typedef struct s_token
 
 typedef struct s_env
 {
-	char			*info;
+	char			*key;
+	char			*value;
 	struct s_env	*previous;
 	struct s_env	*next;
 }				t_env;

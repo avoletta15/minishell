@@ -16,7 +16,8 @@ PARSER = 	parser/args_redirects.c parser/lexer.c parser/parser.c\
 			parser/prompt_treatment.c parser/tokenize.c
 UTILS = 	utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c\
 			utils/utils.c utils/utils2.c utils/utils3.c
-EXPANDER = 	expander/expander.c
+EXPANDER =	expander/expander.c expander/expand_utils.c expander/expand_free.c\
+			expander/expander_refact.c
 EXECUTOR = 	executor/mini_executor.c
 BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c\
 			executor/builtins/env.c
@@ -54,7 +55,7 @@ run: re
 	@ ./minishell
 
 v: re readline.supp
-	@valgrind --show-leak-kinds=all --leak-check=full --suppressions=readline.supp --log-file="valgrind_log.txt" ./minishell
+	@valgrind --show-leak-kinds=all --leak-check=full --suppressions=readline.supp ./minishell
 
 readline.supp:
 	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp 2> /dev/null 1> /dev/null

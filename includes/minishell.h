@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/05 22:26:10 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/05 22:47:01 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_command
 
 typedef struct s_variables
 {
+	int			len;
 	int			i;
 	int			j;
 	char		*var_key;
@@ -243,13 +244,29 @@ void		visualize_env(t_env *env);
 // helpers 2
 
 // expander
+char		*variable_alias(char *str);
+bool		ft_forbidden_expansion(char c, int i);
 char		*ft_expansion_check(t_terminal *terminal, char flag);
+void		sei_la_xx(t_terminal *terminal);
+void		sei_la(t_terminal *terminal);
+void		ft_init_vars(t_terminal *terminal);
 char		ft_checking_quotes(char *str, char flag, int *i);
 char		*ft_should_expand(char *str, int *i, t_terminal *terminal);
 char		*ft_search_variable(char *var, t_terminal *terminal);
-char		*variable_alias(char *str);
-bool		ft_forbidden_expansion(char c, int i);
+void		ft_expansion_check_refac(t_terminal *terminal, char flag);
+void		ft_repelacement(t_terminal *terminal, int *i);
 // expander
+
+// expander utils
+bool		ft_forbidden_expansion(char c, int i);
+char		*ft_get_home();
+char		*variable_alias(char *str);
+// expander utils
+
+// expand free
+char		*ft_join_free(char *test, int i, char *temp, t_terminal *terminal);
+void		ft_protection_free(t_terminal *terminal, char *var);
+// expand free
 
 // builtins
 void		echo(char **av);

@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:39:39 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/20 23:20:18 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/01/28 17:13:21 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /// @return 
 bool	is_redirect_token(t_token_types token_id)
 {
-	return (token_id >= INPUT_REDIRECT_ID && token_id <= APPEND_ID);
+	return (token_id >= INPUT_REDIRECT_ID && token_id <= PIPE_ID);
 }
 
 /// @brief This functio verifies if the given token

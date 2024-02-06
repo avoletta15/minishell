@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/05 13:58:01 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/06 11:20:37 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_search_variable(char *var, t_terminal *terminal)
 	env = terminal->env;
 	while (env->next)
 	{
-		if (!ft_strncmp(var, env->info, ft_strlen(var)))
+		if (!ft_strncmp(var, env->key, ft_strlen(var)))
 			break ;
 		env = env->next;
 	}
@@ -32,7 +32,7 @@ char	*ft_search_variable(char *var, t_terminal *terminal)
 		return(ft_strdup(""));
 	// if(env->info == "")
 	// 	return(PARSER_SEP);
-	return (ft_strdup(env->info + (ft_strlen(var) + 1)));
+	return (ft_strdup(env->value));
 }
 
 /// @brief This function starts the process of checking if

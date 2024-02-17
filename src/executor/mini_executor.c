@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/04 08:29:16 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/15 14:57:08 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,25 @@ bool	is_a_single_builtin(t_command *cmd)
 /// @brief This function checks which builtin should be executed
 /// and runs it with the given arguments.
 /// @param args 
-void	parent_excution(char **args, t_env *environ)
+void	parent_excution(char **args)
 {
 	t_builtin_types	builtin_cheker;
+	t_env			*envs;
 
 	builtin_cheker = is_builtin(*args);
+	envs = env_api()->env_head;
 	if (builtin_cheker == ECHO_ID)
 		echo(++args);
 	else if (builtin_cheker == CD_ID)
-		cd(++args);
+		cd(++args, envs);
 	else if (builtin_cheker == PWD_ID)
 		pwd();
 	else if (builtin_cheker == ENV_ID)
-		env(environ);
+		env(envs);
 }
 
-void	mini_executor(t_command *cmds, t_env *env)
+void	mini_executor(t_command *cmds)
 {
 	if (is_a_single_builtin(cmds))
-		parent_excution(cmds->args, env);
+		parent_excution(cmds->args);
 }

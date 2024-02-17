@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:39:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/02 16:25:44 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/15 17:58:23 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	init_terminal(t_terminal *terminal, int exit_status)
 	terminal->tokens = NULL;
 	terminal->args = NULL;
 	terminal->redirects = NULL;
+	terminal->env = NULL;
 	terminal->exit_status = exit_status;
 	init_quotes_system(&terminal->quotes_system);
 }

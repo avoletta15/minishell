@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:46:57 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/05 23:33:39 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/14 09:33:30 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_env	*new_node(char *env_path)
 	i = 0;
 	node = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (!node)
-		return(NULL);
+		return (NULL);
 	while (env_path[i] && env_path[i] != '=')
 		i++;
 	if (env_path[i] == '=')

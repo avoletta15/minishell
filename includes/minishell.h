@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/05 23:33:24 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/15 18:02:55 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@
 # define UNSET "unset"
 # define ENV "env"
 # define EXIT "exit"
+
+# define PROGRAM_NAME "minishell"
+# define CD_ARGS_COUNT_ERROR ": cd: Excessive number of arguments\n"
+# define CD_HOME_NOT_FOUND_ERROR "cd: HOME not set\n"
 
 typedef enum e_builtin_types
 {
@@ -125,6 +129,14 @@ typedef struct s_variables
 	char		*new_index;
 	char		*key;
 }				t_vars;
+
+typedef struct s_env_api
+{
+	t_env	*env_head;
+	bool	(*new_env_var)(char *);
+	bool	(*new_env_key_value)(char *, char *);
+	t_env	*(*getvar)(char *);
+}			t_env_api;
 
 typedef struct s_terminal
 {
@@ -221,6 +233,12 @@ bool		tokens_checker(t_terminal *terminal);
 size_t		ft_str_count(char **strs);
 // utils 3
 
+// env
+t_env_api	*env_api(void);
+bool		init_env(t_terminal *terminal);
+bool		build_minimum_env(t_terminal *terminal);
+// env
+
 // env_utils
 t_env		*structure_tail_node(t_env *env);
 void		add_node_tail(t_env **head, t_env *new_structure);
@@ -228,6 +246,12 @@ t_env		*new_node(char *env_path);
 t_env		*env_structure(char *env_path, t_env *env);
 void		free_env_list(t_env **env_structure);
 // env_utils
+
+// env_utils 2
+bool		new_env_var(char *env_path);
+bool		new_env_key_value(char *key, char *value);
+t_env		*getvar(char *var);
+// env_utils 2
 
 // helpers
 void		print_token(t_token *token);
@@ -237,7 +261,6 @@ void		print_redir(t_redirect *redirect);
 // helpers
 
 // helpers 2
-void		put_cmd(char *str);
 void		printf_command(t_command *command);
 void		visualize_commands(t_command *command);
 void		visualise_expanded_var(t_terminal *terminal);
@@ -271,13 +294,16 @@ void		ft_protection_free(t_terminal *terminal, char *var);
 
 // builtins
 void		echo(char **av);
-void		cd(char **dir_path);
+bool		cd(char **dir_path, t_env *env);
 void		pwd(void);
 void		env(t_env *env);
+bool		cd_args_count_error(void);
+bool		cd_fail(char *dir_path);
+int			setpwds(t_env *oldpwd, t_env *envpwd, char *pwd);
 // builtins
 
 // executor
-void		mini_executor(t_command *cmds, t_env *env);
+void		mini_executor(t_command *cmds);
 // executor
 
 #endif

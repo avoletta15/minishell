@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address,undefined
 READLINE_FLAGS = -lreadline -lncurses
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -10,7 +10,7 @@ INC_FLAGS = -I $(LIBFT_INC) -I $(INCLUDES)
 ALL_FLAGS = $(CFLAGS) $(READLINE_FLAGS) $(INC_FLAGS) -L$(LIBFT_DIR) -lft
 
 ## DIRECTORIES ##
-ENV = 		env/env_management.c env/env_utils.c
+ENV = 		env/env_management.c env/env_utils.c env/env_utils2.c
 HELPER = 	helper/helpers.c helper/helpers2.c
 PARSER = 	parser/args_redirects.c parser/lexer.c parser/parser.c\
 			parser/prompt_treatment.c parser/tokenize.c
@@ -20,7 +20,7 @@ UTILS = 	utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c\
 # 			expander/expander_refact.c
 EXECUTOR = 	executor/mini_executor.c
 BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c\
-			executor/builtins/env.c
+			executor/builtins/env.c executor/builtins/utils.c executor/builtins/errors.c
 
 SRC_DIR = src/
 SRC = 	$(ENV:%=$(SRC_DIR)%) $(HELPER:%=$(SRC_DIR)%) $(PARSER:%=$(SRC_DIR)%)\

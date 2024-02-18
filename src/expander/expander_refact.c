@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:44:44 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/05 16:07:15 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/06 11:34:24 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_repelacement(t_terminal *terminal, int *i)
 	j = 0;
 	n = -1;
 	new = NULL;
-	if (!ft_strchr(terminal->vars.key, ' '))
+	if ((*i - 1 >= 0 && !ft_strncmp(terminal->commands->args[*i - 1], "echo", ft_strlen("echo")))  || !ft_strchr(terminal->vars.key, ' '))
 		terminal->commands->args[*i] = ft_substr(terminal->vars.key, 0, ft_strlen(terminal->vars.key));
 	else
 	{

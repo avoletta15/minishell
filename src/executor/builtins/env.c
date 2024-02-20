@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 08:31:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/20 15:42:55 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/20 21:54:40 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,36 @@ bool	build_minimum_env(t_terminal *terminal)
 		env_api()->env_head = terminal->env;
 		if (!update_env(pwd, getvar("SHLVL")))
 			return (false);
+	}
+	return (true);
+}
+
+/// @brief This function searches for the given environment variable and
+/// replaces it if there's an equal sign, else does nothing and returns
+/// true. On error returns false.
+/// @param env 
+/// @param str 
+/// @return 
+bool	update_var(t_env *env, char *str)
+{
+	char	*new_value;
+
+	while (*str && *str != '=')
+		str++;
+	if (*str == '=' && env)
+	{
+		new_value = ft_strdup(++str);
+		if (!new_value)
+		{
+			malloc_error();
+		}
+		free(env->value);
+		env->value = ft_strdup(++str);
+		if (!env->value)
+		{
+			malloc_error();
+			return (false);
+		}
 	}
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/17 19:36:31 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/20 22:12:41 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@
 # define PROGRAM_NAME "minishell"
 # define CD_ARGS_COUNT_ERROR ": cd: Excessive number of arguments\n"
 # define CD_HOME_NOT_FOUND_ERROR "cd: HOME not set\n"
+# define INVALID_EXPORT_ERROR1 ": export: `"
+# define INVALID_EXPORT_ERROR2 "\': not a valid identifier\n"
 
 typedef enum e_builtin_types
 {
@@ -135,6 +137,7 @@ typedef struct s_env_api
 	t_env	*env_head;
 	bool	(*new_env_var)(char *);
 	bool	(*new_env_key_value)(char *, char *);
+	bool	(*update_var)(t_env *, char *);
 	t_env	*(*getvar)(char *);
 }			t_env_api;
 
@@ -250,6 +253,7 @@ void		free_env_list(t_env **env_structure);
 // env_utils 2
 bool		new_env_var(char *env_path);
 bool		new_env_key_value(char *key, char *value);
+bool		update_var(t_env *env, char *str);
 t_env		*getvar(char *var);
 // env_utils 2
 
@@ -299,7 +303,10 @@ void		pwd(void);
 void		env(t_env *env);
 bool		cd_args_count_error(void);
 bool		cd_fail(char *dir_path);
+void		export_update_value_error(char *str);
+void		export_unclosed_quotes(char *str);
 int			setpwds(t_env *oldpwd, t_env *envpwd, char *pwd);
+void		export(char **args);
 // builtins
 
 // executor

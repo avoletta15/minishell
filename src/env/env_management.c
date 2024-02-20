@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:55 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/17 19:09:38 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/20 21:51:40 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ bool	init_env(t_terminal *terminal)
 {
 	env_api()->new_env_var = &new_env_var;
 	env_api()->new_env_key_value = &new_env_key_value;
+	env_api()->update_var = &update_var;
 	env_api()->getvar = &getvar;
 	if (!build_minimum_env(terminal))
 	{

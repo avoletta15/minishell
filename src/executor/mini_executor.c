@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/15 14:57:08 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/20 16:44:35 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,21 @@ bool	is_a_single_builtin(t_command *cmd)
 /// @param args 
 void	parent_excution(char **args)
 {
-	t_builtin_types	builtin_cheker;
+	t_builtin_types	builtin_checker;
 	t_env			*envs;
 
-	builtin_cheker = is_builtin(*args);
+	builtin_checker = is_builtin(*args);
 	envs = env_api()->env_head;
-	if (builtin_cheker == ECHO_ID)
+	if (builtin_checker == ECHO_ID)
 		echo(++args);
-	else if (builtin_cheker == CD_ID)
+	else if (builtin_checker == CD_ID)
 		cd(++args, envs);
-	else if (builtin_cheker == PWD_ID)
+	else if (builtin_checker == PWD_ID)
 		pwd();
-	else if (builtin_cheker == ENV_ID)
+	else if (builtin_checker == ENV_ID)
 		env(envs);
+	else if (builtin_checker == EXPORT_ID)
+		export(++args);
 }
 
 void	mini_executor(t_command *cmds)

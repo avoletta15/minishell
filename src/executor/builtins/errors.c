@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:05:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/14 10:51:48 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/20 22:12:32 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,26 @@ bool	cd_fail(char *dir_path)
 		write(2, err, ft_strlen(err));
 	write(2, "\n", 1);
 	return (false);
+}
+
+/// @brief This function displays an error message explaining
+/// that was not possible to update the value of the given variable.
+/// @param str 
+void	export_update_value_error(char *str)
+{
+	write(2, PROGRAM_NAME, ft_strlen(PROGRAM_NAME));
+	write(2, ": export: could not update the value of `", 41);
+	write(2, str, ft_strlen(str));
+	write(2, "\'\n", 2);
+}
+
+/// @brief This functionn displays an error message explaining that
+/// there's an unclosed quotes at setting a variable.
+/// @param str 
+void	export_unclosed_quotes(char *str)
+{
+	write(2, PROGRAM_NAME, ft_strlen(PROGRAM_NAME));
+	write(2, ": export: unclosed quotes at: `", 31);
+	write(2, str, ft_strlen(str));
+	write(2, "\'\n", 2);
 }

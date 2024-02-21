@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 22:44:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/08 15:33:49 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:34:55 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	echo(char **av)
 	bool	new_line;
 
 	new_line = true;
-	
 	while (*av && echo_option_checker(*av))
 	{
 		new_line = false;

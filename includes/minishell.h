@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 16:40:02 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 18:48:37 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,13 +308,16 @@ bool		cd_fail(char *dir_path);
 void		export_update_value_error(char *str);
 void		export_unclosed_quotes(char *str);
 void		env_args_count_error(void);
+void		exit_non_numeric_arg(char *str);
+void		exit_wrong_args_num(void);
 int			setpwds(t_env *oldpwd, t_env *envpwd, char *pwd);
 void		export(char **args);
 void		unset(char **args);
+void		mini_exit(t_terminal *terminal, char **args);
 // builtins
 
 // executor
-void		mini_executor(t_command *cmds);
+void		mini_executor(t_terminal *terminal);
 // executor
 
 #endif

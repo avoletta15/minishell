@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 16:45:16 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:54:06 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ bool	is_a_single_builtin(t_command *cmd)
 /// @brief This function checks which builtin should be executed
 /// and runs it with the given arguments.
 /// @param args 
-void	parent_excution(char **args)
+void	parent_excution(t_terminal *terminal, char **args)
 {
 	t_builtin_types	builtin_checker;
 	t_env			*envs;
@@ -70,10 +70,12 @@ void	parent_excution(char **args)
 		export(++args);
 	else if (builtin_checker == UNSET_ID)
 		unset(++args);
+	else if (builtin_checker == EXIT_ID)
+		mini_exit(terminal, ++args);
 }
 
-void	mini_executor(t_command *cmds)
+void	mini_executor(t_terminal *terminal)
 {
-	if (is_a_single_builtin(cmds))
-		parent_excution(cmds->args);
+	if (is_a_single_builtin(terminal->commands))
+		parent_excution(terminal, terminal->commands->args);
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:47:23 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/03 16:53:38 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 19:14:35 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,5 @@ void	free_redir_args(t_terminal *terminal)
 {
 	free_args(terminal->args);
 	free_redirect(terminal->redirects);
-	visualize_tokens(terminal->tokens);
 	free_tokens(terminal->tokens);
 }

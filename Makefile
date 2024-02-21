@@ -21,7 +21,8 @@ EXPANDER =	expander/expander.c expander/expand_utils.c expander/expand_free.c\
 EXECUTOR = 	executor/mini_executor.c
 BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c\
 			executor/builtins/env.c executor/builtins/utils.c executor/builtins/errors.c\
-			executor/builtins/export.c executor/builtins/unset.c
+			executor/builtins/export.c executor/builtins/unset.c executor/builtins/exit.c\
+			executor/builtins/errors2.c
 
 SRC_DIR = src/
 SRC = 	$(ENV:%=$(SRC_DIR)%) $(HELPER:%=$(SRC_DIR)%) $(PARSER:%=$(SRC_DIR)%)\

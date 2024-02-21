@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:38 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/17 17:07:22 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:10:24 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,53 @@ t_env	*getvar(char *var)
 		env = env->next;
 	}
 	return (NULL);
+}
+
+/// @brief This function searches for the given environment variable and
+/// replaces it if there's an equal sign, else does nothing and returns
+/// true. On error returns false.
+/// @param env 
+/// @param str 
+/// @return 
+bool	update_var(t_env *env, char *str)
+{
+	char	*new_value;
+
+	while (str && *str != '=')
+		str++;
+	if (*str == '=' && env)
+	{
+		new_value = ft_strdup(++str);
+		if (!new_value)
+		{
+			malloc_error();
+			return (false);
+		}
+		free(env->value);
+		env->value = new_value;
+	}
+	return (true);
+}
+
+/// @brief This function deallocates the environment variable
+/// from the environment list.
+/// @param var 
+void	remove_var(char *var)
+{
+	t_env	*env;
+
+	env = getvar(var);
+	if (!env)
+		return ;
+	if (env->previous)
+		env->previous->next = env->next;
+	if (env->next)
+		env->next->previous = env->previous;
+	if (env == env_api()->env_head)
+		env_api()->env_head = env->next;
+	free(env->key);
+	free(env->value);
+	env->previous = NULL;
+	env->next = NULL;
+	free(env);
 }

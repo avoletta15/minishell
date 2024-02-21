@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/20 22:12:41 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 01:12:32 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct s_env_api
 	bool	(*new_env_var)(char *);
 	bool	(*new_env_key_value)(char *, char *);
 	bool	(*update_var)(t_env *, char *);
+	void	(*remove_var)(char *);
 	t_env	*(*getvar)(char *);
 }			t_env_api;
 
@@ -254,6 +255,7 @@ void		free_env_list(t_env **env_structure);
 bool		new_env_var(char *env_path);
 bool		new_env_key_value(char *key, char *value);
 bool		update_var(t_env *env, char *str);
+void		remove_var(char *var);
 t_env		*getvar(char *var);
 // env_utils 2
 
@@ -307,6 +309,7 @@ void		export_update_value_error(char *str);
 void		export_unclosed_quotes(char *str);
 int			setpwds(t_env *oldpwd, t_env *envpwd, char *pwd);
 void		export(char **args);
+void		unset(char **args);
 // builtins
 
 // executor

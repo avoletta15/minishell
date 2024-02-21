@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/20 16:44:35 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 01:13:09 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	parent_excution(char **args)
 		env(envs);
 	else if (builtin_checker == EXPORT_ID)
 		export(++args);
+	else if (builtin_checker == UNSET_ID)
+		unset(++args);
 }
 
 void	mini_executor(t_command *cmds)

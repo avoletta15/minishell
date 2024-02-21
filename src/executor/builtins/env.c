@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 08:31:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 00:40:48 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 11:09:59 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*set_minimum_env(char *pwd)
 		return (NULL);
 	if (!env_api()->new_env_key_value("OLDPWD", pwd_copy))
 		return (NULL);
-	if (!env_api()->new_env_key_value("SHLVL", "1"))	
+	if (!env_api()->new_env_var("SHLVL=1"))	
 		return (NULL);
 	return (env_api()->env_head);
 }
@@ -48,7 +48,7 @@ bool	update_env(char *pwd, t_env *shlvl)
 	}
 	if (!shlvl)
 	{
-		if (!env_api()->new_env_key_value("SHLVL", "1"))	
+		if (!env_api()->new_env_var("SHLVL=1"))
 			return (false);
 	}
 	else
@@ -87,32 +87,6 @@ bool	build_minimum_env(t_terminal *terminal)
 		env_api()->env_head = terminal->env;
 		if (!update_env(pwd, getvar("SHLVL")))
 			return (false);
-	}
-	return (true);
-}
-
-/// @brief This function searches for the given environment variable and
-/// replaces it if there's an equal sign, else does nothing and returns
-/// true. On error returns false.
-/// @param env 
-/// @param str 
-/// @return 
-bool	update_var(t_env *env, char *str)
-{
-	char	*new_value;
-
-	while (*str && *str != '=')
-		str++;
-	if (*str == '=' && env)
-	{
-		new_value = ft_strdup(++str);
-		if (!new_value)
-		{
-			malloc_error();
-			return (false);
-		}
-		free(env->value);
-		env->value = new_value;
 	}
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 08:31:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/20 21:54:40 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 00:40:48 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,10 @@ bool	update_var(t_env *env, char *str)
 		if (!new_value)
 		{
 			malloc_error();
-		}
-		free(env->value);
-		env->value = ft_strdup(++str);
-		if (!env->value)
-		{
-			malloc_error();
 			return (false);
 		}
+		free(env->value);
+		env->value = new_value;
 	}
 	return (true);
 }

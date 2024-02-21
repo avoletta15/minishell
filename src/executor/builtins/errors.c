@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:05:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/20 22:12:32 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:39:38 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,12 @@ void	export_unclosed_quotes(char *str)
 	write(2, ": export: unclosed quotes at: `", 31);
 	write(2, str, ft_strlen(str));
 	write(2, "\'\n", 2);
+}
+
+/// @brief This function displays an error message about the 
+/// amount of given parameters to the env builtin.
+/// @param  
+void	env_args_count_error(void)
+{
+	write(2, "env: too many arguments\n", 24);
 }

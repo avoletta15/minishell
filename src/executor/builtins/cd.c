@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 12:06:09 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/14 10:06:08 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:31:42 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ bool	setpwd(t_env *envpwd)
 	char	*curr_pwd;
 
 	curr_pwd = getcwd(NULL, 0);
-	if (!curr_pwd)
-		return (malloc_error(), false);
 	if (!envpwd)
 	{
 		if (!env_api()->new_env_key_value("PWD", curr_pwd))
@@ -119,8 +117,6 @@ bool	cd(char **dir_path, t_env *env)
 	if (ft_str_count(dir_path) > 1)
 		return (cd_args_count_error());
 	pwd = getcwd(NULL, 0);
-	if (!pwd)
-		return (malloc_error(), false);
 	if (!*dir_path)
 	{
 		env = cd_home_checker(env);

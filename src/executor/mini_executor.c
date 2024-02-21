@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 01:13:09 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 16:45:16 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,11 @@ void	parent_excution(char **args)
 	else if (builtin_checker == PWD_ID)
 		pwd();
 	else if (builtin_checker == ENV_ID)
+	{
+		if (*(++args))
+			return (env_args_count_error());
 		env(envs);
+	}
 	else if (builtin_checker == EXPORT_ID)
 		export(++args);
 	else if (builtin_checker == UNSET_ID)

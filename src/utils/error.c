@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:53:34 by arabelo-          #+#    #+#             */
-/*   Updated: 2023/12/30 17:31:01 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/21 20:15:06 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,15 @@ void	invalid_token_error(t_terminal *terminal, char *str)
 	bad_syntax_error(str);
 	free_tokens(terminal->tokens);
 	terminal->tokens = NULL;
+}
+
+/// @brief This function displays an error about
+/// the unknow file or directory when no PATH is set.
+/// @param str 
+void	no_path_error(char *str)
+{
+	write(2, PROGRAM_NAME, ft_strlen(PROGRAM_NAME));
+	write(2, ": ", 2);
+	write(2, str, ft_strlen(str));
+	write(2, NO_SUCH_FILE_OR_DIR, ft_strlen(NO_SUCH_FILE_OR_DIR));
 }

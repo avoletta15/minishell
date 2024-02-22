@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:45:08 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 19:40:11 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/22 14:32:13 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ void	mini_exit(t_terminal *terminal, char **args)
 		return ;
 	}
 	exit_process(terminal);
-	exit((unsigned char)ft_atoi(*args));
+	terminal->exit_status = ft_atoi(*args);
+	exit(terminal->exit_status);
 }

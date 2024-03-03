@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/22 12:05:40 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:17:15 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <stdbool.h>
+# include <sys/wait.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -113,16 +114,26 @@ typedef struct s_redirect
 {
 	t_token_types		toked_id;
 	char				*content;
+	int					fd;
 	struct s_redirect	*next;
 }				t_redirect;
+
+typedef struct s_std_fds
+{
+	int		in;
+	int		out;
+}				t_std_fds;
 
 typedef struct s_command
 {
 	char				*cmd_path;
 	char				**args;
-	int					fd[2];
+	int					pipe_fd[2];
+	t_std_fds			std_fds;
+	pid_t				pid;
 	t_redirect			*redirections;
 	struct s_command	*next;
+	struct s_command	*prev;
 }				t_command;
 
 typedef struct s_variables
@@ -143,6 +154,7 @@ typedef struct s_env_api
 	bool	(*new_env_key_value)(char *, char *);
 	bool	(*update_var)(t_env *, char *);
 	void	(*remove_var)(char *);
+	size_t	len;
 	t_env	*(*getvar)(char *);
 }			t_env_api;
 
@@ -243,6 +255,13 @@ size_t			ft_str_count(char **strs);
 void			set_cmds_path(t_terminal *terminal);
 // utils 3
 
+// utils 4
+t_builtin_types	is_builtin(char *cmd);
+bool			is_a_single_builtin(t_command *cmd);
+char			**convert_env_list_to_array(void);
+void			close_fds(int in, int out);
+// utils 4
+
 // env
 t_env_api		*env_api(void);
 bool			init_env(t_terminal *terminal);
@@ -276,7 +295,7 @@ void			print_redir(t_redirect *redirect);
 void			printf_command(t_command *command);
 void			visualize_commands(t_command *command);
 void			visualise_expanded_var(t_terminal *terminal);
-void			visualize_env(t_env *env);
+void			visualize_env(t_env *env, int out);
 // helpers 2
 
 // expander
@@ -305,25 +324,32 @@ void			ft_protection_free(t_terminal *terminal, char *var);
 // expand free
 
 // builtins
-void			echo(char **av);
-bool			cd(char **dir_path, t_env *env);
-void			pwd(void);
-void			env(t_env *env);
+void			echo(char **av, int out, unsigned char *exit_status);
+void			cd(char **dir_path, unsigned char *exit_status);
+void			pwd(int out, unsigned char *exit_status);
+void			env(t_env *env, int out, unsigned char *exit_status);
 bool			cd_args_count_error(void);
 bool			cd_fail(char *dir_path);
 void			export_update_value_error(char *str);
 void			export_unclosed_quotes(char *str);
-void			env_args_count_error(void);
+void			env_args_count_error(unsigned char *exit_status);
 void			exit_non_numeric_arg(char *str);
+bool			export_invalid_identifier(char *str);
 void			exit_wrong_args_num(void);
 int				setpwds(t_env *oldpwd, t_env *envpwd, char *pwd);
-void			export(char **args);
-void			unset(char **args);
+void			export(char **args, int out, unsigned char *exit_status);
+void			unset(char **args, unsigned char *exit_status);
 void			mini_exit(t_terminal *terminal, char **args);
+void			exec_builtins(t_terminal *terminal, char **args, int out);
 // builtins
 
+// handle redirect
+bool			redirection_handle(t_command *cmd, bool parent);
+int				handle_open(t_redirect *redir,
+				int *in, int *out);
+// handle redirect
+
 // executor
-t_builtin_types	is_builtin(char *cmd);
 void			mini_executor(t_terminal *terminal);
 // executor
 

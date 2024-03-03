@@ -15,14 +15,14 @@ HELPER = 	helper/helpers.c helper/helpers2.c
 PARSER = 	parser/args_redirects.c parser/lexer.c parser/parser.c\
 			parser/prompt_treatment.c parser/tokenize.c
 UTILS = 	utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c\
-			utils/utils.c utils/utils2.c utils/utils3.c
+			utils/utils.c utils/utils2.c utils/utils3.c utils/utils4.c
 EXPANDER =	expander/expander.c expander/expand_utils.c expander/expand_free.c\
 			expander/expander_refact.c
-EXECUTOR = 	executor/mini_executor.c
+EXECUTOR = 	executor/mini_executor.c executor/handle_redir.c
 BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c\
-			executor/builtins/env.c executor/builtins/utils.c executor/builtins/errors.c\
-			executor/builtins/export.c executor/builtins/unset.c executor/builtins/exit.c\
-			executor/builtins/errors2.c
+			executor/builtins/env.c executor/builtins/errors.c executor/builtins/export.c\
+			executor/builtins/unset.c executor/builtins/exit.c executor/builtins/errors2.c\
+			executor/builtins/exec_builtins.c
 
 SRC_DIR = src/
 SRC = 	$(ENV:%=$(SRC_DIR)%) $(HELPER:%=$(SRC_DIR)%) $(PARSER:%=$(SRC_DIR)%)\
@@ -57,7 +57,7 @@ run: re
 	@ ./minishell
 
 v: re readline.supp
-	@valgrind --show-leak-kinds=all --leak-check=full --suppressions=readline.supp ./minishell
+	@valgrind --show-leak-kinds=all --leak-check=full --track-fds=all --log-file=valgrind_log.txt --suppressions=readline.supp ./minishell
 
 readline.supp:
 	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp 2> /dev/null 1> /dev/null

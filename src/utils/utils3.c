@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:21:14 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/22 14:29:38 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/02 15:01:31 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ size_t	ft_str_count(char **strs)
 /// @return 
 bool	check_absolute_path(char *str)
 {
-	while (*str)
+	while (str && *str)
 	{
 		if (*str == '/')
 			return (true);

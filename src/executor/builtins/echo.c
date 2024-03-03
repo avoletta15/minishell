@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 22:44:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 18:34:55 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:16:34 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ bool	echo_option_checker(char *option)
 /// line remover option\"` and printing the following strings, prints
 /// a new line if no `\"new line remover option\"` is giving.
 /// @param av 
-void	echo(char **av)
+void	echo(char **av, int out, unsigned char *exit_status)
 {
 	bool	new_line;
 
@@ -46,11 +46,15 @@ void	echo(char **av)
 	while (*av)
 	{
 		if (!*(av + 1))
-			printf("%s", *av);
+			ft_putstr_fd(*av, out);
 		else
-			printf("%s ", *av);
+		{
+			ft_putstr_fd(*av, out);
+			ft_putstr_fd(" ", out);
+		}
 		av++;
 	}
 	if (new_line)
-		printf("\n");
+		ft_putstr_fd("\n", out);
+	*exit_status = 0;
 }

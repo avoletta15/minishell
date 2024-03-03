@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:20:27 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/16 19:27:55 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/01 12:27:08 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,10 @@ t_command	*create_command(t_terminal *terminal)
 		free(command);
 		return (NULL);
 	}
+	command->pid = -1;
+	command->pipe_fd[0] = -1;
+	command->pipe_fd[1] = -1;
+	command->std_fds = (t_std_fds){ STDIN_FILENO, STDOUT_FILENO };
 	fill_command_args(terminal, command, counter);
 	command->redirections = terminal->redirects;
 	free_args(terminal->args);
@@ -110,6 +114,7 @@ void	add_command(t_terminal *terminal, t_command *command)
 	while (curr->next)
 		curr = curr->next;
 	curr->next = command;
+	command->prev = curr;
 }
 
 /// @brief This function parses all the tokens from the terminal.

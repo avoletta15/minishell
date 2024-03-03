@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/22 12:07:16 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:56:14 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	init_shell(t_terminal terminal)
 		parser(&terminal);
 		// ft_expansion_check_refac(&terminal, 0);
 		set_cmds_path(&terminal);
-		visualize_commands(terminal.commands);
-		// mini_executor(&terminal);
+		mini_executor(&terminal);
+		// visualize_commands(terminal.commands);
 		free_structs(&terminal, false, NULL);
 		reset_terminal(&terminal, SUCCESS);
 	}
@@ -44,6 +44,7 @@ int	main(int ac, char **av, char **env_path)
 		exit(EXIT_FAILURE);
 	i = -1;
 	init_terminal(&terminal, true);
+	env_api()->len = 0;
 	while (env_path && env_path[++i])
 		terminal.env = env_structure(env_path[i], terminal.env);
 	if (!init_env(&terminal))

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:55:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/05 23:28:02 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/01 11:49:00 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void	printf_command(t_command *command)
 	printf("		command's struct address: %p,\n", command);
 	printf("		command's path: %s,\n", command->cmd_path);
 	printf("		command's fd: [%i, %i],\n",
-		command->fd[0], command->fd[1]);
+		command->pipe_fd[0], command->pipe_fd[1]);
 	print_args(command->args);
 	print_redir(command->redirections);
+	printf("		prev: %p,\n", command->prev);
 	printf("		next: %p\n", command->next);
 	printf("	}");
 }
@@ -61,12 +62,17 @@ void	visualize_commands(t_command *command)
 // 	}
 // }
 
-void	visualize_env(t_env *env)
+void	visualize_env(t_env *env, int out)
 {
 	while (env)
 	{
 		if (env->value)
-			printf("%s=%s\n", env->key, env->value);
+		{
+			ft_putstr_fd(env->key, out);
+			ft_putstr_fd("=", out);
+			ft_putendl_fd(env->value, out);
+			ft_putstr_fd("\n", out);
+		}
 		env = env->next;
 	}
 }

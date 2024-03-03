@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:46:57 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/17 19:37:05 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/26 09:39:52 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	add_node_tail(t_env **head, t_env *new_structure)
 		last_node->next = new_structure;
 		new_structure->previous = last_node;
 	}
+	env_api()->len++;
 }
 
 /// @brief Create a new node structure and sets
@@ -85,26 +86,22 @@ t_env	*env_structure(char *env_path, t_env *env)
 {
 	t_env	*new_structure;
 
-	new_structure = NULL;
 	if (!env)
 	{
-		env = new_node(env_path);
-		if (!env)
-		{
-			free_env_list(&env);
+		new_structure = new_node(env_path);
+		if (!new_structure)
 			exit(EXIT_FAILURE);
-		}
 	}
 	else
 	{
 		new_structure = new_node(env_path);
 		if (!new_structure)
 		{
-			free_env_list(&new_structure);
+			free_env_list(&env);
 			exit(EXIT_FAILURE);
 		}
-		add_node_tail(&env, new_structure);
 	}
+	add_node_tail(&env, new_structure);
 	return (env);
 }
 

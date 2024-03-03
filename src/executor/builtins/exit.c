@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:45:08 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/22 14:32:13 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:10:39 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,24 @@ void	exit_process(t_terminal *terminal)
 /// @param args 
 void	mini_exit(t_terminal *terminal, char **args)
 {
+	unsigned char	exit_code;
+
+	if (*args)
+		exit_code = ft_atoi(*args);
+	else
+		exit_code = 0;
 	if (!check_numeric_arg(*args))
 	{
 		exit_non_numeric_arg(*args);
 		terminal->exit_status = BAD_SYNTAX;
 		exit(BAD_SYNTAX);
 	}
-	else if (ft_str_count(args) > 1)
+	if (ft_str_count(args) > 1)
 	{
 		exit_wrong_args_num();
 		terminal->exit_status = FAILURE;
 		return ;
 	}
 	exit_process(terminal);
-	terminal->exit_status = ft_atoi(*args);
-	exit(terminal->exit_status);
+	exit(exit_code);
 }

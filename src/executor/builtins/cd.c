@@ -6,31 +6,11 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 12:06:09 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 15:31:42 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:17:39 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/// @brief This function searches for the `\"HOME\"` environment variable
-/// and returns it if is set, else NULL.
-/// @param env 
-/// @return 
-t_env	*cd_home_checker(t_env *env)
-{
-	while (env)
-	{
-		if (!ft_strncmp(env->key, "HOME", ft_strlen(env->key)))
-			break ;
-		env = env->next;
-	}
-	if (!env)
-	{
-		write(2, CD_HOME_NOT_FOUND_ERROR, ft_strlen(CD_HOME_NOT_FOUND_ERROR));
-		return (NULL);
-	}
-	return (env);
-}
 
 /// @brief This function sets the value of the enviroment variable
 /// `\"OLDPWD\"` if exists, else does deallocates the char * pwd
@@ -105,30 +85,59 @@ int	setpwds(t_env *oldpwd, t_env *envpwd, char *pwd)
 	return (true);
 }
 
+/// @brief This function tries to change the current working directory
+/// to the given directory's path. On error it displays an error
+/// message in the stderr and sets the exit status to 1. On success
+/// it sets the exit status to 0. Returns true on success, else false.
+/// @param dir_path 
+/// @param exit_status 
+/// @return 
+bool	change_dir(char *dir_path, unsigned char *exit_status)
+{
+	int		res;
+	t_env	*home;
+
+	if (!*dir_path)
+	{
+		home = getvar("HOME");
+		if (!home)
+		{
+			*exit_status = 1;
+			write(2, CD_HOME_NOT_FOUND_ERROR,
+				ft_strlen(CD_HOME_NOT_FOUND_ERROR));
+			return (false);
+		}
+		res = chdir(home->value);
+	}
+	else
+		res = chdir(dir_path);
+	if (res == -1)
+	{
+		*exit_status = 1;
+		return (cd_fail(dir_path));
+	}
+	*exit_status = 0;
+	return (true);
+}
+
 /// @brief This function changes the current working directory to
 /// the given directory's path. On error it displays an
 /// error message in the stderr.
 /// @param dir_path 
-bool	cd(char **dir_path, t_env *env)
+void	cd(char **dir_path, unsigned char *exit_status)
 {
-	int		res;
-	char	*pwd;
-
 	if (ft_str_count(dir_path) > 1)
-		return (cd_args_count_error());
-	pwd = getcwd(NULL, 0);
-	if (!*dir_path)
 	{
-		env = cd_home_checker(env);
-		if (!env)
-			return (false);
-		res = chdir(env->value);
+		*exit_status = 1;
+		cd_args_count_error();
+		return ;
 	}
-	else
-		res = chdir(*dir_path);
-	if (res == -1)
-		return (cd_fail(*dir_path));
-	if (!setpwds(getvar("OLDPWD"), getvar("PWD"), pwd))
-		return (malloc_error(), false);
-	return (true);
+	if (!change_dir(*dir_path, exit_status))
+		return ;
+	if (!setpwds(getvar("OLDPWD"), getvar("PWD"), getcwd(NULL, 0)))
+	{
+		malloc_error();
+		return ;
+	}
+	return ;
 }

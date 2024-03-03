@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:16:12 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/20 22:18:15 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:20:24 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /// @brief This function displays all the environment variables.
 /// @param  
-void	visualize_export(void)
+void	visualize_export(int out, unsigned char *exit_status)
 {
 	t_env	*curr;
 
@@ -22,11 +22,22 @@ void	visualize_export(void)
 	while (curr)
 	{
 		if (curr->value)
-			printf("declare -x %s=\"%s\"\n", curr->key, curr->value);
+		{
+			ft_putstr_fd("declare -x ", out);
+			ft_putstr_fd(curr->key, out);
+			ft_putstr_fd("=\"", out);
+			ft_putstr_fd(curr->value, out);
+			ft_putstr_fd("\"\n", out);
+		}
 		else
-			printf("declare -x %s\n", curr->key);
+		{
+			ft_putstr_fd("declare -x ", out);
+			ft_putstr_fd(curr->key, out);
+			ft_putstr_fd("\n", out);
+		}
 		curr = curr->next;
 	}
+	*exit_status = 0;
 }
 
 /// @brief This function checks if the given character is
@@ -74,19 +85,16 @@ bool	check_new_env(char *str)
 /// environment variables and if there's any error displays it
 /// on the strerr.
 /// @param args 
-void	set_export(char **args)
+void	set_export(char **args, unsigned char *exit_status)
 {
 	t_env	*env;
+	bool	error;
 
+	error = false;
 	while (args && *args)
 	{
 		if (!check_new_env(*args))
-		{
-			write(2, PROGRAM_NAME, ft_strlen(PROGRAM_NAME));
-			write(2, INVALID_EXPORT_ERROR1, ft_strlen(INVALID_EXPORT_ERROR1));
-			write(2, *args, ft_strlen(*args));
-			write(2, INVALID_EXPORT_ERROR2, ft_strlen(INVALID_EXPORT_ERROR2));
-		}
+			error = error || !export_invalid_identifier(*args);
 		else
 		{
 			env = getvar(*args); 
@@ -100,15 +108,19 @@ void	set_export(char **args)
 		}
 		args++;
 	}
+	if (error)
+		*exit_status = 1;
+	else
+		*exit_status = 0;
 }
 
 /// @brief This function checks if the user only wants to show the
 /// environment variables or set any variable.
 /// @param args
-void	export(char **args)
+void	export(char **args, int out, unsigned char *exit_status)
 {
 	if (!args || !*args)
-		visualize_export();
+		visualize_export(out, exit_status);
 	else
-		set_export(args);
+		set_export(args, exit_status);
 }

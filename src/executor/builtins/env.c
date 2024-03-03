@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 08:31:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 11:09:59 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:18:04 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ bool	build_minimum_env(t_terminal *terminal)
 /// @brief This function runs through the environment list and
 /// displays each one of node's content if the value is not NULL.
 /// @param env 
-void	env(t_env *env)
+void	env(t_env *env, int out, unsigned char *exit_status)
 {
-	visualize_env(env);
+	visualize_env(env, out);
+	*exit_status = 0;
 }

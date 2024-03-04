@@ -6,12 +6,14 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:24:56 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/03 16:23:00 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/02 11:44:41 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/// @brief This function deallocates all commands.
+/// @param terminal 
 void	free_commands(t_terminal *terminal)
 {
 	t_command	*curr;
@@ -27,6 +29,12 @@ void	free_commands(t_terminal *terminal)
 	}
 }
 
+/// @brief This function deallocates all structs and executes a function
+/// if it's different than `NULL`. It exists the program if the second
+/// parameter is true, otherwise the exit function will be ignored.
+/// @param terminal 
+/// @param should_exit 
+/// @param call_back 
 void	free_structs(t_terminal *terminal,
 		bool should_exit, void (*call_back)(void))
 {

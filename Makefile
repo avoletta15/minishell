@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
-READLINE_FLAGS =  -lreadline -lncurses
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address,undefined
+READLINE_FLAGS = -lreadline -lncurses
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_INC = libft/inc
@@ -10,24 +10,34 @@ INC_FLAGS = -I $(LIBFT_INC) -I $(INCLUDES)
 ALL_FLAGS = $(CFLAGS) $(READLINE_FLAGS) $(INC_FLAGS) -L$(LIBFT_DIR) -lft
 
 ## DIRECTORIES ##
-ENV = env/env_management.c env/env_utils.c
-HELPER = helper/helpers.c helper/helpers2.c
-PARSER = parser/args_redirects.c parser/lexer.c parser/parser.c parser/prompt_treatment.c parser/tokenize.c
-UTILS = utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c utils/utils.c utils/utils2.c 
-EXPANDER = expander/expander.c expander/expand_utils.c expander/expand_free.c expander/expander_refact.c
+ENV = 		env/env_management.c env/env_utils.c env/env_utils2.c
+HELPER = 	helper/helpers.c helper/helpers2.c
+PARSER = 	parser/args_redirects.c parser/lexer.c parser/parser.c\
+			parser/prompt_treatment.c parser/tokenize.c
+UTILS = 	utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c\
+			utils/utils.c utils/utils2.c utils/utils3.c utils/utils4.c
+EXPANDER =	expander/expander.c expander/expand_utils.c expander/expand_free.c\
+			expander/expander_refact.c
+EXECUTOR = 	executor/mini_executor.c executor/handle_redir.c
+BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c\
+			executor/builtins/env.c executor/builtins/errors.c executor/builtins/export.c\
+			executor/builtins/unset.c executor/builtins/exit.c executor/builtins/errors2.c\
+			executor/builtins/exec_builtins.c
 
-SRC = 	$(ENV:%=src/%) $(HELPER:%=src/%) $(PARSER:%=src/%) $(UTILS:%=src/%) $(EXPANDER:%=src/%)
-ROOT_DIR = ./
+SRC_DIR = src/
+SRC = 	$(ENV:%=$(SRC_DIR)%) $(HELPER:%=$(SRC_DIR)%) $(PARSER:%=$(SRC_DIR)%)\
+		$(UTILS:%=$(SRC_DIR)%) $(EXECUTOR:%=$(SRC_DIR)%)\
+		$(BUILTINS:%=$(SRC_DIR)%) $(EXPANDER:%=$(SRC_DIR)%)
 OBJ_DIR = obj/
-OBJS = $(addprefix $(OBJ_DIR), $(SRC:src/%.c=%.o))
+OBJS = $(addprefix $(OBJ_DIR), $(SRC:$(SRC_DIR)%.c=%.o))
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) src/$(NAME).c -o $(NAME) $(OBJS) $(ALL_FLAGS)
+	@$(CC) $(SRC_DIR)$(NAME).c -o $(NAME) $(OBJS) $(ALL_FLAGS)
 
-$(OBJ_DIR)%.o: src/%.c
-	@mkdir -p $(dir $@) 
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	@mkdir -p $(dir $@)
 	@$(CC) -c $(CFLAGS) $(INC_FLAGS) $< -o $@
 
 $(LIBFT):
@@ -47,7 +57,7 @@ run: re
 	@ ./minishell
 
 v: re readline.supp
-	@valgrind --show-leak-kinds=all --leak-check=full --suppressions=readline.supp ./minishell
+	@valgrind --show-leak-kinds=all --leak-check=full --track-fds=all --log-file=valgrind_log.txt --suppressions=readline.supp ./minishell
 
 readline.supp:
 	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp 2> /dev/null 1> /dev/null

@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_status.h                                      :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/02 16:34:27 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 18:22:17 by arabelo-         ###   ########.fr       */
+/*   Created: 2024/02/03 00:32:54 by arabelo-          #+#    #+#             */
+/*   Updated: 2024/03/01 19:18:28 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXIT_STATUS_H
-# define EXIT_STATUS_H
+#include "minishell.h"
 
-# define SUCCESS 0
-# define FAILURE 1
-# define BAD_SYNTAX 2
-# define NOT_EXECUTABLE 126
-# define NOT_FOUND 127
+/// @brief This function gets the current working directory
+/// and displays it, if it fails is displays in the stderr.
+/// @param  
+void	pwd(int out, unsigned char *exit_status)
+{
+	char	*path;
 
-#endif
+	path = getcwd(NULL, 0);
+	if (!path)
+	{
+		write(2, "pwd: couldn't get path\n", 23);
+		*exit_status = 1;
+		return ;
+	}
+	ft_putendl_fd(path, out);
+	free(path);
+}

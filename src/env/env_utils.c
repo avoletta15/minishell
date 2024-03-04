@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:46:57 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/05 23:14:50 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/26 09:39:52 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_env	*structure_tail_node(t_env *env)
 		return (NULL);
 	while (env->next)
 		env = env->next;
-	return(env);
+	return (env);
 }
 
 /// @brief Adds a node at the end of the list
@@ -30,9 +30,10 @@ t_env	*structure_tail_node(t_env *env)
 void	add_node_tail(t_env **head, t_env *new_structure)
 {
 	t_env	*last_node;
-	if(!head)
+
+	if (!head)
 		return ;
-	if(!*head)
+	if (!*head)
 		*head = new_structure;
 	else
 	{
@@ -40,6 +41,7 @@ void	add_node_tail(t_env **head, t_env *new_structure)
 		last_node->next = new_structure;
 		new_structure->previous = last_node;
 	}
+	env_api()->len++;
 }
 
 /// @brief Create a new node structure and sets
@@ -54,7 +56,7 @@ t_env	*new_node(char *env_path)
 	i = 0;
 	node = (t_env *)ft_calloc(1, sizeof(t_env));
 	if (!node)
-		return(NULL);
+		return (NULL);
 	while (env_path[i] && env_path[i] != '=')
 		i++;
 	if (env_path[i] == '=')
@@ -84,26 +86,22 @@ t_env	*env_structure(char *env_path, t_env *env)
 {
 	t_env	*new_structure;
 
-	new_structure = NULL;
-	if(!env)
+	if (!env)
 	{
-		env = new_node(env_path);
-		if(!env)
+		new_structure = new_node(env_path);
+		if (!new_structure)
+			exit(EXIT_FAILURE);
+	}
+	else
+	{
+		new_structure = new_node(env_path);
+		if (!new_structure)
 		{
 			free_env_list(&env);
 			exit(EXIT_FAILURE);
 		}
 	}
-	else
-	{
-		new_structure = new_node(env_path);
-		if(!new_structure)
-		{
-			free_env_list(&new_structure);
-			exit(EXIT_FAILURE);
-		}
-		add_node_tail(&env, new_structure);
-	}
+	add_node_tail(&env, new_structure);
 	return (env);
 }
 
@@ -116,7 +114,7 @@ void	free_env_list(t_env **env_structure)
 
 	tmp = NULL;
 	if (!*env_structure)
-		return;
+		return ;
 	while (*env_structure)
 	{
 		tmp = (*env_structure)->next;

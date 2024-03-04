@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/05 22:57:42 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:17:15 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 # define MINISHELL_H
 
 # include <libft.h>
+# include <errno.h>
 # include <exit_status.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <stdbool.h>
+# include <sys/wait.h>
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -25,12 +28,6 @@
 # define PARSER_SEP '\1'
 # define DOUBLE_QUOTE '\2'
 # define SINGLE_QUOTE '\3'
-
-# define UNCLOSED_QUOTE_ERROR "Error: unclosed quote\n"
-# define MALLOC_ERROR "Error: Malloc failed\n"
-# define BAD_SYNTAX_ERROR1 "minishell: bad syntax "
-# define BAD_SYNTAX_ERROR2 "error near to the unexpected token "
-# define NEW_LINE "newline"
 
 # define PIPE "|"
 # define INPUT_REDIRECT "<"
@@ -45,7 +42,35 @@
 # define ENV "env"
 # define EXIT "exit"
 
-typedef enum e_token_types {
+# define PROGRAM_NAME "minishell"
+
+// MACRO ERRORS
+# define UNCLOSED_QUOTE_ERROR "Error: unclosed quote\n"
+# define MALLOC_ERROR "Error: Malloc failed\n"
+# define BAD_SYNTAX_ERROR1 "minishell: bad syntax "
+# define BAD_SYNTAX_ERROR2 "error near to the unexpected token "
+# define NEW_LINE "newline"
+# define CD_ARGS_COUNT_ERROR ": cd: Excessive number of arguments\n"
+# define CD_HOME_NOT_FOUND_ERROR "cd: HOME not set\n"
+# define INVALID_EXPORT_ERROR1 ": export: `"
+# define INVALID_EXPORT_ERROR2 "\': not a valid identifier\n"
+# define NO_SUCH_FILE_OR_DIR "No such file or directory\n"
+// MACRO ERRORS
+
+
+typedef enum e_builtin_types
+{
+	ECHO_ID = 1,
+	CD_ID,
+	PWD_ID,
+	EXPORT_ID,
+	UNSET_ID,
+	ENV_ID,
+	EXIT_ID,
+}			t_builtin_types;
+
+typedef enum e_token_types
+{
 	INPUT_REDIRECT_ID = 1,
 	OUTPUT_REDIRECT_ID,
 	HERE_DOC_ID,
@@ -77,6 +102,7 @@ typedef struct s_env
 	struct s_env	*previous;
 	struct s_env	*next;
 }				t_env;
+
 typedef struct s_args
 {
 	t_token_types	toked_id;
@@ -88,16 +114,26 @@ typedef struct s_redirect
 {
 	t_token_types		toked_id;
 	char				*content;
+	int					fd;
 	struct s_redirect	*next;
 }				t_redirect;
+
+typedef struct s_std_fds
+{
+	int		in;
+	int		out;
+}				t_std_fds;
 
 typedef struct s_command
 {
 	char				*cmd_path;
 	char				**args;
-	int					fd[2];
+	int					pipe_fd[2];
+	t_std_fds			std_fds;
+	pid_t				pid;
 	t_redirect			*redirections;
 	struct s_command	*next;
+	struct s_command	*prev;
 }				t_command;
 
 typedef struct s_variables
@@ -111,139 +147,210 @@ typedef struct s_variables
 	char		*key;
 }				t_vars;
 
-typedef struct s_program
+typedef struct s_env_api
 {
-	char				*prompt;
-	char				**prompt_splitted;
-	t_command			*commands;
-	t_token				*tokens;
-	t_args				*args;
-	t_redirect			*redirects;
-	t_env				*env;
-	int					exit_status;
-	int					i;
-	t_vars				vars;
-	t_quotes_system		quotes_system;
+	t_env	*env_head;
+	bool	(*new_env_var)(char *);
+	bool	(*new_env_key_value)(char *, char *);
+	bool	(*update_var)(t_env *, char *);
+	void	(*remove_var)(char *);
+	size_t	len;
+	t_env	*(*getvar)(char *);
+}			t_env_api;
+
+typedef struct s_terminal
+{
+	char			*prompt;
+	char			**prompt_splitted;
+	t_command		*commands;
+	t_token			*tokens;
+	t_args			*args;
+	t_redirect		*redirects;
+	t_env			*env;
+	unsigned char	exit_status;
+	int				i;
+	t_vars			vars;
+	t_quotes_system	quotes_system;
 }				t_terminal;
 
 // args_redirects
-t_args		*create_args(t_token *token);
-t_redirect	*create_redirect(t_token *token);
-void		add_arg(t_terminal *terminal, t_token *token);
-void		add_redirect(t_terminal *terminal, t_token *token);
+t_args			*create_args(t_token *token);
+t_redirect		*create_redirect(t_token *token);
+void			add_arg(t_terminal *terminal, t_token *token);
+void			add_redirect(t_terminal *terminal, t_token *token);
 // args_redirects
 
 // error
-void		unclosed_quote_error(void);
-void		malloc_error(void);
-void		bad_syntax_error(char *str);
-void		invalid_token_error(t_terminal *terminal, char *str);
+void			unclosed_quote_error(void);
+void			malloc_error(void);
+void			bad_syntax_error(char *str);
+void			invalid_token_error(t_terminal *terminal, char *str);
+void			no_path_error(char *str);
 // error
 
 // init vars
-void		reset_terminal(t_terminal *terminal, int exit_status);
-void		init_terminal(t_terminal *terminal, int exit_status);
-void		init_quotes_system(t_quotes_system *quotes_system);
+void			reset_terminal(t_terminal *terminal, int exit_status);
+void			init_terminal(t_terminal *terminal, int exit_status);
+void			init_quotes_system(t_quotes_system *quotes_system);
 // init vars
 
 // lexer
-bool		first_filter(t_terminal *terminal);
-bool		second_filter(t_terminal *terminal);
-bool		third_filter(t_terminal *terminal);
-bool		lexer(t_terminal *terminal);
+bool			first_filter(t_terminal *terminal);
+bool			second_filter(t_terminal *terminal);
+bool			third_filter(t_terminal *terminal);
+bool			lexer(t_terminal *terminal);
 // lexer
 
 // prompt treatment
-void		remove_whitespaces(char *dest, char *src, t_quotes_system *quotes);
-void		delimit_special_chars(char *dest,
-				char *src, t_quotes_system *quote);
-void		subsquote(char *new_prompt, t_quotes_system *quote);
+void			remove_whitespaces(char *dest, char *src, t_quotes_system *quotes);
+void			delimit_special_chars(char *dest,
+					char *src, t_quotes_system *quote);
+void			subsquote(char *new_prompt, t_quotes_system *quote);
 // prompt treatment
 
 // memory
-void		free_prompt(char **prompt_splitted);
-void		free_tokens(t_token *tokens);
-void		free_args(t_args *arg);
-void		free_redirect(t_redirect *redirect);
-void		free_redir_args(t_terminal *terminal);
+void			free_prompt(char **prompt_splitted);
+void			free_tokens(t_token *tokens);
+void			free_args(t_args *arg);
+void			free_redirect(t_redirect *redirect);
+void			free_redir_args(t_terminal *terminal);
 // memory
 
 // memory 2
-void		free_commands(t_terminal *terminal);
-void		free_structs(t_terminal *terminal,
-				bool should_exit, void (*call_back)(void));
+void			free_commands(t_terminal *terminal);
+void			free_structs(t_terminal *terminal,
+					bool should_exit, void (*call_back)(void));
 // memory 2
 
 // parser
-bool		parser(t_terminal *terminal);
-size_t		count_args(t_terminal *terminal);
+bool			parser(t_terminal *terminal);
+size_t			count_args(t_terminal *terminal);
 // parser
 
 // tokenize
-int			get_token_id(char *token);
-t_token		*create_token(char *token);
-void		add_token(t_token **tokens, t_token *new_token);
-void		free_tokens(t_token *tokens);
-void		tokenize_prompt(t_terminal *terminal, t_token **tokens);
+int				get_token_id(char *token);
+t_token			*create_token(char *token);
+void			add_token(t_token **tokens, t_token *new_token);
+void			free_tokens(t_token *tokens);
+void			tokenize_prompt(t_terminal *terminal, t_token **tokens);
 // tokenize
 
 // utils
-int			is_special_chars(char *set);
-void		copynstr(char *dest, char *src, size_t len);
-void		put_separator(char **dest, char **src, int *pos);
-bool		only_white_spaces(char *str);
+int				is_special_chars(char *set);
+void			copynstr(char *dest, char *src, size_t len);
+void			put_separator(char **dest, char **src, int *pos);
+bool			only_white_spaces(char *str);
 // utils
 
 // utils 2
-bool		is_redirect_token(t_token_types token_id);
-bool		is_token_sequence_invalid(t_token *token);
-bool		is_pipe_sequence_invalid(t_token *token);
-bool		is_redirect_invalid(t_token *token);
-bool		tokens_checker(t_terminal *terminal);
+bool			is_redirect_token(t_token_types token_id);
+bool			is_token_sequence_invalid(t_token *token);
+bool			is_pipe_sequence_invalid(t_token *token);
+bool			is_redirect_invalid(t_token *token);
+bool			tokens_checker(t_terminal *terminal);
 // utils 2
 
+// utils 3
+size_t			ft_str_count(char **strs);
+void			set_cmds_path(t_terminal *terminal);
+// utils 3
+
+// utils 4
+t_builtin_types	is_builtin(char *cmd);
+bool			is_a_single_builtin(t_command *cmd);
+char			**convert_env_list_to_array(void);
+void			close_fds(int in, int out);
+// utils 4
+
+// env
+t_env_api		*env_api(void);
+bool			init_env(t_terminal *terminal);
+bool			build_minimum_env(t_terminal *terminal);
+// env
+
 // env_utils
-t_env	*structure_tail_node(t_env *env);
-void	add_node_tail(t_env **head, t_env *new_structure);
-t_env	*new_node(char *env_path);
-t_env	*env_structure(char *env_path, t_env *env);
-void	free_env_list(t_env **env_structure);
+t_env			*structure_tail_node(t_env *env);
+void			add_node_tail(t_env **head, t_env *new_structure);
+t_env			*new_node(char *env_path);
+t_env			*env_structure(char *env_path, t_env *env);
+void			free_env_list(t_env **env_structure);
 // env_utils
+
+// env_utils 2
+bool			new_env_var(char *env_path);
+bool			new_env_key_value(char *key, char *value);
+bool			update_var(t_env *env, char *str);
+void			remove_var(char *var);
+t_env			*getvar(char *var);
+// env_utils 2
+
 // helpers
-void		print_token(t_token *token);
-void		visualize_tokens(t_token *tokens);
-void		print_args(char **args);
-void		print_redir(t_redirect *redirect);
+void			print_token(t_token *token);
+void			visualize_tokens(t_token *tokens);
+void			print_args(char **args);
+void			print_redir(t_redirect *redirect);
 // helpers
 
 // helpers 2
-void		put_cmd(char *str);
-void		printf_command(t_command *command);
-void		visualize_commands(t_command *command);
-void		visualise_expanded_var(t_terminal *terminal);
+void			printf_command(t_command *command);
+void			visualize_commands(t_command *command);
+void			visualise_expanded_var(t_terminal *terminal);
+void			visualize_env(t_env *env, int out);
 // helpers 2
 
 // expander
-char	*ft_expansion_check(t_terminal *terminal, char flag);
-void	sei_la_xx(t_terminal *terminal);
-void	sei_la(t_terminal *terminal);
-void	ft_init_vars(t_terminal *terminal);
-char	ft_checking_quotes(char *str, char flag, int *i);
-char	*ft_should_expand(char *str, int *i, t_terminal *terminal);
-char	*ft_search_variable(char *var, t_terminal *terminal);
-void	ft_expansion_check_refac(t_terminal *terminal, char flag);
-void	ft_repelacement(t_terminal *terminal, int *i);
+char			*variable_alias(char *str);
+bool			ft_forbidden_expansion(char c, int i);
+char			*ft_expansion_check(t_terminal *terminal, char flag);
+void			sei_la_xx(t_terminal *terminal);
+void			sei_la(t_terminal *terminal);
+void			ft_init_vars(t_terminal *terminal);
+char			ft_checking_quotes(char *str, char flag, int *i);
+char			*ft_should_expand(char *str, int *i, t_terminal *terminal);
+char			*ft_search_variable(char *var, t_terminal *terminal);
+void			ft_expansion_check_refac(t_terminal *terminal, char flag);
+void			ft_repelacement(t_terminal *terminal, int *i);
 // expander
 
 // expander utils
-bool	ft_forbidden_expansion(char c, int i);
-char	*ft_get_home();
-char	*variable_alias(char *str);
+bool			ft_forbidden_expansion(char c, int i);
+char			*ft_get_home();
+char			*variable_alias(char *str);
 // expander utils
 
 // expand free
-char	*ft_join_free(char *test, int i, char *temp, t_terminal *terminal);
-void	ft_protection_free(t_terminal *terminal, char *var);
+char			*ft_join_free(char *test, int i, char *temp, t_terminal *terminal);
+void			ft_protection_free(t_terminal *terminal, char *var);
 // expand free
+
+// builtins
+void			echo(char **av, int out, unsigned char *exit_status);
+void			cd(char **dir_path, unsigned char *exit_status);
+void			pwd(int out, unsigned char *exit_status);
+void			env(t_env *env, int out, unsigned char *exit_status);
+bool			cd_args_count_error(void);
+bool			cd_fail(char *dir_path);
+void			export_update_value_error(char *str);
+void			export_unclosed_quotes(char *str);
+void			env_args_count_error(unsigned char *exit_status);
+void			exit_non_numeric_arg(char *str);
+bool			export_invalid_identifier(char *str);
+void			exit_wrong_args_num(void);
+int				setpwds(t_env *oldpwd, t_env *envpwd, char *pwd);
+void			export(char **args, int out, unsigned char *exit_status);
+void			unset(char **args, unsigned char *exit_status);
+void			mini_exit(t_terminal *terminal, char **args);
+void			exec_builtins(t_terminal *terminal, char **args, int out);
+// builtins
+
+// handle redirect
+bool			redirection_handle(t_command *cmd, bool parent);
+int				handle_open(t_redirect *redir,
+				int *in, int *out);
+// handle redirect
+
+// executor
+void			mini_executor(t_terminal *terminal);
+// executor
 
 #endif

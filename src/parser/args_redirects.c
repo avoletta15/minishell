@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 14:38:52 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/03 16:47:26 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:38:48 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_redirect	*create_redirect(t_token *token)
 		return (NULL);
 	redirect->content = token->next->token;
 	redirect->toked_id = token->token_id;
+	redirect->fd = -1;
 	redirect->next = NULL;
 	token->next->token = NULL;
 	return (redirect);

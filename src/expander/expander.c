@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/06 11:20:37 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/02/18 12:19:15 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_search_variable(char *var, t_terminal *terminal)
 /// @return 
 char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 {
- 	char	*expand_var;
+	char	*expand_var;
 	
 	// if((str[*i] == '~' && ft_strlen(str) == 1) || \
 	// 		(str[*i] == '~' && ft_forbidden_expansion(str[*i + 1], 0)))
@@ -61,7 +61,7 @@ char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 		if (!expand_var)
 			ft_protection_free(terminal, expand_var);
 		*i += 1;
-		return(expand_var);
+		return (expand_var);
 	}
 	expand_var = variable_alias(&str[*i]);
 	if (!expand_var)
@@ -74,11 +74,11 @@ char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 			ft_protection_free(terminal, expand_var);
 	}
 	else if (!ft_strncmp(expand_var, "?", ft_strlen("?")))
-		return(ft_itoa(terminal->exit_status));
+		return (ft_itoa(terminal->exit_status));
 	else
 	{
 		*i += ft_strlen("$") + 1;
-		return(ft_strdup("$"));
+		return (ft_strdup("$"));
 	}
 	return (expand_var);
 }
@@ -123,6 +123,7 @@ void	ft_init_vars(t_terminal *terminal)
 	while(terminal->commands->args[terminal->vars.len] != NULL)
 		++terminal->vars.len;
 }
+
 /// @brief Auxiliar function to ft_expansion_check().
 /// (Build outside the orignal scope because of Norminette requirements).
 /// @param terminal 

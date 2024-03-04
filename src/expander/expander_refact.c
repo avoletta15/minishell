@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:44:44 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/06 11:34:24 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/04 11:23:55 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ void	ft_expansion_check_refac(t_terminal *terminal, char flag)
 				ft_protection_free(terminal, terminal->vars.new_index);
 			sei_la_xx(terminal);
 		}
+		/* if (ft_strncmp(" ", terminal->vars.key, ft_strlen(" "))) 
+			refazer o array sem aquela parte
+			*/
 		if (ft_strncmp(terminal->commands->args[i], terminal->vars.key, ft_strlen(terminal->vars.key)))
 			ft_repelacement(terminal, &i);
 		if (terminal->commands->args[i + 1] == NULL)
@@ -63,6 +66,8 @@ void	ft_repelacement(t_terminal *terminal, int *i)
 	j = 0;
 	n = -1;
 	new = NULL;
+	// if (!ft_strncmp(" ", terminal->vars.key, ft_strlen(" ")))
+	// 	terminal = ft_cansada(terminal, *i);
 	if ((*i - 1 >= 0 && !ft_strncmp(terminal->commands->args[*i - 1], "echo", ft_strlen("echo")))  || !ft_strchr(terminal->vars.key, ' '))
 		terminal->commands->args[*i] = ft_substr(terminal->vars.key, 0, ft_strlen(terminal->vars.key));
 	else
@@ -91,3 +96,27 @@ void	ft_repelacement(t_terminal *terminal, int *i)
 		terminal->commands->args = new;
 	}
 }
+
+// t_terminal	*ft_cansada(t_terminal *terminal, int *i)
+// {
+// 	t_terminal	*new;
+// 	int			j;
+// 	int			n;
+
+// 	n = -1;
+// 	j = 0;
+// 	new = (t_terminal *)ft_calloc(1, (sizeof(t_terminal)));
+// 	if(!new)
+// 		return(NULL);
+// 	while (++n != *i)
+// 		new->commands->args[n] = terminal->commands->args[n];
+// 	j = *i + 1;
+// 	while(terminal->commands->args[j] != '\0')
+// 	{
+// 		new->commands->args[n] = terminal->commands->args[j];
+// 		n++;
+// 		j++;
+// 	}
+// 	new->commands->args[n] = '\0';
+// 	return (new);
+// }

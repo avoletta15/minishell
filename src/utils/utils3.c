@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:21:14 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/02 15:01:31 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:12:03 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /// @brief This function counts how many strings are given.
 /// @param strs 
 /// @return `size_t(unsigned long)`
-size_t	ft_str_count(char **strs)
+size_t	size_of_array(char **strs)
 {
 	size_t	i;
 
@@ -96,7 +96,7 @@ bool	set_path(t_command *cmd)
 	if (!all_paths)
 		return (false);
 	real_path = find_path(all_paths, *(cmd->args));
-	free_prompt(all_paths);
+	free_array(all_paths);
 	if (!real_path)
 		cmd->cmd_path = *(cmd->args);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:24:56 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/02 11:44:41 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:57:38 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_commands(t_terminal *terminal)
 	while (curr)
 	{
 		curr = curr->next;
-		free_prompt(terminal->commands->args);
+		free_array(terminal->commands->args);
 		free_redirect(terminal->commands->redirections);
 		free(terminal->commands);
 		terminal->commands = curr;

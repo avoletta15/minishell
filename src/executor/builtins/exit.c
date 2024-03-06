@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:45:08 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/29 19:10:39 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:12:03 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	exit_process(t_terminal *terminal)
 	free_commands(terminal);
 	free_env_list(&env_api()->env_head);
 	free(terminal->prompt);
-	free_prompt(terminal->prompt_splitted);
+	free_array(terminal->prompt_splitted);
 	free_structs(terminal, false, NULL);
 }
 
@@ -57,7 +57,7 @@ void	mini_exit(t_terminal *terminal, char **args)
 		terminal->exit_status = BAD_SYNTAX;
 		exit(BAD_SYNTAX);
 	}
-	if (ft_str_count(args) > 1)
+	if (size_of_array(args) > 1)
 	{
 		exit_wrong_args_num();
 		terminal->exit_status = FAILURE;

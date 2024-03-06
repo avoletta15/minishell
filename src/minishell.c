@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/29 19:56:14 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:56:23 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	init_shell(t_terminal terminal)
 		if (!lexer(&terminal))
 			continue ;
 		parser(&terminal);
-		// ft_expansion_check_refac(&terminal, 0);
 		set_cmds_path(&terminal);
+		ft_expansion_check_refac(&terminal, 0);
 		mini_executor(&terminal);
-		// visualize_commands(terminal.commands);
+		visualize_commands(terminal.commands);
 		free_structs(&terminal, false, NULL);
 		reset_terminal(&terminal, SUCCESS);
 	}
@@ -44,11 +44,13 @@ int	main(int ac, char **av, char **env_path)
 		exit(EXIT_FAILURE);
 	i = -1;
 	init_terminal(&terminal, true);
+	terminal.env = NULL;
 	env_api()->len = 0;
 	while (env_path && env_path[++i])
 		terminal.env = env_structure(env_path[i], terminal.env);
 	if (!init_env(&terminal))
 		return (0);
+	printf("%s \n", terminal.env->value);
 	init_shell(terminal);
 	free_env_list(&terminal.env);
 	return (0);

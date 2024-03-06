@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 12:06:09 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 19:17:39 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:12:03 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ bool	change_dir(char *dir_path, unsigned char *exit_status)
 /// @param dir_path 
 void	cd(char **dir_path, unsigned char *exit_status)
 {
-	if (ft_str_count(dir_path) > 1)
+	if (size_of_array(dir_path) > 1)
 	{
 		*exit_status = 1;
 		cd_args_count_error();

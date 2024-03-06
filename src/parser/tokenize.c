@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 06:18:26 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/01/03 16:38:15 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 11:01:51 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,13 @@ void	tokenize_prompt(t_terminal *terminal, t_token **tokens)
 		if (!curr)
 		{
 			malloc_error();
-			free_prompt(prompt_splitted);
+			free_array(prompt_splitted);
 			free_tokens(*tokens);
 			exit(EXIT_FAILURE);
 		}
 		add_token(tokens, curr);
 		i++;
 	}
-	free_prompt(prompt_splitted);
+	free_array(prompt_splitted);
 	terminal->prompt_splitted = NULL;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_vars.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:39:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/15 17:58:23 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/04 14:15:17 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	init_terminal(t_terminal *terminal, int exit_status)
 	terminal->tokens = NULL;
 	terminal->args = NULL;
 	terminal->redirects = NULL;
-	terminal->env = NULL;
 	terminal->exit_status = exit_status;
 	init_quotes_system(&terminal->quotes_system);
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 19:37:32 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/06 00:57:32 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ void	chose_exec(t_terminal *terminal, t_command *cmd)
 	{
 		exec_builtins(terminal, cmd->args, 1);
 		exit(terminal->exit_status);
+	}
+	else if (!cmd->cmd_path)
+	{
+		free_terminal(terminal);
+		exit(0);
 	}
 	else
 	{

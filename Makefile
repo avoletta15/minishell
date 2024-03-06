@@ -19,6 +19,7 @@ UTILS = 	utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c\
 EXPANDER =	expander/expander.c expander/expand_utils.c expander/expand_free.c\
 			expander/expander_refact.c
 EXECUTOR = 	executor/mini_executor.c executor/handle_redir.c
+HERE_DOC = 	executor/here_doc/here_doc.c
 BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c\
 			executor/builtins/env.c executor/builtins/errors.c executor/builtins/export.c\
 			executor/builtins/unset.c executor/builtins/exit.c executor/builtins/errors2.c\
@@ -27,7 +28,7 @@ BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pw
 SRC_DIR = src/
 SRC = 	$(ENV:%=$(SRC_DIR)%) $(HELPER:%=$(SRC_DIR)%) $(PARSER:%=$(SRC_DIR)%)\
 		$(UTILS:%=$(SRC_DIR)%) $(EXECUTOR:%=$(SRC_DIR)%)\
-		$(BUILTINS:%=$(SRC_DIR)%) $(EXPANDER:%=$(SRC_DIR)%)
+		$(BUILTINS:%=$(SRC_DIR)%) $(EXPANDER:%=$(SRC_DIR)%) $(HERE_DOC:%=$(SRC_DIR)%)
 OBJ_DIR = obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:$(SRC_DIR)%.c=%.o))
 

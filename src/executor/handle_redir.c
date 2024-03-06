@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:22:32 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 12:02:28 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 21:24:42 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,53 @@ bool	open_error(char *file)
 	return (false);
 }
 
+/// @brief This function checks which input redirection should be
+/// executed and opens the file with the given flags. It changes the value
+/// of the pointers new_fd and in to the new file descriptor if the
+/// redirection is a regular input, else changes only the value of the
+/// in pointer, closing the old input file descriptor if it is different
+/// from the standard input.
+/// @param redir 
+/// @param in 
+/// @param new_fd 
+void	handle_input_files(t_redirect *redir, int *in, int *new_fd)
+{
+	if (redir->toked_id == INPUT_REDIRECT_ID)
+	{
+		*new_fd = open(redir->content, O_RDONLY);
+		close_fds(*in, STDOUT_FILENO);
+		*in = *new_fd;
+	}
+	else
+	{
+		close_fds(*in, STDOUT_FILENO);
+		*in = redir->fd;
+	}
+}
+
+/// @brief This function checks which output redirection should be
+/// executed and opens the file with the given flags. It changes the value
+/// of the pointers new_fd and out to the new file descriptor, closing the
+/// old output file descriptor if it is different from the standard output.
+/// @param redir 
+/// @param out 
+/// @param new_fd 
+void	handle_output_files(t_redirect *redir, int *out, int *new_fd)
+{
+	if (redir->toked_id == APPEND_ID)
+	{
+		*new_fd = open(redir->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		close_fds(STDIN_FILENO, *out);
+		*out = *new_fd;
+	}
+	else
+	{
+		*new_fd = open(redir->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		close_fds(STDIN_FILENO, *out);
+		*out = *new_fd;
+	}
+}
+
 /// @brief This function checks which redirection should be executed and
 /// opens the file with the given flags. It changes the value of the pointers
 /// in and out to the new file descriptor.
@@ -38,24 +85,10 @@ int	handle_open(t_redirect *redir, int *in, int *out)
 	int	new_fd;
 
 	new_fd = 0;
-	if (redir->toked_id == APPEND_ID)
-	{
-		new_fd = open(redir->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		close_fds(STDIN_FILENO, *out);
-		*out = new_fd;
-	}
-	else if (redir->toked_id == OUTPUT_REDIRECT_ID)
-	{
-		new_fd = open(redir->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		close_fds(STDIN_FILENO, *out);
-		*out = new_fd;
-	}
-	else if (redir->toked_id == INPUT_REDIRECT_ID)
-	{
-		new_fd = open(redir->content, O_RDONLY);
-		close_fds(*in, STDOUT_FILENO);
-		*in = new_fd;
-	}
+	if (redir->toked_id == APPEND_ID || redir->toked_id == OUTPUT_REDIRECT_ID)
+		handle_output_files(redir, out, &new_fd);
+	else
+		handle_input_files(redir, in, &new_fd);
 	return (new_fd);
 }
 

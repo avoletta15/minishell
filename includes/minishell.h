@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 19:17:15 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/06 00:56:50 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ void			free_redir_args(t_terminal *terminal);
 void			free_commands(t_terminal *terminal);
 void			free_structs(t_terminal *terminal,
 					bool should_exit, void (*call_back)(void));
+void			free_terminal(t_terminal *terminal);
 // memory 2
 
 // parser
@@ -348,6 +349,10 @@ bool			redirection_handle(t_command *cmd, bool parent);
 int				handle_open(t_redirect *redir,
 				int *in, int *out);
 // handle redirect
+
+// here doc
+void			here_doc(t_terminal *terminal);
+// here doc
 
 // executor
 void			mini_executor(t_terminal *terminal);

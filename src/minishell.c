@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/29 19:56:14 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:45:05 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	init_shell(t_terminal terminal)
 		parser(&terminal);
 		// ft_expansion_check_refac(&terminal, 0);
 		set_cmds_path(&terminal);
+		here_doc(&terminal);
 		mini_executor(&terminal);
 		// visualize_commands(terminal.commands);
 		free_structs(&terminal, false, NULL);

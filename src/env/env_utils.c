@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:46:57 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/26 09:39:52 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 22:13:38 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,6 @@ void	free_env_list(t_env **env_structure)
 {
 	t_env	*tmp;
 
-	tmp = NULL;
 	if (!*env_structure)
 		return ;
 	while (*env_structure)

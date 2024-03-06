@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:45:08 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/29 19:10:39 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/06 01:01:54 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,6 @@ bool	check_numeric_arg(char *str)
 		str++;
 	}
 	return (true);
-}
-
-/// @brief This function deallocates all previous allocated
-/// memory to exit the process.
-/// @param terminal 
-void	exit_process(t_terminal *terminal)
-{
-	free_args(terminal->args);
-	free_commands(terminal);
-	free_env_list(&env_api()->env_head);
-	free(terminal->prompt);
-	free_prompt(terminal->prompt_splitted);
-	free_structs(terminal, false, NULL);
 }
 
 /// @brief This function exits the current process.
@@ -63,6 +50,6 @@ void	mini_exit(t_terminal *terminal, char **args)
 		terminal->exit_status = FAILURE;
 		return ;
 	}
-	exit_process(terminal);
+	free_terminal(terminal);
 	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:24:56 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/02 11:44:41 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/06 00:56:37 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,3 +45,18 @@ void	free_structs(t_terminal *terminal,
 	if (should_exit)
 		exit(EXIT_FAILURE);
 }
+
+/// @brief This function deallocates the terminal struct and sets 
+/// the terminal struct variables to zero.
+/// @param terminal 
+void	free_terminal(t_terminal *terminal)
+{
+	free_redir_args(terminal);
+	free_commands(terminal->commands);
+	free_env_list(&env_api()->env_head);
+	free(terminal->prompt);
+	free_prompt(terminal->prompt_splitted);
+	free(terminal->prompt);
+	ft_bzero(terminal, sizeof(t_terminal));
+}
+

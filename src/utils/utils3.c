@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:21:14 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/02 15:01:31 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 19:36:03 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,7 @@ size_t	ft_str_count(char **strs)
 /// @return 
 bool	check_absolute_path(char *str)
 {
-	while (str && *str)
-	{
-		if (*str == '/')
-			return (true);
-		str++;
-	}
-	return (false);
+	return (ft_strchr(str, '/') != NULL);
 }
 
 /// @brief This function searches for the given cmd (binary file)
@@ -81,26 +75,21 @@ bool	set_path(t_command *cmd)
 	char	**all_paths;
 	char	*real_path;
 
+	if (!*(cmd->args))
+		return (false);
 	if (is_builtin(*(cmd->args)))
-	{
-		cmd->cmd_path = *(cmd->args);
-		return (true);
-	}
+		return (false);
 	env = getvar("PATH");
 	if (!env)
-	{
-		cmd->cmd_path = *(cmd->args);
-		return (true);
-	}
+		return (false);
 	all_paths = ft_split(env->value, ':');
 	if (!all_paths)
 		return (false);
 	real_path = find_path(all_paths, *(cmd->args));
 	free_prompt(all_paths);
 	if (!real_path)
-		cmd->cmd_path = *(cmd->args);
-	else
-		cmd->cmd_path = real_path;
+		return (false);
+	cmd->cmd_path = real_path;
 	return (true);
 }
 
@@ -118,8 +107,10 @@ void	set_cmds_path(t_terminal *terminal)
 		if (!check_absolute_path(*(cmd->args)))
 		{
 			if (!set_path(cmd))
-				cmd->cmd_path = *(cmd->args);
+				cmd->cmd_path = ft_strdup(*(cmd->args));
 		}
+		else
+			cmd->cmd_path = ft_strdup(*(cmd->args));
 		cmd = cmd->next;
 	}
 }

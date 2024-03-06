@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:21:14 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/05 19:36:03 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:37:23 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /// @brief This function counts how many strings are given.
 /// @param strs 
 /// @return `size_t(unsigned long)`
-size_t	ft_str_count(char **strs)
+size_t	size_of_array(char **strs)
 {
 	size_t	i;
 
@@ -86,7 +86,7 @@ bool	set_path(t_command *cmd)
 	if (!all_paths)
 		return (false);
 	real_path = find_path(all_paths, *(cmd->args));
-	free_prompt(all_paths);
+	free_array(all_paths);
 	if (!real_path)
 		return (false);
 	cmd->cmd_path = real_path;

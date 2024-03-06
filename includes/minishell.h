@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/06 00:56:50 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/06 19:15:37 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef enum e_token_types
 typedef struct s_quotes_system
 {
 	char	*prompt;
-	char	**prompt_splitted;
+	char	**array;
 	char	quote;
 	bool	quote_state;
 }				t_quotes_system;
@@ -209,7 +209,7 @@ void			subsquote(char *new_prompt, t_quotes_system *quote);
 // prompt treatment
 
 // memory
-void			free_prompt(char **prompt_splitted);
+void			free_array(char **array);
 void			free_tokens(t_token *tokens);
 void			free_args(t_args *arg);
 void			free_redirect(t_redirect *redirect);
@@ -252,7 +252,7 @@ bool			tokens_checker(t_terminal *terminal);
 // utils 2
 
 // utils 3
-size_t			ft_str_count(char **strs);
+size_t			size_of_array(char **strs);
 void			set_cmds_path(t_terminal *terminal);
 // utils 3
 
@@ -290,6 +290,7 @@ void			print_token(t_token *token);
 void			visualize_tokens(t_token *tokens);
 void			print_args(char **args);
 void			print_redir(t_redirect *redirect);
+void			print_args(char **args);
 // helpers
 
 // helpers 2

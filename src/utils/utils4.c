@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils4.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:53:47 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/02 15:08:42 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:57:38 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	**convert_env_list_to_array(void)
 		str = var_construction(env);
 		if (!str)
 		{
-			free_prompt(array);
+			free_array(array);
 			return (NULL);
 		}
 		array[env_len++] = str;

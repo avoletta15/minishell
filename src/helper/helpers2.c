@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:55:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 11:49:00 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/04 16:40:46 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

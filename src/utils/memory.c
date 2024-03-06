@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:47:23 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 19:14:35 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:58:59 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /// @brief This function deallocates the array of strings used to parse
 /// the user prompt.
 /// @param prompt_splitted 
-void	free_prompt(char **prompt_splitted)
+void	free_array(char **array)
 {
 	int	i;
 
 	i = 0;
-	while (prompt_splitted && prompt_splitted[i])
-		free(prompt_splitted[i++]);
-	free(prompt_splitted);
+	while (array && array[i])
+		free(array[i++]);
+	free(array);
 }
 
 /// @brief This function deallocates all tokens.

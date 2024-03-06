@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/18 12:19:15 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/06 14:05:05 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,7 @@ char	*ft_search_variable(char *var, t_terminal *terminal)
 char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 {
 	char	*expand_var;
-	
-	// if((str[*i] == '~' && ft_strlen(str) == 1) || \
-	// 		(str[*i] == '~' && ft_forbidden_expansion(str[*i + 1], 0)))
-	// {
-	// 	*i += 1;
-	// 	expand_var = ft_get_home();
-	// 	if (!expand_var)
-	// 		ft_protection_free(terminal, expand_var);
-	// 	return (expand_var);
-	// }
+
 	if(str[*i] != '$')
 	{
 		expand_var = ft_substr(str, *i, 1);

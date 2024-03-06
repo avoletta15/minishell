@@ -58,3 +58,48 @@ test
 	t_redirect			*redirections = NULL;
 	struct s_command	*next = NULL;
 }
+
+
+
+a = " cat Makefile"
+
+cat$a
+
+cat,cat,Makefile
+
+"cat$a"
+
+\2cat cat Makefile\2
+
+"cat"$a
+
+\2cat\2 cat' 'Makefile
+
+
+$$ -> $
+$1 -> $1
+$# -> $#
+$abc -> 
+$a$a -> cat Makefile$a -> cat Makefilecat Makefile
+
+
+
+x y z
+
+x = ft_substr()
+
+ft_strjoin(x, y, z)
+
+final_len = size(y) + size(orig) - idx + size(orig) - (idx + len)
+
+ft_strlcpy(dest, x, size(x));
+ft_strlcat(dest, y, size(dest));
+ft_strlcat(dest, z, size(dest));
+
+echo $a
+echo, "  world      $1      hello  "
+$a = "cat     Makefile"
+
+x = "  world      "
+y = "cat     Makefile"
+z = "     hello  "

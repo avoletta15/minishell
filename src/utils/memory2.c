@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:24:56 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/06 00:56:37 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/06 13:57:59 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	free_structs(t_terminal *terminal,
 void	free_terminal(t_terminal *terminal)
 {
 	free_redir_args(terminal);
-	free_commands(terminal->commands);
+	free_commands(terminal);
 	free_env_list(&env_api()->env_head);
 	free(terminal->prompt);
 	free_prompt(terminal->prompt_splitted);

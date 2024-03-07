@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/06 00:57:32 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:53:38 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,31 @@
 /// @param cmd 
 void	chose_exec(t_terminal *terminal, t_command *cmd)
 {
+	int	exit_status;
+
 	if (is_builtin(cmd->args[0]))
 	{
 		exec_builtins(terminal, cmd->args, 1);
-		exit(terminal->exit_status);
+		exit_status = terminal->exit_status;
+		free_terminal(terminal);
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+		exit(exit_status);
 	}
 	else if (!cmd->cmd_path)
 	{
+		fprintf(stderr, "minishell: %s: command not found\n", cmd->args[0]);
 		free_terminal(terminal);
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
 		exit(0);
 	}
 	else
 	{
 		if (execve(cmd->cmd_path, cmd->args,
-			convert_env_list_to_array()) == -1)
+				convert_env_list_to_array()) == -1)
 			return (perror("minishell"));
 	}
-	exit(EXIT_SUCCESS);
 }
 
 /// @brief This function calls the redirection_handle function and
@@ -109,5 +117,8 @@ void	mini_executor(t_terminal *terminal)
 		close_fds(cmd->std_fds.in, cmd->std_fds.out);
 	}
 	else
+	{
 		children_exec(terminal, cmd);
+		close_cmds_fds(cmd);
+	}
 }

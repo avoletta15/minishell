@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/06 19:15:37 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:03:50 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@
 # define INVALID_EXPORT_ERROR2 "\': not a valid identifier\n"
 # define NO_SUCH_FILE_OR_DIR "No such file or directory\n"
 // MACRO ERRORS
-
 
 typedef enum e_builtin_types
 {
@@ -202,7 +201,8 @@ bool			lexer(t_terminal *terminal);
 // lexer
 
 // prompt treatment
-void			remove_whitespaces(char *dest, char *src, t_quotes_system *quotes);
+void			remove_whitespaces(char *dest, char *src,
+					t_quotes_system *quotes);
 void			delimit_special_chars(char *dest,
 					char *src, t_quotes_system *quote);
 void			subsquote(char *new_prompt, t_quotes_system *quote);
@@ -263,6 +263,10 @@ char			**convert_env_list_to_array(void);
 void			close_fds(int in, int out);
 // utils 4
 
+// utils 5
+void			close_cmds_fds(t_command *cmd);
+// utils 5
+
 // env
 t_env_api		*env_api(void);
 bool			init_env(t_terminal *terminal);
@@ -316,12 +320,13 @@ void			ft_repelacement(t_terminal *terminal, int *i);
 
 // expander utils
 bool			ft_forbidden_expansion(char c, int i);
-char			*ft_get_home();
+char			*ft_get_home(void);
 char			*variable_alias(char *str);
 // expander utils
 
 // expand free
-char			*ft_join_free(char *test, int i, char *temp, t_terminal *terminal);
+char			*ft_join_free(char *test, int i,
+					char *temp, t_terminal *terminal);
 void			ft_protection_free(t_terminal *terminal, char *var);
 // expand free
 
@@ -348,11 +353,12 @@ void			exec_builtins(t_terminal *terminal, char **args, int out);
 // handle redirect
 bool			redirection_handle(t_command *cmd, bool parent);
 int				handle_open(t_redirect *redir,
-				int *in, int *out);
+					int *in, int *out);
 // handle redirect
 
 // here doc
 void			here_doc(t_terminal *terminal);
+void			here_doc_ctrl_d(char *delimiter);
 // here doc
 
 // executor

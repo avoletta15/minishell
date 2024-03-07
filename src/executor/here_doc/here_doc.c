@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:03:47 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/06 01:12:17 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:25:57 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /// and closes the write end of the pipe. It exits with success.
 /// @param fd 
 /// @param delimiter 
-void	write_to_here_doc_pipe(int fd, char *delimiter)
+void	write_to_here_doc_pipe(t_terminal *terminal, int fd, char *delimiter)
 {
 	char	*line;
 
@@ -26,10 +26,7 @@ void	write_to_here_doc_pipe(int fd, char *delimiter)
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 		{
-			write(STDOUT_FILENO,
-				"here-document delimited by end-of-file (wanted `", 48);
-			write(STDOUT_FILENO, delimiter, ft_strlen(delimiter));
-			write(STDOUT_FILENO, "')\n", 3);
+			here_doc_ctrl_d(delimiter);
 			break ;
 		}
 		line[ft_strlen(line) - 1] = '\0';
@@ -42,6 +39,7 @@ void	write_to_here_doc_pipe(int fd, char *delimiter)
 		free(line);
 	}
 	close(fd);
+	free_terminal(terminal);
 	exit(EXIT_SUCCESS);
 }
 
@@ -52,7 +50,8 @@ void	write_to_here_doc_pipe(int fd, char *delimiter)
 /// @param redir 
 /// @param in 
 /// @param out 
-void	here_doc_child(t_redirect *redir, int in, int out)
+void	here_doc_child(t_terminal *terminal, t_redirect *redir,
+		int in, int out)
 {
 	pid_t	pid;
 
@@ -68,7 +67,7 @@ void	here_doc_child(t_redirect *redir, int in, int out)
 	if (pid == 0)
 	{
 		close(in);
-		write_to_here_doc_pipe(out, redir->content);
+		write_to_here_doc_pipe(terminal, out, redir->content);
 	}
 	else
 	{
@@ -81,7 +80,7 @@ void	here_doc_child(t_redirect *redir, int in, int out)
 /// @brief This function creates a pipe and calls the here_doc_child function.
 /// On error, it displays an error message.
 /// @param redir 
-void	handle_here_doc_pipes(t_redirect *redir)
+void	handle_here_doc_pipes(t_terminal *terminal, t_redirect *redir)
 {
 	int	pipe_fd[2];
 
@@ -92,18 +91,18 @@ void	handle_here_doc_pipes(t_redirect *redir)
 		ft_putstr_fd("\n", 2);
 		return ;
 	}
-	here_doc_child(redir, pipe_fd[0], pipe_fd[1]);
+	here_doc_child(terminal, redir, pipe_fd[0], pipe_fd[1]);
 }
 
 /// @brief This function iterates through the redirections and calls the
 /// handle_here_doc_pipes function if the redirection is a here_doc.
 /// @param redir 
-void	check_here_doc(t_redirect *redir)
+void	check_here_doc(t_terminal *terminal, t_redirect *redir)
 {
 	while (redir)
 	{
 		if (redir->toked_id == HERE_DOC_ID)
-			handle_here_doc_pipes(redir);
+			handle_here_doc_pipes(terminal, redir);
 		redir = redir->next;
 	}
 }
@@ -114,13 +113,13 @@ void	check_here_doc(t_redirect *redir)
 /// @param terminal 
 void	here_doc(t_terminal *terminal)
 {
-	t_command *cmd;
+	t_command	*cmd;
 
 	cmd = terminal->commands;
 	while (cmd)
 	{
 		if (cmd->redirections)
-			check_here_doc(cmd->redirections);
+			check_here_doc(terminal, cmd->redirections);
 		cmd = cmd->next;
 	}
 }

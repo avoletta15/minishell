@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 10:46:57 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/05 22:13:38 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:52:22 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	add_node_tail(t_env **head, t_env *new_structure)
 t_env	*new_node(char *env_path)
 {
 	t_env	*node;
-	int	i;
+	int		i;
 
 	i = 0;
 	node = (t_env *)ft_calloc(1, sizeof(t_env));
@@ -74,7 +74,7 @@ t_env	*new_node(char *env_path)
 		if (!node->key)
 			return (free(node), NULL);
 	}
-	return(node);
+	return (node);
 }
 
 /// @brief Creates the first node, if does not existe yet.

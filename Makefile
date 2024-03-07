@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address,undefined
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address,undefined
 READLINE_FLAGS = -lreadline -lncurses
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -15,11 +15,11 @@ HELPER = 	helper/helpers.c helper/helpers2.c
 PARSER = 	parser/args_redirects.c parser/lexer.c parser/parser.c\
 			parser/prompt_treatment.c parser/tokenize.c
 UTILS = 	utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c\
-			utils/utils.c utils/utils2.c utils/utils3.c utils/utils4.c
+			utils/utils.c utils/utils2.c utils/utils3.c utils/utils4.c utils/utils5.c
 EXPANDER =	expander/expander.c expander/expand_utils.c expander/expand_free.c\
 			expander/expander_refact.c
 EXECUTOR = 	executor/mini_executor.c executor/handle_redir.c
-HERE_DOC = 	executor/here_doc/here_doc.c
+HERE_DOC = 	executor/here_doc/here_doc.c /executor/here_doc/here_doc_errors.c
 BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c\
 			executor/builtins/env.c executor/builtins/errors.c executor/builtins/export.c\
 			executor/builtins/unset.c executor/builtins/exit.c executor/builtins/errors2.c\
@@ -45,7 +45,7 @@ $(LIBFT):
 	@make -s -C $(LIBFT_DIR)
 
 clean:
-	@rm -rf $(OBJ_DIR) valgrind_log.txt readline.supp $(NAME).dSYM
+	@rm -rf $(OBJ_DIR) valgrind_log.txt readline.supp $(NAME).dSYM .vscode
 	@make -s clean -C $(LIBFT_DIR)
 
 fclean: clean
@@ -58,7 +58,7 @@ run: re
 	@ ./minishell
 
 v: re readline.supp
-	@valgrind --show-leak-kinds=all --leak-check=full --track-fds=all --log-file=valgrind_log.txt --suppressions=readline.supp ./minishell
+	@valgrind --show-leak-kinds=all --leak-check=full --track-fds=all --suppressions=readline.supp ./minishell
 
 readline.supp:
 	@wget https://raw.githubusercontent.com/benjaminbrassart/minishell/master/readline.supp 2> /dev/null 1> /dev/null

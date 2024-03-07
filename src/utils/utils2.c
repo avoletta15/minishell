@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:39:39 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/05 22:45:55 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 08:57:44 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /// @return 
 bool	is_redirect_token(t_token_types token_id)
 {
-	return (token_id >= INPUT_REDIRECT_ID && token_id <= PIPE_ID);
+	return (token_id >= INPUT_REDIRECT_ID && token_id <= APPEND_ID);
 }
 
 /// @brief This functio verifies if the given token
@@ -37,7 +37,7 @@ bool	is_token_sequence_invalid(t_token *token)
 /// @return 
 bool	is_pipe_sequence_invalid(t_token *token)
 {
-	return (token->token_id == PIPE_ID && !token->prev);
+	return (token->token_id == PIPE_ID && (!token->prev || !token->next));
 }
 
 /// @brief This function verifies if the given token is

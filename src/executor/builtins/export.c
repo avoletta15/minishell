@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:16:12 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 19:20:24 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 18:25:43 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	set_export(char **args, unsigned char *exit_status)
 			error = error || !export_invalid_identifier(*args);
 		else
 		{
-			env = getvar(*args); 
+			env = getvar(*args);
 			if (!env)
 			{
 				if (!env_api()->new_env_var(*args))

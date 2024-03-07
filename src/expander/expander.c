@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/03/06 14:05:05 by arabelo-         ###   ########.fr       */
-=======
-/*   Updated: 2024/03/06 13:35:28 by mariaavolet      ###   ########.fr       */
->>>>>>> expansion
+/*   Updated: 2024/03/06 19:42:26 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 /// @brief This function searchs for the variable on
 /// the env and returns its correspondent.
@@ -32,7 +27,6 @@ char	*ft_search_variable(char *var, t_terminal *terminal)
 		return(ft_strdup(""));
 	return (ft_strdup(env->value));
 }
-
 
 /// @brief This function starts the process of checking if
 /// the variable is allowed and also calls the function to

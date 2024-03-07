@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:24:56 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/06 19:40:51 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:48:43 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	free_commands(t_terminal *terminal)
 	while (curr)
 	{
 		curr = curr->next;
+		free(terminal->commands->cmd_path);
 		free_array(terminal->commands->args);
 		free_redirect(terminal->commands->redirections);
 		free(terminal->commands);
@@ -58,4 +59,3 @@ void	free_terminal(t_terminal *terminal)
 	free_array(terminal->prompt_splitted);
 	ft_bzero(terminal, sizeof(t_terminal));
 }
-

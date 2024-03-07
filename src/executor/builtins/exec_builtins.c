@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:20:25 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/06 01:03:03 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 09:28:35 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ void	exec_builtins(t_terminal *terminal, char **args, int out)
 	else if (builtin_checker == UNSET_ID)
 		unset(++args, &terminal->exit_status);
 	else if (builtin_checker == EXIT_ID)
-	{
-		/// fechar o fd out.
 		mini_exit(terminal, ++args);
-	}
 	close_fds(STDIN_FILENO, out);
 }

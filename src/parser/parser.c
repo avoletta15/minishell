@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/01 17:20:27 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 12:27:08 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:49:21 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_command	*create_command(t_terminal *terminal)
 	command->pid = -1;
 	command->pipe_fd[0] = -1;
 	command->pipe_fd[1] = -1;
-	command->std_fds = (t_std_fds){ STDIN_FILENO, STDOUT_FILENO };
+	command->std_fds = (t_std_fds){STDIN_FILENO, STDOUT_FILENO};
 	fill_command_args(terminal, command, counter);
 	command->redirections = terminal->redirects;
 	free_args(terminal->args);

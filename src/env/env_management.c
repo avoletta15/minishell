@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:55 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/02/26 09:36:56 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 17:51:31 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	init_env(t_terminal *terminal)
 	env_api()->getvar = &getvar;
 	if (!build_minimum_env(terminal))
 	{
-		// free everything and exit
+		free_terminal(terminal);
 		return (false);
 	}
 	return (true);
@@ -35,7 +35,7 @@ bool	init_env(t_terminal *terminal)
 /// @return `t_env_api`
 t_env_api	*env_api(void)
 {
-	static	t_env_api	api;
+	static t_env_api	api;
 
 	return (&api);
 }

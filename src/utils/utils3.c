@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:21:14 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/06 19:37:23 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 11:50:07 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char	*find_path(char **all_paths, char *cmd)
 			return (NULL);
 		if (!access(real_path, F_OK))
 			return (real_path);
+		free(real_path);
 		all_paths++;
 	}
 	return (NULL);

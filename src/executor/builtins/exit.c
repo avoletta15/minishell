@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:45:08 by arabelo-          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/03/06 01:01:54 by arabelo-         ###   ########.fr       */
-=======
-/*   Updated: 2024/03/05 11:12:03 by mariaavolet      ###   ########.fr       */
->>>>>>> expansion
+/*   Updated: 2024/03/07 13:00:41 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +50,7 @@ void	mini_exit(t_terminal *terminal, char **args)
 		terminal->exit_status = FAILURE;
 		return ;
 	}
+	close_cmds_fds(terminal->commands);
 	free_terminal(terminal);
 	exit(exit_code);
 }

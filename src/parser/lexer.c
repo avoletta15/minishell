@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/20 17:49:00 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/07 09:35:12 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,9 @@ bool	lexer(t_terminal *terminal)
 	third_filter(terminal);
 	tokenize_prompt(terminal, &terminal->tokens);
 	if (!tokens_checker(terminal))
+	{
+		free_tokens(terminal->tokens);
 		return (false);
+	}
 	return (true);
 }

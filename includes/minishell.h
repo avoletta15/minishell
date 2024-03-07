@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/05 13:49:30 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/07 19:03:12 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <signal.h> 
 
 # define PARSER_SEP '\1'
 # define DOUBLE_QUOTE '\2'
@@ -302,7 +303,6 @@ void			visualize_env(t_env *env, int out);
 // expander
 char			*variable_alias(char *str);
 bool			ft_forbidden_expansion(char c, int i);
-char			*ft_expansion_check(t_terminal *terminal, char flag);
 void			sei_la_xx(t_terminal *terminal);
 void			sei_la(t_terminal *terminal);
 void			ft_init_vars(t_terminal *terminal);
@@ -353,5 +353,9 @@ int				handle_open(t_redirect *redir,
 // executor
 void			mini_executor(t_terminal *terminal);
 // executor
+
+// signal
+void	signal_handler(int signal);
+int		set_exit_code(int i, bool flag);
 
 #endif

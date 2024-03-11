@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_free.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 23:32:52 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/01/28 00:26:35 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/11 10:57:30 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ft_protection_free(t_terminal *terminal, char *var)
 {
 	free(var);
 	free(terminal->prompt);
+	free_terminal(terminal);
 	malloc_error();
 	exit(EXIT_FAILURE);
 }

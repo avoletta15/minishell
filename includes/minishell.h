@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/07 18:03:50 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:09:01 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -308,14 +308,14 @@ void			visualize_env(t_env *env, int out);
 char			*variable_alias(char *str);
 bool			ft_forbidden_expansion(char c, int i);
 char			*ft_expansion_check(t_terminal *terminal, char flag);
-void			sei_la_xx(t_terminal *terminal);
-void			sei_la(t_terminal *terminal);
+void			new_expanded_var(t_terminal *terminal);
+void			temporary_arg_saving(t_terminal *terminal);
 void			ft_init_vars(t_terminal *terminal);
-char			ft_checking_quotes(char *str, char flag, int *i);
-char			*ft_should_expand(char *str, int *i, t_terminal *terminal);
+char			ft_checking_quotes(char *str, char *flag, int *i);
+char			*should_expand(char *str, int *i, t_terminal *terminal);
 char			*ft_search_variable(char *var, t_terminal *terminal);
-void			ft_expansion_check_refac(t_terminal *terminal, char flag);
-void			ft_repelacement(t_terminal *terminal, int *i);
+void			ft_expansion(t_terminal *terminal, char flag);
+void			ft_replacement(t_terminal *terminal, char *flag, int *i);
 // expander
 
 // expander utils

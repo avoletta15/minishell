@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/06 19:42:26 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 17:19:07 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 char	*ft_search_variable(char *var, t_terminal *terminal)
 {
 	t_env	*env;
+
 	env = terminal->env;
 	if(env)
 		env = getvar(var);
@@ -35,7 +36,7 @@ char	*ft_search_variable(char *var, t_terminal *terminal)
 /// @param i 
 /// @param terminal 
 /// @return 
-char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
+char	*should_expand(char *str, int *i, t_terminal *terminal)
 {
 	char	*expand_var;
 
@@ -74,21 +75,30 @@ char	*ft_should_expand(char *str, int *i, t_terminal *terminal)
 /// @param flag 
 /// @param i 
 /// @return 
-char	ft_checking_quotes(char *str, char flag, int *i)
+char	ft_checking_quotes(char *str, char *flag, int *i)
 {
 	if (str[*i] == SINGLE_QUOTE || str[*i] == DOUBLE_QUOTE)
 	{
-		if (!flag)
-			flag = str[*i];
-		else
-			flag = '\0';
-	}
-	if (flag == SINGLE_QUOTE)
-	{
-		while (str && str[*i] != SINGLE_QUOTE)
+		if (!*flag)
+		{
+			*flag = str[*i];
 			*i += 1;
+		}
+		else
+			*flag = '\0';
 	}
-	return(flag);
+	if (*flag == SINGLE_QUOTE)
+	{
+		while (str && str[*i] != SINGLE_QUOTE && str[*i] != '\0')
+		{
+			*i += 1;
+			if (str[*i] == SINGLE_QUOTE && str[*i + 1] == SINGLE_QUOTE)
+				*i += 2;
+			else if (str[*i] == SINGLE_QUOTE && str[*i + 1] != '\0')
+				*i += 1;
+		}
+	}
+	return (*flag);
 }
 
 /// @brief  Auxiliar function to ft_expansion_check().
@@ -97,7 +107,6 @@ char	ft_checking_quotes(char *str, char flag, int *i)
 void	ft_init_vars(t_terminal *terminal)
 {
 	terminal->vars.len = 0;
-	// terminal->vars.i = 0;
 	terminal->vars.j = 0;
 	terminal->vars.new_index = 0;
 	terminal->vars.key = 0;
@@ -111,14 +120,13 @@ void	ft_init_vars(t_terminal *terminal)
 /// @brief Auxiliar function to ft_expansion_check().
 /// (Build outside the orignal scope because of Norminette requirements).
 /// @param terminal 
-void	sei_la(t_terminal *terminal)
+void	temporary_arg_saving(t_terminal *terminal)
 {
 	if (!terminal->vars.new_index)
 	{
 		terminal->vars.temp = ft_substr(terminal->vars.var_key, 0, terminal->vars.i);
 		if (!terminal->vars.temp)
-			ft_protection_free(terminal, terminal->vars.temp);
-	}
+			ft_protection_free(terminal, terminal->vars.temp);	}
 	else
 	{
 		terminal->vars.temp = ft_substr(terminal->vars.var_key, 0, ft_strlen(terminal->vars.new_index));
@@ -127,10 +135,9 @@ void	sei_la(t_terminal *terminal)
 	}
 }
 
-/// @brief Auxiliar function to ft_expansion_check().
-/// (Build outside the orignal scope because of Norminette requirements).
+/// @brief Replace the string with the expanded version of the argument
 /// @param terminal 
-void	sei_la_xx(t_terminal *terminal)
+void	new_expanded_var(t_terminal *terminal)
 {
 	if(!terminal->vars.key)
 	{
@@ -144,43 +151,63 @@ void	sei_la_xx(t_terminal *terminal)
 		if (!terminal->vars.var_key)
 			ft_protection_free(terminal, terminal->vars.var_key);
 	}
+	free(terminal->vars.new_index);
+	free(terminal->vars.temp);
+	terminal->vars.temp = NULL;
+	terminal->vars.new_index = NULL;
+}
+
+/// @brief This function will start the process of checking if our argumments 
+/// have to be expanded or not. If so, organizes into a new string and passes
+/// to the next function (ft_replacement).
+/// @param terminal 
+/// @param flag 
+/// @param i 
+void	ft_checking_expansion(t_terminal *terminal, char *flag, int i)
+{
+	while (terminal->commands->args[i] &&
+		terminal->commands->args[i][terminal->vars.i])
+	{
+		if (ft_checking_quotes(terminal->commands->args[i], flag,
+			&terminal->vars.i) == SINGLE_QUOTE)
+		{
+			terminal->vars.var_key = ft_substr(terminal->commands->args[i],
+				terminal->vars.j, terminal->vars.i);
+			if (!terminal->vars.var_key)
+				ft_protection_free(terminal, terminal->vars.var_key);
+			if (terminal->commands->args[i][terminal->vars.i + 1] == '\0')
+				continue ;
+		}
+		temporary_arg_saving(terminal);
+		if (terminal->vars.i > 0)
+			terminal->vars.j = terminal->vars.i;
+		terminal->vars.new_index = should_expand(terminal->commands->args[i],
+			&terminal->vars.i, terminal);
+		if (!terminal->vars.new_index)
+			ft_protection_free(terminal, terminal->vars.new_index);
+		new_expanded_var(terminal);
+	}
 }
 
 /// @brief This function will start the process of checking
 /// if a token has to be expanded or not.
 /// @param terminal 
 /// @param flag 
-void	ft_expansion_check_refac(t_terminal *terminal, char flag)
+void	ft_expansion(t_terminal *terminal, char flag)
 {
 	t_command	*save;
 	int			i;
 
 	i = -1;
 	save = terminal->commands;
-	while(terminal->commands && terminal->commands->args && terminal->commands->args[++i])
+	while (terminal->commands && terminal->commands->args
+		&& terminal->commands->args[++i])
 	{
 		ft_init_vars(terminal);
 		terminal->vars.i = 0;
-		while(terminal->commands->args[i] && terminal->commands->args[i][terminal->vars.i])
-		{
-			if(ft_checking_quotes(terminal->commands->args[i], flag, &terminal->vars.i) == SINGLE_QUOTE)
-			{
-				terminal->vars.var_key = ft_substr(terminal->commands->args[i], terminal->vars.j, terminal->vars.i);
-				if (!terminal->vars.var_key)
-					ft_protection_free(terminal, terminal->vars.var_key);
-				if(terminal->commands->args[i][terminal->vars.i + 1] == '\0')
-					continue;
-			}
-			sei_la(terminal);
-			if(terminal->vars.i > 0)
-				terminal->vars.j = terminal->vars.i;
-			terminal->vars.new_index = ft_should_expand(terminal->commands->args[i], &terminal->vars.i, terminal);
-			if (!terminal->vars.new_index)
-				ft_protection_free(terminal, terminal->vars.new_index);
-			sei_la_xx(terminal);
-		}
-		ft_repelacement(terminal, &i);
-		if(terminal->commands->cmd_path == NULL)
+		ft_checking_expansion(terminal, &flag, i);
+		ft_replacement(terminal, &flag, &i);
+		if (terminal->commands->cmd_path == NULL)
 			break ;
 		if (terminal->commands->args[i + 1] == NULL)
 		{
@@ -191,30 +218,3 @@ void	ft_expansion_check_refac(t_terminal *terminal, char flag)
 	terminal->commands = save;
 }
 
-
-/// @brief This function will start the process of checking
-/// if a token has to be expanded or not.
-/// @param terminal 
-/// @param flag 
-/// @return 
-/* char	*ft_expansion_check(t_terminal *terminal, char flag)
-{
-	ft_init_vars(terminal);
-	while (terminal->tokens && terminal->tokens->token[terminal->vars.i])
-	{
-		if (ft_checking_quotes(terminal->tokens->token, flag, &terminal->vars.i) == SINGLE_QUOTE)
-		{
-			terminal->vars.key = ft_substr(terminal->tokens->token, terminal->vars.j, terminal->vars.i);
-			if (!terminal->vars.var_key)
-				ft_protection_free(terminal, terminal->vars.var_key);
-		}
-		sei_la(terminal);
-		if(terminal->vars.i > 0)
-			terminal->vars.j = terminal->vars.i;
-		terminal->vars.new_index = ft_should_expand(terminal->tokens->token, &terminal->vars.i, terminal);
-		if (!terminal->vars.new_index)
-			ft_protection_free(terminal, terminal->vars.new_index);
-		sei_la_xx(terminal);
-	}
-	return (terminal->vars.key);
-} */

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:38 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 11:10:24 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 12:16:44 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_env	*getvar(char *var)
 	env = env_api()->env_head;
 	while (env && var)
 	{
-		if (!ft_strncmp(env->key, var, ft_strlen(env->key)))
+		if (!ft_strncmp(env->key, var, ft_strlen(var))) // mudei de ft_strlen(env->key) para ft_strlen(var)
 			return (env);
 		env = env->next;
 	}

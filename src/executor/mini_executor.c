@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/07 17:53:38 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 10:29:06 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	chose_exec(t_terminal *terminal, t_command *cmd)
 	}
 	else if (!cmd->cmd_path)
 	{
-		fprintf(stderr, "minishell: %s: command not found\n", cmd->args[0]);
 		free_terminal(terminal);
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
@@ -40,7 +39,11 @@ void	chose_exec(t_terminal *terminal, t_command *cmd)
 	{
 		if (execve(cmd->cmd_path, cmd->args,
 				convert_env_list_to_array()) == -1)
-			return (perror("minishell"));
+		{
+			free_terminal(terminal);
+			perror("minishell");
+			exit(EXIT_FAILURE);
+		}
 	}
 }
 

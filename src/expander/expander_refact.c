@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander_refact.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:44:44 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/06 13:51:35 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/11 17:19:37 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 void	composed_variable(t_terminal *terminal, int *i)
 {
@@ -73,8 +71,9 @@ char	**more_elemments_array(t_terminal *terminal, int *i)
 	return(new);
 }
 
-void	ft_repelacement(t_terminal *terminal, int *i)
+void	ft_replacement(t_terminal *terminal, char *flag, int *i)
 {
+	(void)flag;
 	if (!ft_strlen(terminal->vars.key))
 	{
 		if(size_of_array(terminal->commands->args) <= 1)
@@ -89,6 +88,5 @@ void	ft_repelacement(t_terminal *terminal, int *i)
 	else if(ft_strchr(terminal->vars.key, ' '))
 		composed_variable(terminal, i);
 	else
-		terminal->commands->args[*i] = ft_substr(terminal->vars.key, 0, ft_strlen(terminal->vars.key));	
-	
+		terminal->commands->args[*i] = ft_substr(terminal->vars.key, 0, ft_strlen(terminal->vars.key));
 }

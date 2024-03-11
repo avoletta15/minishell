@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:44:44 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/11 18:59:00 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/11 20:00:14 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,31 @@ char	**more_elemments_array(t_terminal *terminal, int *i)
 	return(new);
 }
 
+char	*remove_quotes(char *old)
+{
+	char	*new;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	new = (char *)ft_calloc(ft_strlen(old) - 1, sizeof(char *));
+	while(old && old[i])
+	{
+		if(old[i] == SINGLE_QUOTE || old[i] == DOUBLE_QUOTE)
+			i++;
+		if(old[i] != SINGLE_QUOTE && old[i] != DOUBLE_QUOTE && old[i])
+		{
+			new[j] = old[i];
+			i++;
+			j++;
+		}
+	}
+	new[j] = '\0';
+	return(new);
+}
+
+
 void	ft_replacement(t_terminal *terminal, char *flag, int *i)
 {
 	(void)flag;
@@ -88,7 +113,9 @@ void	ft_replacement(t_terminal *terminal, char *flag, int *i)
 	else if(ft_strchr(terminal->vars.key, ' ') && terminal->vars.quoted == false)
 		composed_variable(terminal, i);
 	else
-	{
+	{	
+		if (terminal->vars.key[0] == SINGLE_QUOTE || terminal->vars.key[0] == DOUBLE_QUOTE)
+			terminal->vars.key = ft_substr(remove_quotes(terminal->vars.key), 0, ft_strlen(remove_quotes(terminal->vars.key)));
 		terminal->commands->args[*i] = ft_substr(terminal->vars.key, 0, ft_strlen(terminal->vars.key));
 		terminal->vars.quoted = false;
 	}

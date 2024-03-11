@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_refact.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:44:44 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/11 17:19:37 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 18:59:00 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,11 @@ void	ft_replacement(t_terminal *terminal, char *flag, int *i)
 		else
 			more_elemments_array(terminal, i);
 	}
-	else if(ft_strchr(terminal->vars.key, ' '))
+	else if(ft_strchr(terminal->vars.key, ' ') && terminal->vars.quoted == false)
 		composed_variable(terminal, i);
 	else
+	{
 		terminal->commands->args[*i] = ft_substr(terminal->vars.key, 0, ft_strlen(terminal->vars.key));
+		terminal->vars.quoted = false;
+	}
 }

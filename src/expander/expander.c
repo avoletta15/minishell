@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 21:40:19 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/11 17:19:07 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:15:21 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,21 @@ char	*should_expand(char *str, int *i, t_terminal *terminal)
 /// @param flag 
 /// @param i 
 /// @return 
-char	ft_checking_quotes(char *str, char *flag, int *i)
+char	ft_checking_quotes(char *str, char *flag, int *i, t_terminal *terminal)
 {
 	if (str[*i] == SINGLE_QUOTE || str[*i] == DOUBLE_QUOTE)
 	{
 		if (!*flag)
 		{
 			*flag = str[*i];
-			*i += 1;
+			if(*flag == SINGLE_QUOTE)
+				*i += 1;
 		}
 		else
+		{
 			*flag = '\0';
+			terminal->vars.quoted = true;
+		}
 	}
 	if (*flag == SINGLE_QUOTE)
 	{
@@ -104,13 +108,14 @@ char	ft_checking_quotes(char *str, char *flag, int *i)
 /// @brief  Auxiliar function to ft_expansion_check().
 /// (Build outside the orignal scope because of Norminette requirements).
 /// @param terminal 
-void	ft_init_vars(t_terminal *terminal)
+void	ft_init_vars(t_terminal *terminal, int arg)
 {
+	terminal->vars.quoted = false;
 	terminal->vars.len = 0;
 	terminal->vars.j = 0;
 	terminal->vars.new_index = 0;
 	terminal->vars.key = 0;
-	terminal->vars.var_key = ft_strdup(terminal->commands->args[0]);
+	terminal->vars.var_key = ft_strdup(terminal->commands->args[arg]);
 	if (!terminal->vars.var_key)
 		ft_protection_free(terminal, terminal->vars.var_key);
 	while(terminal->commands->args[terminal->vars.len] != NULL)
@@ -169,12 +174,12 @@ void	ft_checking_expansion(t_terminal *terminal, char *flag, int i)
 		terminal->commands->args[i][terminal->vars.i])
 	{
 		if (ft_checking_quotes(terminal->commands->args[i], flag,
-			&terminal->vars.i) == SINGLE_QUOTE)
+			&terminal->vars.i, terminal) == SINGLE_QUOTE)
 		{
-			terminal->vars.var_key = ft_substr(terminal->commands->args[i],
+			terminal->vars.key = ft_substr(terminal->commands->args[i],
 				terminal->vars.j, terminal->vars.i);
-			if (!terminal->vars.var_key)
-				ft_protection_free(terminal, terminal->vars.var_key);
+			if (!terminal->vars.key)
+				ft_protection_free(terminal, terminal->vars.key);
 			if (terminal->commands->args[i][terminal->vars.i + 1] == '\0')
 				continue ;
 		}
@@ -203,7 +208,7 @@ void	ft_expansion(t_terminal *terminal, char flag)
 	while (terminal->commands && terminal->commands->args
 		&& terminal->commands->args[++i])
 	{
-		ft_init_vars(terminal);
+		ft_init_vars(terminal, i);
 		terminal->vars.i = 0;
 		ft_checking_expansion(terminal, &flag, i);
 		ft_replacement(terminal, &flag, &i);

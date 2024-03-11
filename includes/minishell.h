@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/11 17:09:01 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 18:46:28 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ typedef struct s_variables
 	char		*temp;
 	char		*new_index;
 	char		*key;
+	bool		quoted;
 }				t_vars;
 
 typedef struct s_env_api
@@ -310,8 +311,8 @@ bool			ft_forbidden_expansion(char c, int i);
 char			*ft_expansion_check(t_terminal *terminal, char flag);
 void			new_expanded_var(t_terminal *terminal);
 void			temporary_arg_saving(t_terminal *terminal);
-void			ft_init_vars(t_terminal *terminal);
-char			ft_checking_quotes(char *str, char *flag, int *i);
+void			ft_init_vars(t_terminal *terminal, int arg);
+char			ft_checking_quotes(char *str, char *flag, int *i, t_terminal *terminal);
 char			*should_expand(char *str, int *i, t_terminal *terminal);
 char			*ft_search_variable(char *var, t_terminal *terminal);
 void			ft_expansion(t_terminal *terminal, char flag);

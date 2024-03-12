@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 23:24:07 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/01/27 23:42:28 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/11 19:14:23 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ bool	ft_forbidden_expansion(char c, int i)
 {
 	if ((ft_isalpha(c) || c == '_') && i == 1)
 		return (false);
-	else if (ft_isalnum(c) || c == '_')
+	else if ((ft_isalnum(c) || c == '_') && i > 1)
 		return (false);
 	return (true);
 }

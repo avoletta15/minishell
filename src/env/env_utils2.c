@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:38 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/12 07:08:10 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 08:05:23 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_env	*getvar(char *var)
 {
 	t_env	*env;
 
+	env = env_api()->env_head;
 	while (env && var)
 	{
 		if (!ft_strncmp(env->key, var, ft_strlen(var)))

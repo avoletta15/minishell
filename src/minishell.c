@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/11 19:04:02 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 08:13:08 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	init_shell(t_terminal terminal)
 		if (!lexer(&terminal))
 			continue ;
 		parser(&terminal);
-		// set_cmds_path(&terminal);
-		// ft_expansion(&terminal, 0);
-		// set_cmds_path(&terminal);
+		set_cmds_path(&terminal);
+		ft_expansion(&terminal, 0);
+		set_cmds_path(&terminal);
 		here_doc(&terminal);
-		visualize_commands(terminal.commands);
+		// visualize_commands(terminal.commands);
 		mini_executor(&terminal);
 		free_structs(&terminal, false, NULL);
 		reset_terminal(&terminal, SUCCESS);

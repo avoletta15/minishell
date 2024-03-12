@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/12 08:03:12 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 08:04:40 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,6 +275,7 @@ bool			init_env(t_terminal *terminal);
 bool			build_minimum_env(t_terminal *terminal);
 bool			check_new_env(char *str);
 char			*get_var_key(char *str);
+bool			is_var_key_char_valid(char c, int i);
 // env
 
 // env_utils

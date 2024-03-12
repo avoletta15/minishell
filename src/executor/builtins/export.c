@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:16:12 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/11 19:54:34 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 08:07:45 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	visualize_export(int out, unsigned char *exit_status)
 /// invalid and returns true or false.
 /// @param c 
 /// @return 
-static bool	is_var_key_char_valid(char c, int i)
+bool	is_var_key_char_valid(char c, int i)
 {
 	if (i == 0 && (ft_isalpha(c) || c == '_'))
 		return (true);
@@ -60,17 +60,20 @@ void	set_var(char *str)
 	char	*var;
 	t_env	*env;
 
-	var = get_var_key(*str);
+	var = get_var_key(str);
 	if (!var)
+	{
 		malloc_error();
+		return ;
+	}
 	env = getvar(var);
 	free(var);
 	if (!env)
 	{
-		if (!env_api()->new_env_var(*str))
+		if (!env_api()->new_env_var(str))
 			malloc_error();
 	}
-	else if (!env_api()->update_var(env, *str))
+	else if (!env_api()->update_var(env, str))
 		export_update_value_error(env->key);
 }
 
@@ -80,7 +83,6 @@ void	set_var(char *str)
 /// @param args 
 void	set_export(char **args, unsigned char *exit_status)
 {
-	t_env	*env;
 	bool	error;
 
 	error = false;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/12 08:04:40 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 21:03:16 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,6 +222,7 @@ void			free_commands(t_terminal *terminal);
 void			free_structs(t_terminal *terminal,
 					bool should_exit, void (*call_back)(void));
 void			free_terminal(t_terminal *terminal);
+void			ft_protection_free(t_terminal *terminal, char *var);
 // memory 2
 
 // parser
@@ -309,31 +310,37 @@ void			visualise_expanded_var(t_terminal *terminal);
 void			visualize_env(t_env *env, int out);
 // helpers 2
 
-// expander
-char			*variable_alias(char *str);
-bool			ft_forbidden_expansion(char c, int i);
-char			*ft_expansion_check(t_terminal *terminal, char flag);
-void			new_expanded_var(t_terminal *terminal);
+// expansion
 void			temporary_arg_saving(t_terminal *terminal);
-void			ft_init_vars(t_terminal *terminal, int arg);
-char			ft_checking_quotes(char *str, char *flag, int *i, t_terminal *terminal);
-char			*should_expand(char *str, int *i, t_terminal *terminal);
+void			new_expanded_var(t_terminal *terminal);
 char			*ft_search_variable(char *var, t_terminal *terminal);
+void			ft_init_vars(t_terminal *terminal, int arg);
 void			ft_expansion(t_terminal *terminal, char flag);
-void			ft_replacement(t_terminal *terminal, char *flag, int *i);
-// expander
+// expansion
 
-// expander utils
+// exp_ways
+char			*should_not_expand(char *str, int *i, 
+					t_terminal *terminal, char *expand_var);
+char			*exit_status_expansion(t_terminal *terminal, int *i);
+char			*should_expand(char *str, int *i, t_terminal *terminal);
+// exp_ways
+
+// exp_check
+void			ft_checking_expansion(t_terminal *terminal, char *flag, int i);
+void			single_quote_case(char *str, int *i);
+char			ft_checking_quotes(char *str, char *flag, int *i, t_terminal *terminal);
 bool			ft_forbidden_expansion(char c, int i);
-char			*ft_get_home(void);
 char			*variable_alias(char *str);
-// expander utils
+// exp_check
 
-// expand free
-char			*ft_join_free(char *test, int i,
-					char *temp, t_terminal *terminal);
-void			ft_protection_free(t_terminal *terminal, char *var);
-// expand free
+// exp_replacement
+char			**more_elemments_array(t_terminal *terminal, int *i);
+void			comp_var_continue(t_terminal *terminal, int *i, int j, 
+					int n, char **new);
+void			composed_variable(t_terminal *terminal, int *i);
+char			*remove_quotes(char *old);
+void			ft_replacement(t_terminal *terminal, char *flag, int *i);
+// exp_replacement
 
 // builtins
 void			echo(char **av, int out, unsigned char *exit_status);

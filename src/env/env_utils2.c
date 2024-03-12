@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:20:38 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/11 12:16:44 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 07:08:10 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,9 @@ t_env	*getvar(char *var)
 {
 	t_env	*env;
 
-	env = env_api()->env_head;
 	while (env && var)
 	{
-		if (!ft_strncmp(env->key, var, ft_strlen(var))) // mudei de ft_strlen(env->key) para ft_strlen(var)
+		if (!ft_strncmp(env->key, var, ft_strlen(var)))
 			return (env);
 		env = env->next;
 	}
@@ -76,7 +75,7 @@ bool	update_var(t_env *env, char *str)
 {
 	char	*new_value;
 
-	while (str && *str != '=')
+	while (str && *str && *str != '=')
 		str++;
 	if (*str == '=' && env)
 	{

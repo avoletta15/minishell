@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:21:14 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/07 11:50:07 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 18:34:13 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ bool	set_path(t_command *cmd)
 	real_path = find_path(all_paths, *(cmd->args));
 	free_array(all_paths);
 	if (!real_path)
-		return (false);
+		return (true);
 	cmd->cmd_path = real_path;
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:55 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/07 17:51:31 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:54:51 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,46 @@ t_env_api	*env_api(void)
 	static t_env_api	api;
 
 	return (&api);
+}
+
+/// @brief This function checks if the exported variable and
+/// its value are valid. Checks unclosed quotes as well, on error
+/// returns false, else true.
+/// @param str 
+/// @return 
+bool	check_new_env(char *str)
+{
+	char	*original;
+	char	*equals_sign;
+	original = str;
+
+	equals_sign = ft_strchr(original, '=');
+	if (equals_sign == str)
+		return (false);
+	if (!equals_sign)
+		equals_sign = original + ft_strlen(original);
+	while (original < equals_sign)
+	{
+		if (!is_var_key_char_valid(*original, original - str))
+			return (false);
+		original++;
+	}
+	return (true);
+}
+
+/// @brief This function returns the key of the given variable.
+/// If there's no equals sign it returns the whole string.
+/// If there's any error it returns NULL.
+/// @param str 
+/// @return 
+char	*get_var_key(char *str)
+{
+	char	*key;
+	char	*equals_sign;
+
+	equals_sign = ft_strchr(str, '=');
+	if (!equals_sign)
+		equals_sign = str + ft_strlen(str);
+	key = ft_substr(str, 0, equals_sign - str);
+	return (key);
 }

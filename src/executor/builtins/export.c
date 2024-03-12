@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 16:16:12 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/07 18:25:43 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:54:34 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,41 +44,34 @@ void	visualize_export(int out, unsigned char *exit_status)
 /// invalid and returns true or false.
 /// @param c 
 /// @return 
-bool	invalid_char_env(char c)
+static bool	is_var_key_char_valid(char c, int i)
 {
-	return (!ft_isalnum(c) && c != '_'
-		&& c != '=' && c != DOUBLE_QUOTE && c != SINGLE_QUOTE);
+	if (i == 0 && (ft_isalpha(c) || c == '_'))
+		return (true);
+	return (i > 0 && (ft_isalnum(c) || c == '_'));
 }
 
-/// @brief This function checks if the exported variable and
-/// its value are valid. Checks unclosed quotes as well, on error
-/// returns false, else true.
+/// @brief This function sets the given variable to the environment
+/// variables. If the variable already exists it updates its value.
+/// If there's any error it displays it on the stderr.
 /// @param str 
-/// @return 
-bool	check_new_env(char *str)
+void	set_var(char *str)
 {
-	char	quote;
-	char	*original;
+	char	*var;
+	t_env	*env;
 
-	quote = 0;
-	original = str;
-	if (!ft_isalpha(*str) && *str != '_')
-		return (false);
-	while ((++str, *str))
+	var = get_var_key(*str);
+	if (!var)
+		malloc_error();
+	env = getvar(var);
+	free(var);
+	if (!env)
 	{
-		if (invalid_char_env(*str))
-			return (false);
-		if (!quote && (*str == SINGLE_QUOTE || *str == DOUBLE_QUOTE))
-			quote = *str;
-		else if (quote == *str)
-			quote = 0;
+		if (!env_api()->new_env_var(*str))
+			malloc_error();
 	}
-	if (quote)
-	{
-		export_unclosed_quotes(original);
-		return (false);
-	}
-	return (true);
+	else if (!env_api()->update_var(env, *str))
+		export_update_value_error(env->key);
 }
 
 /// @brief This function exports the given arguments to the
@@ -96,16 +89,7 @@ void	set_export(char **args, unsigned char *exit_status)
 		if (!check_new_env(*args))
 			error = error || !export_invalid_identifier(*args);
 		else
-		{
-			env = getvar(*args);
-			if (!env)
-			{
-				if (!env_api()->new_env_var(*args))
-					malloc_error();
-			}
-			else if (!env_api()->update_var(env, *args))
-				export_update_value_error(env->key);
-		}
+			set_var(*args);
 		args++;
 	}
 	if (error)

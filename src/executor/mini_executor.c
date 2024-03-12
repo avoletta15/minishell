@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/11 10:29:06 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 18:34:46 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	chose_exec(t_terminal *terminal, t_command *cmd)
 				convert_env_list_to_array()) == -1)
 		{
 			free_terminal(terminal);
+			close(STDIN_FILENO);
+			close(STDOUT_FILENO);
 			perror("minishell");
 			exit(EXIT_FAILURE);
 		}

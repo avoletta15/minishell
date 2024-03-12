@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/11 17:09:01 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/11 19:55:58 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,7 @@ bool			tokens_checker(t_terminal *terminal);
 // utils 3
 size_t			size_of_array(char **strs);
 void			set_cmds_path(t_terminal *terminal);
+bool			check_absolute_path(char *str);
 // utils 3
 
 // utils 4
@@ -271,6 +272,8 @@ void			close_cmds_fds(t_command *cmd);
 t_env_api		*env_api(void);
 bool			init_env(t_terminal *terminal);
 bool			build_minimum_env(t_terminal *terminal);
+bool			check_new_env(char *str);
+char			*get_var_key(char *str);
 // env
 
 // env_utils

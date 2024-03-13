@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 16:44:44 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/12 08:02:01 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 19:45:25 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,6 @@ void	ft_replacement(t_terminal *terminal, char *flag, int *i)
 		terminal->commands->args[*i] = ft_substr(terminal->vars.key, 0, ft_strlen(terminal->vars.key));
 		terminal->vars.quoted = false;
 	}
+	free(terminal->vars.key);
+	terminal->vars.key = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/12 14:36:47 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 19:28:01 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ typedef struct s_terminal
 	int				i;
 	t_vars			vars;
 	t_quotes_system	quotes_system;
+	bool			hd_exit;
 }				t_terminal;
 
 // args_redirects
@@ -267,7 +268,8 @@ void			close_fds(int in, int out);
 // utils 4
 
 // utils 5
-void			close_cmds_fds(t_command *cmd);
+void			close_cmds_fds(t_command *cmd, bool close_pipe);
+t_terminal		*get_terminal(void);
 // utils 5
 
 // env
@@ -363,7 +365,7 @@ int				handle_open(t_redirect *redir,
 // handle redirect
 
 // here doc
-void			here_doc(t_terminal *terminal);
+bool			here_doc(t_terminal *terminal);
 void			here_doc_ctrl_d(char *delimiter);
 // here doc
 
@@ -372,7 +374,10 @@ void			mini_executor(t_terminal *terminal);
 // executor
 
 // signal
-void	signal_handler(int signal);
 int		set_exit_code(int i, bool flag);
+void	handle_child_signals(void);
+void	handle_parent_execution_signals(void);
+void	handle_parent_signals(void);
+void	handle_heredoc_signals(void);
 
 #endif

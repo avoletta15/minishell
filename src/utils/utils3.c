@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:21:14 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/11 18:34:13 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 19:40:19 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ bool	set_path(t_command *cmd)
 	free_array(all_paths);
 	if (!real_path)
 		return (true);
+	if (cmd->cmd_path)
+		free(cmd->cmd_path);
 	cmd->cmd_path = real_path;
 	return (true);
 }
@@ -108,10 +110,18 @@ void	set_cmds_path(t_terminal *terminal)
 		if (!check_absolute_path(*(cmd->args)))
 		{
 			if (!set_path(cmd))
+			{
+				if (cmd->cmd_path)
+					free(cmd->cmd_path);
 				cmd->cmd_path = ft_strdup(*(cmd->args));
+			}
 		}
 		else
+		{
+			if (cmd->cmd_path)
+				free(cmd->cmd_path);
 			cmd->cmd_path = ft_strdup(*(cmd->args));
+		}
 		cmd = cmd->next;
 	}
 }

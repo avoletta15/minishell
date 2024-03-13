@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address,undefined
-READLINE_FLAGS = -lreadline -lncurses
+READLINE_FLAGS = -lreadline -lncurses -L .brew/opt/readline/lib -I .brew/opt/readline/include
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_INC = libft/inc
@@ -24,18 +24,20 @@ BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pw
 			executor/builtins/env.c executor/builtins/errors.c executor/builtins/export.c\
 			executor/builtins/unset.c executor/builtins/exit.c executor/builtins/errors2.c\
 			executor/builtins/exec_builtins.c
+SIGNALS = 	signal/signal.c
+MAIN = 		minishell.c
 
 SRC_DIR = src/
-SRC = 	$(ENV:%=$(SRC_DIR)%) $(HELPER:%=$(SRC_DIR)%) $(PARSER:%=$(SRC_DIR)%)\
+SRC = 	$(MAIN:%=$(SRC_DIR)%) $(ENV:%=$(SRC_DIR)%) $(HELPER:%=$(SRC_DIR)%) $(PARSER:%=$(SRC_DIR)%)\
 		$(UTILS:%=$(SRC_DIR)%) $(EXECUTOR:%=$(SRC_DIR)%)\
-		$(BUILTINS:%=$(SRC_DIR)%) $(EXPANDER:%=$(SRC_DIR)%) $(HERE_DOC:%=$(SRC_DIR)%)
+		$(BUILTINS:%=$(SRC_DIR)%) $(EXPANDER:%=$(SRC_DIR)%) $(HERE_DOC:%=$(SRC_DIR)%) $(SIGNALS:%=$(SRC_DIR)%)
 OBJ_DIR = obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:$(SRC_DIR)%.c=%.o))
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) $(SRC_DIR)$(NAME).c -o $(NAME) $(OBJS) $(ALL_FLAGS)
+	@$(CC) -o $(NAME) $(OBJS) $(ALL_FLAGS)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	@mkdir -p $(dir $@)

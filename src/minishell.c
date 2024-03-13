@@ -6,53 +6,64 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/12 08:13:08 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 10:44:02 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_shell(t_terminal terminal)
+void	init_shell(t_terminal *terminal)
 {
 	while (1)
 	{
-		terminal.prompt = readline("minishell> ");
-		if (!ft_strlen(terminal.prompt))
+		terminal->prompt = readline("minishell> ");
+		if (!terminal->prompt)
 		{
-			reset_terminal(&terminal, SUCCESS);
+			ft_putendl_fd("exit", STDERR_FILENO);
+			return ;
+		}
+		if (!ft_strlen(terminal->prompt))
+		{
+			reset_terminal(terminal, SUCCESS);
 			continue ;
 		}
-		if (!lexer(&terminal))
+		if (!lexer(terminal))
 			continue ;
-		parser(&terminal);
-		set_cmds_path(&terminal);
-		ft_expansion(&terminal, 0);
-		set_cmds_path(&terminal);
-		here_doc(&terminal);
+		parser(terminal);
+		set_cmds_path(terminal);
+		ft_expansion(terminal, 0);
+		set_cmds_path(terminal);
+		handle_parent_execution_signals();
+		if (here_doc(terminal))
+			mini_executor(terminal);
+		else
+			close_cmds_fds(terminal->commands, false);
 		// visualize_commands(terminal.commands);
-		mini_executor(&terminal);
-		free_structs(&terminal, false, NULL);
-		reset_terminal(&terminal, SUCCESS);
+		handle_parent_signals();
+		free_structs(terminal, false, NULL);
+		reset_terminal(terminal, SUCCESS);
 	}
 }
 
 int	main(int ac, char **av, char **env_path)
 {
-	t_terminal	terminal;
+	t_terminal	*terminal;
 	int			i;
 
 	(void)av;
+	terminal = get_terminal();
 	if (ac != 1)
 		exit(EXIT_FAILURE);
 	i = -1;
-	init_terminal(&terminal, true);
-	terminal.env = NULL;
+	init_terminal(terminal, true);
+	handle_parent_signals();
+	terminal->env = NULL;
 	env_api()->len = 0;
 	while (env_path && env_path[++i])
-		terminal.env = env_structure(env_path[i], terminal.env);
-	if (!init_env(&terminal))
+		terminal->env = env_structure(env_path[i], terminal->env);
+	if (!init_env(terminal))
 		exit(EXIT_FAILURE);
 	init_shell(terminal);
-	free_terminal(&terminal);
+	free_terminal(terminal);
 	return (0);
 }

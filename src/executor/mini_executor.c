@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/11 18:34:46 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 19:17:52 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	chose_exec(t_terminal *terminal, t_command *cmd)
 	}
 	else if (!cmd->cmd_path)
 	{
+		close_cmds_fds(terminal->commands, true);
 		free_terminal(terminal);
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
@@ -40,6 +41,7 @@ void	chose_exec(t_terminal *terminal, t_command *cmd)
 		if (execve(cmd->cmd_path, cmd->args,
 				convert_env_list_to_array()) == -1)
 		{
+			close_cmds_fds(terminal->commands, true);
 			free_terminal(terminal);
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
@@ -66,6 +68,7 @@ void	child_exec(t_terminal *terminal, t_command *cmd)
 		return (perror("minishell"));
 	if (cmd->pid == 0)
 	{
+		handle_child_signals();
 		if (!redirection_handle(cmd, false))
 			should_exec = false;
 		close_fds(cmd->std_fds.in, cmd->std_fds.out);
@@ -75,6 +78,23 @@ void	child_exec(t_terminal *terminal, t_command *cmd)
 		exit(errno);
 	}
 	close_fds(cmd->std_fds.in, cmd->std_fds.out);
+}
+
+static void wait_handle_exit_status(t_terminal *terminal, t_command *cmd)
+{
+	int	status;
+
+	waitpid(cmd->pid, &status, 0);
+	if (WIFEXITED(status))
+		terminal->exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+	{
+		terminal->exit_status = WTERMSIG(status) + 128;
+		if (WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
+		else if (WTERMSIG(status) == SIGQUIT)
+			write(2, "Quit (core dumped)\n", 19);
+	}
 }
 
 /// @brief This function executes the pipes and call the child_exec function
@@ -101,7 +121,7 @@ void	children_exec(t_terminal *terminal, t_command *cmd)
 	while (cmd)
 	{
 		if (cmd->pid != -1)
-			waitpid(cmd->pid, (int *)&terminal->exit_status, 0);
+			wait_handle_exit_status(terminal, cmd);
 		cmd = cmd->next;
 	}
 }
@@ -124,6 +144,6 @@ void	mini_executor(t_terminal *terminal)
 	else
 	{
 		children_exec(terminal, cmd);
-		close_cmds_fds(cmd);
+		close_cmds_fds(cmd, true);
 	}
 }

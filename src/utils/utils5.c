@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 17:57:27 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/07 17:58:50 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 18:28:18 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,22 @@ void	close_redirect_fds(t_redirect *redir)
 /// closes the file descriptors if they are not -1 or STDIN_FD STDOUT_FD 
 /// of all the commands.
 /// @param cmd 
-void	close_cmds_fds(t_command *cmd)
+void	close_cmds_fds(t_command *cmd, bool close_pipe)
 {
 	while (cmd)
 	{
 		if (cmd->redirections)
 			close_redirect_fds(cmd->redirections);
+		if (close_pipe)
+			close_fds(cmd->pipe_fd[0], cmd->pipe_fd[1]);
 		close_fds(cmd->std_fds.in, cmd->std_fds.out);
-		close_fds(cmd->pipe_fd[0], cmd->pipe_fd[1]);
 		cmd = cmd->next;
 	}
+}
+
+t_terminal	*get_terminal(void)
+{
+	static t_terminal	terminal;
+
+	return (&terminal);
 }

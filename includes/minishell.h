@@ -6,7 +6,11 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:52:10 by arabelo-          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/03/12 21:03:16 by mariaavolet      ###   ########.fr       */
+=======
+/*   Updated: 2024/03/12 14:36:47 by arabelo-         ###   ########.fr       */
+>>>>>>> b828985782df9b1b4ebcc79e4d92405ba70d9c55
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +28,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <signal.h> 
 
 # define PARSER_SEP '\1'
 # define DOUBLE_QUOTE '\2'
@@ -376,5 +381,9 @@ void			here_doc_ctrl_d(char *delimiter);
 // executor
 void			mini_executor(t_terminal *terminal);
 // executor
+
+// signal
+void	signal_handler(int signal);
+int		set_exit_code(int i, bool flag);
 
 #endif

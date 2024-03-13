@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:03:47 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/12 19:30:27 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 11:48:06 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void	write_to_here_doc_pipe(t_terminal *terminal, int fd, char *delimiter
 		term.c_lflag &= ~(ECHOCTL);
 		tcsetattr(STDOUT_FILENO, TCSANOW, &term);
 	}
-
 	sigint = false;
 	while (1)
 	{

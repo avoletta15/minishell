@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 10:44:02 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 12:04:22 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	init_shell(t_terminal *terminal)
 		}
 		if (!ft_strlen(terminal->prompt))
 		{
-			reset_terminal(terminal, SUCCESS);
+			reset_terminal(terminal, SUCCESS); /// Can't reset the exit status here
 			continue ;
 		}
 		if (!lexer(terminal))
@@ -38,10 +38,10 @@ void	init_shell(t_terminal *terminal)
 			mini_executor(terminal);
 		else
 			close_cmds_fds(terminal->commands, false);
-		// visualize_commands(terminal.commands);
+		// visualize_commands(terminal->commands);
 		handle_parent_signals();
 		free_structs(terminal, false, NULL);
-		reset_terminal(terminal, SUCCESS);
+		// reset_terminal(terminal, SUCCESS);  /// Can't reset the exit status here
 	}
 }
 

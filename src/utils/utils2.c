@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 20:39:39 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/07 08:57:44 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 11:40:18 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ bool	tokens_checker(t_terminal *terminal)
 	t_token	*tokens;
 
 	tokens = terminal->tokens;
-	terminal->exit_status = 2;
 	while (tokens)
 	{
 		if (is_token_sequence_invalid(tokens))
@@ -70,6 +69,5 @@ bool	tokens_checker(t_terminal *terminal)
 			return (invalid_token_error(terminal, NEW_LINE), false);
 		tokens = tokens->next;
 	}
-	terminal->exit_status = 0;
 	return (true);
 }

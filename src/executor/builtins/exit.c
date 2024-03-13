@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:45:08 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/07 13:00:41 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 16:17:40 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	mini_exit(t_terminal *terminal, char **args)
 		terminal->exit_status = FAILURE;
 		return ;
 	}
-	close_cmds_fds(terminal->commands);
+	close_cmds_fds(terminal->commands, true);
 	free_terminal(terminal);
 	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/21 20:53:34 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/02/21 20:15:06 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 11:40:02 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	invalid_token_error(t_terminal *terminal, char *str)
 	bad_syntax_error(str);
 	free_tokens(terminal->tokens);
 	terminal->tokens = NULL;
+	terminal->exit_status = BAD_SYNTAX;
 }
 
 /// @brief This function displays an error about

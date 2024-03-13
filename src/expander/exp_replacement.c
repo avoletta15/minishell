@@ -6,7 +6,7 @@
 /*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:44:14 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/12 22:07:13 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/13 10:27:24 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ void	ft_replacement(t_terminal *terminal, char *flag, int *i)
 	else
 	{
 		if (terminal->vars.key[0] == SINGLE_QUOTE || 
-			terminal->vars.key[0] == DOUBLE_QUOTE)
+			terminal->vars.quoted == true)
 			terminal->vars.key = ft_substr(remove_quotes(terminal->vars.key), 
 					0, ft_strlen(remove_quotes(terminal->vars.key)));
 		terminal->commands->args[*i] = ft_substr(terminal->vars.key, 

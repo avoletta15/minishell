@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 13:24:56 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/07 17:48:43 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/12 12:48:48 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,18 @@ void	free_terminal(t_terminal *terminal)
 	free(terminal->prompt);
 	free_array(terminal->prompt_splitted);
 	ft_bzero(terminal, sizeof(t_terminal));
+}
+
+/// @brief This funtions protects in case of a NULL string
+/// is returned.
+/// (Build outside the orignal scope because of Norminette requirements).
+/// @param terminal 
+/// @param expand_var 
+void	ft_protection_free(t_terminal *terminal, char *var)
+{
+	free(var);
+	free(terminal->prompt);
+	free_terminal(terminal);
+	malloc_error();
+	exit(EXIT_FAILURE);
 }

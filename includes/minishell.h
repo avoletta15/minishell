@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:21:35 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 16:21:39 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 21:40:05 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-#include <signal.h> 
+# include <signal.h>
+# include <termios.h>
 
 # define PARSER_SEP '\1'
 # define DOUBLE_QUOTE '\2'
@@ -141,7 +142,7 @@ typedef struct s_variables
 	int			len;
 	int			i;
 	int			j;
-	char		*var_key;
+	char		*var;
 	char		*temp;
 	char		*new_index;
 	char		*key;
@@ -191,8 +192,8 @@ void			no_path_error(char *str);
 // error
 
 // init vars
-void			reset_terminal(t_terminal *terminal, int exit_status);
-void			init_terminal(t_terminal *terminal, int exit_status);
+void			reset_terminal(t_terminal *terminal);
+void			init_terminal(t_terminal *terminal);
 void			init_quotes_system(t_quotes_system *quotes_system);
 // init vars
 
@@ -322,27 +323,30 @@ void			ft_expansion(t_terminal *terminal, char flag);
 // expansion
 
 // exp_ways
-char			*should_not_expand(char *str, int *i, 
+char			*should_not_expand(char *str, int *i,
 					t_terminal *terminal, char *expand_var);
-char			*exit_status_expansion(t_terminal *terminal, int *i);
+char			*exit_status_expansion(t_terminal *terminal,
+					int *i, char *expand_var);
 char			*should_expand(char *str, int *i, t_terminal *terminal);
+void			injecting_removed_quotes(t_terminal *terminal);
 // exp_ways
 
 // exp_check
 void			ft_checking_expansion(t_terminal *terminal, char *flag, int i);
 void			single_quote_case(char *str, int *i);
-char			ft_checking_quotes(char *str, char *flag, int *i, t_terminal *terminal);
+char			ft_checking_quotes(char *str, char *flag,
+					int *i, t_terminal *terminal);
 bool			ft_forbidden_expansion(char c, int i);
 char			*variable_alias(char *str);
 // exp_check
 
 // exp_replacement
-char			**more_elemments_array(t_terminal *terminal, int *i);
-void			comp_var_continue(t_terminal *terminal, int *i, int j, 
+void			more_elemments_array(t_terminal *terminal, int *i);
+void			comp_var_continue(int *i, int j,
 					int n, char **new);
 void			composed_variable(t_terminal *terminal, int *i);
 char			*remove_quotes(char *old);
-void			ft_replacement(t_terminal *terminal, char *flag, int *i);
+void			ft_replacement(t_terminal *terminal, int *i);
 // exp_replacement
 
 // builtins
@@ -374,17 +378,26 @@ int				handle_open(t_redirect *redir,
 // here doc
 bool			here_doc(t_terminal *terminal);
 void			here_doc_ctrl_d(char *delimiter);
+void			here_doc_fork_error(int *fds);
 // here doc
+
+// here doc utils
+void			remove_echoctl(struct termios *term,
+				struct termios *original, int *sigint);
+void			here_doc_write_loop(char *line, char *delimiter,
+				int fd, bool *sigint);
+// here doc utils
 
 // executor
 void			mini_executor(t_terminal *terminal);
+void			chose_execve(t_terminal *terminal, t_command *cmd);
 // executor
 
 // signal
-int		set_exit_code(int i, bool flag);
-void	handle_child_signals(void);
-void	handle_parent_execution_signals(void);
-void	handle_parent_signals(void);
-void	handle_heredoc_signals(void);
+void			handle_child_signals(void);
+void			handle_parent_execution_signals(void);
+void			handle_parent_signals(void);
+void			handle_heredoc_signals(void);
+// signal
 
 #endif

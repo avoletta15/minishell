@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 11:56:55 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/11 19:54:51 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 21:10:13 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ bool	check_new_env(char *str)
 {
 	char	*original;
 	char	*equals_sign;
-	original = str;
 
+	original = str;
 	equals_sign = ft_strchr(original, '=');
 	if (equals_sign == str)
 		return (false);

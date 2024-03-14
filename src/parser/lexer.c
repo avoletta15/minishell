@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/07 09:35:12 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 20:48:12 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ bool	first_filter(t_terminal *terminal)
 	{
 		free(new_prompt);
 		unclosed_quote_error();
-		reset_terminal(terminal, BAD_SYNTAX);
+		reset_terminal(terminal);
+		terminal->exit_status = BAD_SYNTAX;
 		return (false);
 	}
 	subsquote(new_prompt, &terminal->quotes_system);

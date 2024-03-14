@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_replacement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:44:14 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/13 10:27:24 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/13 21:11:40 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /// @param terminal 
 /// @param i 
 /// @return 
-char	**more_elemments_array(t_terminal *terminal, int *i)
+void	more_elemments_array(t_terminal *terminal, int *i)
 {
 	char		**new;
 	size_t		j;
@@ -29,7 +29,7 @@ char	**more_elemments_array(t_terminal *terminal, int *i)
 	new = (char **)ft_calloc(size_of_array(terminal->commands->args),
 			sizeof(char *));
 	if (!new)
-		return (NULL);
+		return ;
 	while (j < size_of_array(terminal->commands->args))
 	{
 		if (!ft_strlen(terminal->vars.key) && j == (size_t)(*i))
@@ -38,9 +38,10 @@ char	**more_elemments_array(t_terminal *terminal, int *i)
 		j++;
 		n++;
 	}
+	free(terminal->commands->args[*i]);
 	*i -= 1;
+	free(terminal->commands->args);
 	terminal->commands->args = new;
-	return (new);
 }
 
 /// @brief After spliting the argument, this function injects
@@ -50,17 +51,19 @@ char	**more_elemments_array(t_terminal *terminal, int *i)
 /// @param j 
 /// @param n 
 /// @param  
-void	comp_var_continue(t_terminal *terminal, int *i, int j, 
-			int n, char **new)
+void	comp_var_continue(int *i, int j, int n, char **new)
 {
+	t_terminal	*terminal;
+
+	terminal = get_terminal();
 	while (terminal->commands->args[n] != NULL)
 	{
 		new[j] = terminal->commands->args[n];
 		j++;
 		n++;
 	}
-	new[j] = NULL;
 	*i += 1;
+	free(terminal->commands->args);
 	terminal->commands->args = new;
 }
 
@@ -76,23 +79,25 @@ void	composed_variable(t_terminal *terminal, int *i)
 	int		j;
 	int		n;
 
-	j = 0;
-	n = -1;
-	new = NULL;
 	split = ft_split(terminal->vars.key, ' ');
-	while (split[j] != NULL)
-		j++;
-	new = (char **)ft_calloc((j + terminal->vars.len + 1), sizeof(char *));
+	if (!split)
+		return ;
+	new = (char **)ft_calloc((size_of_array(split)
+			+ terminal->vars.len + 1), sizeof(char *));
+	if (!new)
+	{
+		free_array(split);
+		return ;
+	}
 	j = -1;
+	n = -1;
 	while (++j != *i)
 		new[j] = terminal->commands->args[j];
 	while (split[++n] != NULL)
-	{
-		new[j] = split[n];
-		j++;
-	}
+		new[j++] = split[n];
 	n = *i + 1;
-	comp_var_continue(terminal, i, j, n, new);
+	free(split);
+	comp_var_continue(i, j, n, new);
 }
 
 /// @brief Before injeting the new argument on the array
@@ -130,9 +135,8 @@ char	*remove_quotes(char *old)
 /// @param terminal 
 /// @param flag 
 /// @param i 
-void	ft_replacement(t_terminal *terminal, char *flag, int *i)
+void	ft_replacement(t_terminal *terminal, int *i)
 {
-	(void)flag;
 	if (!ft_strlen(terminal->vars.key))
 	{
 		if (size_of_array(terminal->commands->args) <= 1)
@@ -149,12 +153,14 @@ void	ft_replacement(t_terminal *terminal, char *flag, int *i)
 		composed_variable(terminal, i);
 	else
 	{
-		if (terminal->vars.key[0] == SINGLE_QUOTE || 
+		if (terminal->vars.key[0] == SINGLE_QUOTE ||
 			terminal->vars.quoted == true)
-			terminal->vars.key = ft_substr(remove_quotes(terminal->vars.key), 
-					0, ft_strlen(remove_quotes(terminal->vars.key)));
-		terminal->commands->args[*i] = ft_substr(terminal->vars.key, 
+			injecting_removed_quotes(terminal);
+		free(terminal->commands->args[*i]);
+		terminal->commands->args[*i] = ft_substr(terminal->vars.key,
 				0, ft_strlen(terminal->vars.key));
 		terminal->vars.quoted = false;
 	}
+	free(terminal->vars.key);
+	terminal->vars.key = NULL;
 }

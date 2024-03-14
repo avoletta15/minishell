@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/12 19:17:52 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 21:13:56 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,7 @@ void	chose_exec(t_terminal *terminal, t_command *cmd)
 		exit(0);
 	}
 	else
-	{
-		if (execve(cmd->cmd_path, cmd->args,
-				convert_env_list_to_array()) == -1)
-		{
-			close_cmds_fds(terminal->commands, true);
-			free_terminal(terminal);
-			close(STDIN_FILENO);
-			close(STDOUT_FILENO);
-			perror("minishell");
-			exit(EXIT_FAILURE);
-		}
-	}
+		chose_execve(terminal, cmd);
 }
 
 /// @brief This function calls the redirection_handle function and
@@ -75,12 +64,18 @@ void	child_exec(t_terminal *terminal, t_command *cmd)
 		close_fds(cmd->pipe_fd[0], cmd->pipe_fd[1]);
 		if (should_exec)
 			chose_exec(terminal, cmd);
+		free_terminal(terminal);
 		exit(errno);
 	}
 	close_fds(cmd->std_fds.in, cmd->std_fds.out);
 }
 
-static void wait_handle_exit_status(t_terminal *terminal, t_command *cmd)
+/// @brief This function waits for the child process to finish and
+/// sets the exit status of the terminal struct. It also handles
+/// the exit status of the child process.
+/// @param terminal 
+/// @param cmd 
+static void	wait_handle_exit_status(t_terminal *terminal, t_command *cmd)
 {
 	int	status;
 

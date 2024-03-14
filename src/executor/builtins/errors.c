@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 12:05:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 19:19:57 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 20:05:42 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@ void	export_unclosed_quotes(char *str)
 void	env_args_count_error(unsigned char *exit_status)
 {
 	write(2, "env: too many arguments\n", 24);
-	*exit_status = NOT_FOUND;
+	*exit_status = BAD_SYNTAX;
 }

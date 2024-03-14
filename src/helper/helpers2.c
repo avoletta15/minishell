@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:55:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/07 11:04:24 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 20:04:32 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,6 @@ void	visualize_commands(t_command *command)
 	printf("]\n");
 }
 
-// void	visualise_expanded_var(t_terminal *terminal)
-// {
-// 	char	*str;
-
-// 	while (terminal->tokens)
-// 	{
-// 		str = ft_expansion_check(terminal, 0);
-// 		printf("*********************************************\n\n");
-// 		printf("final: %s\n", str);
-// 		printf("*********************************************\n\n");
-// 		free(str);
-// 		terminal->tokens = terminal->tokens->next;
-// 	}
-// }
-
 void	visualize_env(t_env *env, int out)
 {
 	while (env)
@@ -73,7 +58,6 @@ void	visualize_env(t_env *env, int out)
 			ft_putstr_fd(env->key, out);
 			ft_putstr_fd("=", out);
 			ft_putendl_fd(env->value, out);
-			ft_putstr_fd("\n", out);
 		}
 		env = env->next;
 	}

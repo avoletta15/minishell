@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 17:57:27 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/12 18:28:18 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/13 21:09:53 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ void	close_cmds_fds(t_command *cmd, bool close_pipe)
 	}
 }
 
+/// @brief This function returns the terminal's address.
+/// @param  
+/// @return 
 t_terminal	*get_terminal(void)
 {
 	static t_terminal	terminal;

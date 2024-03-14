@@ -18,13 +18,14 @@ UTILS = 	utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c\
 			utils/utils.c utils/utils2.c utils/utils3.c utils/utils4.c utils/utils5.c
 EXPANDER =	expander/exp_check.c expander/exp_replacement.c expander/exp_ways.c\
 			expander/expansion.c
-EXECUTOR = 	executor/mini_executor.c executor/handle_redir.c
-HERE_DOC = 	executor/here_doc/here_doc.c /executor/here_doc/here_doc_errors.c
+EXECUTOR = 	executor/mini_executor.c executor/handle_redir.c executor/executor_utils.c
+HERE_DOC = 	executor/here_doc/here_doc.c /executor/here_doc/here_doc_errors.c\
+			executor/here_doc/here_doc_utils.c
 BUILTINS = 	executor/builtins/echo.c executor/builtins/cd.c executor/builtins/pwd.c\
 			executor/builtins/env.c executor/builtins/errors.c executor/builtins/export.c\
 			executor/builtins/unset.c executor/builtins/exit.c executor/builtins/errors2.c\
 			executor/builtins/exec_builtins.c
-SIGNALS = 	signal/signal.c
+SIGNALS = 	signal/child_signal.c signal/parent_signals.c
 MAIN = 		minishell.c
 
 SRC_DIR = src/
@@ -60,6 +61,8 @@ run: re
 	@ ./minishell
 
 v: re readline.supp
+	@valgrind --show-leak-kinds=all --leak-check=full --track-fds=all --suppressions=readline.supp ./minishell
+vv: $(NAME) readline.supp
 	@valgrind --show-leak-kinds=all --leak-check=full --track-fds=all --suppressions=readline.supp ./minishell
 
 readline.supp:

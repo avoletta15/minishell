@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:41:33 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/12 21:51:58 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/13 21:12:11 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ void	ft_checking_expansion(t_terminal *terminal, char *flag, int i)
 		if (ft_checking_quotes(terminal->commands->args[i], flag,
 				&terminal->vars.i, terminal) == SINGLE_QUOTE)
 		{
+			free(terminal->vars.var);
+			terminal->vars.var = NULL;
 			terminal->vars.key = ft_substr(terminal->commands->args[i],
 					terminal->vars.j, terminal->vars.i);
 			if (!terminal->vars.key)
 				ft_protection_free(terminal, terminal->vars.key);
-			if (terminal->commands->args[i][terminal->vars.i + 1] == '\0')
+			if (terminal->commands->args[i][terminal->vars.i] == '\0'
+				|| terminal->commands->args[i][terminal->vars.i + 1] == '\0')
 				continue ;
 		}
 		temporary_arg_saving(terminal);
@@ -108,7 +111,7 @@ bool	ft_forbidden_expansion(char c, int i)
 /// @return 
 char	*variable_alias(char *str)
 {
-	char	*expand_var; 
+	char	*expand_var;
 	int		i;
 
 	i = 0;

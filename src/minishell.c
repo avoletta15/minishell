@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 21:09:20 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 10:13:53 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@
 /// @return 
 static bool	parsing_shell(t_terminal *terminal)
 {
+	unsigned char	exit_status;
+
 	if (!terminal->prompt)
 	{
 		ft_putendl_fd("exit", STDERR_FILENO);
-		return (false);
+		exit_status = terminal->exit_status;
+		free_terminal(terminal);
+		exit(exit_status);
 	}
 	if (!ft_strlen(terminal->prompt))
 	{

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 08:31:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 19:18:04 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 10:35:14 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*set_minimum_env(char *pwd)
 		return (NULL);
 	if (!env_api()->new_env_key_value("OLDPWD", pwd_copy))
 		return (NULL);
-	if (!env_api()->new_env_var("SHLVL=1"))	
+	if (!env_api()->new_env_var("SHLVL=1"))
 		return (NULL);
 	return (env_api()->env_head);
 }

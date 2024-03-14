@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:53:47 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 11:10:11 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 09:41:06 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_builtin_types	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
-	if (!ft_strncmp(ECHO, cmd, ft_strlen(ECHO) + 1))
+	if (!ft_strncmp(ECHO_STR, cmd, ft_strlen(ECHO_STR) + 1))
 		return (ECHO_ID);
 	if (!ft_strncmp(CD, cmd, ft_strlen(CD) + 1))
 		return (CD_ID);

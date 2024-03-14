@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:41:33 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/13 21:12:11 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 10:33:44 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_checking_expansion(t_terminal *terminal, char *flag, int i)
 		{
 			free(terminal->vars.var);
 			terminal->vars.var = NULL;
-			terminal->vars.key = ft_substr(terminal->commands->args[i],
+			terminal->vars.new_index = ft_substr(terminal->commands->args[i],
 					terminal->vars.j, terminal->vars.i);
 			if (!terminal->vars.key)
 				ft_protection_free(terminal, terminal->vars.key);
@@ -59,7 +59,10 @@ void	single_quote_case(char *str, int *i)
 		if (str[*i] == SINGLE_QUOTE && str[*i + 1] == SINGLE_QUOTE)
 			*i += 2;
 		else if (str[*i] == SINGLE_QUOTE && str[*i + 1] != '\0')
+		{
 			*i += 1;
+			break ;
+		}
 	}
 }
 

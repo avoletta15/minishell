@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:21:35 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 21:40:05 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 10:34:08 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define OUTPUT_REDIRECT ">"
 # define HERE_DOC "<<"
 # define APPEND ">>"
-# define ECHO "echo"
+# define ECHO_STR "echo"
 # define CD "cd"
 # define PWD "pwd"
 # define EXPORT "export"
@@ -383,9 +383,9 @@ void			here_doc_fork_error(int *fds);
 
 // here doc utils
 void			remove_echoctl(struct termios *term,
-				struct termios *original, int *sigint);
+					struct termios *original, bool *sigint);
 void			here_doc_write_loop(char *line, char *delimiter,
-				int fd, bool *sigint);
+					int fd, bool *sigint);
 // here doc utils
 
 // executor

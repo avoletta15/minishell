@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:03:47 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 21:41:11 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 10:19:46 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,19 @@
 static void	write_to_here_doc_pipe(t_terminal *terminal,
 		int fd, char *delimiter)
 {
-	char			*line;
+	char			line;
 	bool			sigint;
 	struct termios	original;
 	struct termios	term;
 
-	remove_echoctl(&term, &original, &sigint);
-	here_doc_write_loop(line, delimiter, fd, &sigint);
+	if (tcgetattr(STDOUT_FILENO, &term) == 0)
+	{
+		original = term;
+		term.c_lflag &= ~(ECHOCTL);
+		tcsetattr(STDOUT_FILENO, TCSANOW, &term);
+	}
+	sigint = false;
+	here_doc_write_loop(&line, delimiter, fd, &sigint);
 	close(fd);
 	close_cmds_fds(terminal->commands, false);
 	free_terminal(terminal);

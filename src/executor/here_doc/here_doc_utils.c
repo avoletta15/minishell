@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 21:32:32 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 21:41:22 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 09:49:25 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	here_doc_write_loop(char *line, char *delimiter, int fd, bool *sigint)
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 		{
-			sigint = get_terminal()->hd_exit;
-			if (!sigint)
+			*sigint = get_terminal()->hd_exit;
+			if (!*sigint)
 				here_doc_ctrl_d(delimiter);
 			break ;
 		}
@@ -47,13 +47,14 @@ void	here_doc_write_loop(char *line, char *delimiter, int fd, bool *sigint)
 /// @param original 
 /// @param sigint 
 void	remove_echoctl(struct termios *term,
-		struct termios *original, int *sigint)
+		struct termios *original, bool *sigint)
 {
-	if (tcgetattr(STDOUT_FILENO, &term) == 0)
+	(void)original;
+	if (tcgetattr(STDOUT_FILENO, term) == 0)
 	{
 		original = term;
 		term->c_lflag &= ~(ECHOCTL);
-		tcsetattr(STDOUT_FILENO, TCSANOW, &term);
+		tcsetattr(STDOUT_FILENO, TCSANOW, term);
 	}
 	*sigint = false;
 }

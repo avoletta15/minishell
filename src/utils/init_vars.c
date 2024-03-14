@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:39:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 21:22:41 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 10:12:36 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	reset_terminal(t_terminal *terminal)
 {
 	free_redir_args(terminal);
 	free_commands(terminal);
-	free_env_list(&env_api()->env_head);
 	free(terminal->prompt);
 	free_array(terminal->prompt_splitted);
 	terminal->prompt = NULL;

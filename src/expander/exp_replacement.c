@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:44:14 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/13 21:11:40 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 10:35:00 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,8 +153,8 @@ void	ft_replacement(t_terminal *terminal, int *i)
 		composed_variable(terminal, i);
 	else
 	{
-		if (terminal->vars.key[0] == SINGLE_QUOTE ||
-			terminal->vars.quoted == true)
+		if (terminal->vars.key[0] == SINGLE_QUOTE
+			|| terminal->vars.quoted == true)
 			injecting_removed_quotes(terminal);
 		free(terminal->commands->args[*i]);
 		terminal->commands->args[*i] = ft_substr(terminal->vars.key,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:21:35 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/15 15:50:24 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/15 18:17:51 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,7 +320,7 @@ void			visualize_env(t_env *env, int out);
 // expansion
 void			temporary_arg_saving(t_terminal *terminal);
 void			new_expanded_var(t_terminal *terminal);
-char			*ft_search_variable(char *var, t_terminal *terminal);
+char			*ft_search_variable(char *var);
 void			ft_init_vars(t_terminal *terminal, int arg);
 void			ft_expansion(t_terminal *terminal, char flag);
 // expansion
@@ -328,8 +328,7 @@ void			ft_expansion(t_terminal *terminal, char flag);
 // exp_ways
 char			*should_not_expand(char *str, int *i,
 					t_terminal *terminal, char *expand_var);
-char			*exit_status_expansion(t_terminal *terminal,
-					int *i, char *expand_var);
+char			*exit_status_expansion(t_terminal *terminal, size_t *i);
 char			*should_expand(char *str, int *i, t_terminal *terminal);
 void			injecting_removed_quotes(t_terminal *terminal);
 // exp_ways
@@ -403,4 +402,6 @@ void			handle_parent_signals(void);
 void			handle_heredoc_signals(void);
 // signal
 
+// new
+char	**run_the_array(char **array);
 #endif

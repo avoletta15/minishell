@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_check.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:41:33 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/14 10:33:44 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:59:13 by mariaavolet      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,53 +18,53 @@
 /// @param terminal 
 /// @param flag 
 /// @param i 
-void	ft_checking_expansion(t_terminal *terminal, char *flag, int i)
-{
-	while (terminal->commands->args[i] && \
-		terminal->commands->args[i][terminal->vars.i])
-	{
-		if (ft_checking_quotes(terminal->commands->args[i], flag,
-				&terminal->vars.i, terminal) == SINGLE_QUOTE)
-		{
-			free(terminal->vars.var);
-			terminal->vars.var = NULL;
-			terminal->vars.new_index = ft_substr(terminal->commands->args[i],
-					terminal->vars.j, terminal->vars.i);
-			if (!terminal->vars.key)
-				ft_protection_free(terminal, terminal->vars.key);
-			if (terminal->commands->args[i][terminal->vars.i] == '\0'
-				|| terminal->commands->args[i][terminal->vars.i + 1] == '\0')
-				continue ;
-		}
-		temporary_arg_saving(terminal);
-		if (terminal->vars.i > 0)
-			terminal->vars.j = terminal->vars.i;
-		terminal->vars.new_index = should_expand(terminal->commands->args[i],
-				&terminal->vars.i, terminal);
-		if (!terminal->vars.new_index)
-			ft_protection_free(terminal, terminal->vars.new_index);
-		new_expanded_var(terminal);
-	}
-}
+// void	ft_checking_expansion(t_terminal *terminal, char *flag, int i)
+// {
+// 	while (terminal->commands->args[i] &&
+// 		terminal->commands->args[i][terminal->vars.i])
+// 	{
+// 		if (ft_checking_quotes(terminal->commands->args[i], flag,
+// 				&terminal->vars.i, terminal) == SINGLE_QUOTE)
+// 		{
+// 			free(terminal->vars.var);
+// 			terminal->vars.var = NULL;
+// 			terminal->vars.new_index = ft_substr(terminal->commands->args[i],
+// 					terminal->vars.j, terminal->vars.i);
+// 			if (!terminal->vars.key)
+// 				ft_protection_free(terminal, terminal->vars.key);
+// 			if (terminal->commands->args[i][terminal->vars.i] == '\0'
+// 				|| terminal->commands->args[i][terminal->vars.i + 1] == '\0')
+// 				continue ;
+// 		}
+// 		temporary_arg_saving(terminal);
+// 		if (terminal->vars.i > 0)
+// 			terminal->vars.j = terminal->vars.i;
+// 		terminal->vars.new_index = should_expand(terminal->commands->args[i],
+// 				&terminal->vars.i, terminal);
+// 		if (!terminal->vars.new_index)
+// 			ft_protection_free(terminal, terminal->vars.new_index);
+// 		new_expanded_var(terminal);
+// 	}
+// }
 
 /// @brief In case of <single quoted> arguments this function 
 /// moves the index itarator to the end of the string
 /// @param str 
 /// @param i 
-void	single_quote_case(char *str, int *i)
-{
-	while (str && str[*i] != SINGLE_QUOTE && str[*i] != '\0')
-	{
-		*i += 1;
-		if (str[*i] == SINGLE_QUOTE && str[*i + 1] == SINGLE_QUOTE)
-			*i += 2;
-		else if (str[*i] == SINGLE_QUOTE && str[*i + 1] != '\0')
-		{
-			*i += 1;
-			break ;
-		}
-	}
-}
+// void	single_quote_case(char *str, int *i)
+// {
+// 	while (str && str[*i] != SINGLE_QUOTE && str[*i] != '\0')
+// 	{
+// 		*i += 1;
+// 		if (str[*i] == SINGLE_QUOTE && str[*i + 1] == SINGLE_QUOTE)
+// 			*i += 2;
+// 		else if (str[*i] == SINGLE_QUOTE && str[*i + 1] != '\0')
+// 		{
+// 			*i += 1;
+// 			break ;
+// 		}
+// 	}
+// }
 
 /// @brief This function checks if the token is between
 /// single or double qoutes, and activates a flag if
@@ -73,26 +73,26 @@ void	single_quote_case(char *str, int *i)
 /// @param flag 
 /// @param i 
 /// @return 
-char	ft_checking_quotes(char *str, char *flag, int *i, t_terminal *terminal)
-{
-	if (str[*i] == SINGLE_QUOTE || str[*i] == DOUBLE_QUOTE)
-	{
-		if (!*flag)
-		{
-			*flag = str[*i];
-			if (*flag == SINGLE_QUOTE)
-				*i += 1;
-		}
-		else
-		{
-			*flag = '\0';
-			terminal->vars.quoted = true;
-		}
-	}
-	if (*flag == SINGLE_QUOTE)
-		single_quote_case(str, i);
-	return (*flag);
-}
+// char	ft_checking_quotes(char *str, char *flag, int *i, t_terminal *terminal)
+// {
+// 	if (str[*i] == SINGLE_QUOTE || str[*i] == DOUBLE_QUOTE)
+// 	{
+// 		if (!*flag)
+// 		{
+// 			*flag = str[*i];
+// 			if (*flag == SINGLE_QUOTE)
+// 				*i += 1;
+// 		}
+// 		else
+// 		{
+// 			*flag = '\0';
+// 			terminal->vars.quoted = true;
+// 		}
+// 	}
+// 	if (*flag == SINGLE_QUOTE)
+// 		single_quote_case(str, i);
+// 	return (*flag);
+// }
 
 /// @brief This function searchs for chars that are
 /// not allowed to form variables' names.

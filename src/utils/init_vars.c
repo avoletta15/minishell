@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/18 18:39:58 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/14 10:12:36 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 19:43:00 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ void	init_terminal(t_terminal *terminal)
 /// @param quotes_system 
 void	init_quotes_system(t_quotes_system *quotes_system)
 {
-	quotes_system->quote = 0;
-	quotes_system->quote_state = false;
+	ft_bzero(quotes_system, sizeof(t_quotes_system));
 }
 
 /// @brief This function resets the variables
@@ -44,6 +43,7 @@ void	reset_terminal(t_terminal *terminal)
 	free_commands(terminal);
 	free(terminal->prompt);
 	free_array(terminal->prompt_splitted);
+	init_quotes_system(&terminal->quotes_system);
 	terminal->prompt = NULL;
 	terminal->prompt_splitted = NULL;
 	terminal->commands = NULL;

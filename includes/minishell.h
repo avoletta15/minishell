@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:21:35 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/14 10:34:08 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/15 15:50:24 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct s_quotes_system
 	char	**array;
 	char	quote;
 	bool	quote_state;
+	bool	was_quoted;
+	size_t	i;
 }				t_quotes_system;
 
 typedef struct s_token
@@ -198,14 +200,14 @@ void			init_quotes_system(t_quotes_system *quotes_system);
 // init vars
 
 // lexer
-bool			first_filter(t_terminal *terminal);
+bool			first_filter(char *str, t_quotes_system *quotes);
 bool			second_filter(t_terminal *terminal);
 bool			third_filter(t_terminal *terminal);
 bool			lexer(t_terminal *terminal);
 // lexer
 
 // prompt treatment
-void			remove_whitespaces(char *dest, char *src,
+void			remove_whitespaces(char *src,
 					t_quotes_system *quotes);
 void			delimit_special_chars(char *dest,
 					char *src, t_quotes_system *quote);
@@ -272,6 +274,7 @@ void			close_fds(int in, int out);
 // utils 5
 void			close_cmds_fds(t_command *cmd, bool close_pipe);
 t_terminal		*get_terminal(void);
+void			quotes_iterator(t_quotes_system *quotes_sys, char c);
 // utils 5
 
 // env

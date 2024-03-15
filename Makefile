@@ -31,7 +31,7 @@ MAIN = 		minishell.c
 SRC_DIR = src/
 SRC = 	$(MAIN:%=$(SRC_DIR)%) $(ENV:%=$(SRC_DIR)%) $(HELPER:%=$(SRC_DIR)%) $(PARSER:%=$(SRC_DIR)%)\
 		$(UTILS:%=$(SRC_DIR)%) $(EXECUTOR:%=$(SRC_DIR)%)\
-		$(BUILTINS:%=$(SRC_DIR)%) $(EXPANDER:%=$(SRC_DIR)%) $(HERE_DOC:%=$(SRC_DIR)%) $(SIGNALS:%=$(SRC_DIR)%)
+		$(BUILTINS:%=$(SRC_DIR)%) $(HERE_DOC:%=$(SRC_DIR)%) $(SIGNALS:%=$(SRC_DIR)%) $(EXPANDER:%=$(SRC_DIR)%)
 OBJ_DIR = obj/
 OBJS = $(addprefix $(OBJ_DIR), $(SRC:$(SRC_DIR)%.c=%.o))
 

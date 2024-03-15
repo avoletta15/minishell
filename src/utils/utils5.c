@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 17:57:27 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 21:09:53 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 19:41:24 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,22 @@ t_terminal	*get_terminal(void)
 	static t_terminal	terminal;
 
 	return (&terminal);
+}
+
+void	quotes_iterator(t_quotes_system *quotes_sys, char c)
+{
+	if (!c)
+		return ;
+	if ((c == DOUBLE_QUOTE || c == SINGLE_QUOTE) && !quotes_sys->quote_state)
+	{
+		quotes_sys->quote_state = true;
+		quotes_sys->was_quoted = true;
+		quotes_sys->quote = c;
+	}
+	else if (c == quotes_sys->quote && quotes_sys->quote_state)
+	{
+		quotes_sys->quote_state = false;
+		quotes_sys->quote = 0;
+	}
+	quotes_sys->i++;
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/20 12:50:20 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 20:48:12 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/14 18:59:32 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,15 @@
 /// deallocates the memory and returns NULL.
 /// @param terminal 
 /// @return 
-bool	first_filter(t_terminal *terminal)
+bool	first_filter(char *str, t_quotes_system *quotes)
 {
-	char	*new_prompt;
-
-	new_prompt = (char *)malloc(sizeof(char) * ft_strlen(terminal->prompt) + 1);
-	if (!new_prompt)
+	subsquote(str, quotes);
+	if (quotes->quote_state)
 	{
-		free(terminal->prompt);
-		malloc_error();
-		exit(EXIT_FAILURE);
-	}
-	remove_whitespaces(new_prompt, terminal->prompt, &terminal->quotes_system);
-	if (terminal->quotes_system.quote_state)
-	{
-		free(new_prompt);
 		unclosed_quote_error();
-		reset_terminal(terminal);
-		terminal->exit_status = BAD_SYNTAX;
 		return (false);
 	}
-	subsquote(new_prompt, &terminal->quotes_system);
-	free(terminal->prompt);
-	terminal->prompt = new_prompt;
+	remove_whitespaces(str, quotes);
 	return (true);
 }
 
@@ -100,8 +86,12 @@ bool	lexer(t_terminal *terminal)
 	add_history(terminal->prompt);
 	if (only_white_spaces(terminal->prompt))
 		return (false);
-	if (!first_filter(terminal))
+	if (!first_filter(terminal->prompt, &terminal->quotes_system))
+	{
+		reset_terminal(terminal);
+		terminal->exit_status = BAD_SYNTAX;
 		return (false);
+	}
 	second_filter(terminal);
 	third_filter(terminal);
 	tokenize_prompt(terminal, &terminal->tokens);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:51:51 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/15 18:20:46 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/16 13:50:58 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static bool	parsing_shell(t_terminal *terminal)
 	// set_cmds_path(terminal);
 	// ft_expansion(terminal, 0);
 	run_the_array(terminal->commands->args);
-	// visualize_commands(terminal->commands);
+	visualize_commands(terminal->commands);
 	return (false);
 	set_cmds_path(terminal);
 	handle_parent_execution_signals();

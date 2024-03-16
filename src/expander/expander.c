@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 14:34:12 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/16 13:31:02 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/16 14:20:26 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,50 +119,37 @@ char	*expand_str(char *str, t_quotes_system *quotes_sys, bool is_in_here_doc)
 	return (str);
 }
 
-char	*join_the_array(char **array, char *sep)
+char	*join_the_array(char **array, char *separator)
 {
+	char	*str;
 	size_t	i;
-	char	*new_str;
-	char	*str_joined;
-	char	*temp;
+	size_t	len;
 
 	i = 0;
-	str_joined = NULL;
-	while (array && array[i])
+	len = 0;
+	while (array[i])
 	{
-		new_str = ft_strjoin(array[i], sep);
-		if (!new_str)
-		{
-			free(str_joined);
-			str_joined = NULL;
-			return (NULL);
-		}
-		if(!str_joined)
-			str_joined = new_str;
-		else
-		{
-			temp = str_joined;
-			str_joined = ft_strjoin(str_joined, new_str);
-			free(temp);
-			temp = NULL;
-		}
+		len += ft_strlen(array[i]) + ft_strlen(separator);
 		i++;
-		printf("============================================================\n");
-		printf("%zu: \n", i);
-		printf("new_str: %s\n", new_str);
-		printf("temp: %s\n", temp);
-		printf("str_joined: %s\n", str_joined);
-		printf("============================================================\n");
 	}
-	free(new_str);
-	return(str_joined);
+	str = (char *)ft_calloc(len + 1, sizeof(char));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (array[i])
+	{
+		ft_strlcat(str, array[i], len + 1);
+		ft_strlcat(str, separator, len + 1);
+		i++;
+	}
+	return (str);
 }
-
 
 char	**run_the_array(char **array)
 {
 	int				i;
 	char			*str;
+	char			**new_array;
 	t_quotes_system	quotes_sys;
 
 	i = 0;
@@ -173,19 +160,32 @@ char	**run_the_array(char **array)
 		i++;
 	}
 	str = join_the_array(array, "\1");
+	if (!str)
+		return (array);
+	new_array = ft_split(str, PARSER_SEP);
+	free(str);
+	if (!new_array)
+		return (array);
 	free_array(array);
-	array = ft_split(str, '\1');
-	return (array);
+	return (new_array);
 }
 
 void	command_organization(t_command *command)
 {
-	// char	**array;
-
 	while (command)
 	{
-		// array = command->args;
 		command->args = run_the_array(command->args);
+		// command_redirects_organization(command->redirections);
 		command = command->next;
 	}
 }
+
+// void	command_redirects_organization(t_redirect *redir)
+// {
+// 	while (redir)
+// 	{
+// 		redir->content = ;
+// 		redir = redir
+// 	}
+// }
+

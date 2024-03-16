@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:55:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/16 15:33:19 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:51:24 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,21 @@ void	print_str(char *str)
 			printf("%c", *str);
 		str++;
 	}
+}
+
+void	print_quote_system(t_quotes_system *quote)
+{
+	printf("{\n");
+	if (quote->quote_state)
+		printf("	quote_state: %s,\n", "true");
+	else
+		printf("	quote_state: %s,\n", "false");
+	printf("	quote: %c,\n", quote->quote);
+	printf("	quote_value: %i,\n", quote->quote);
+	if (quote->was_quoted)
+		printf("	was_quoted: %s,\n", "true");
+	else
+		printf("	was_quoted: %s,\n", "false");
+	printf("	quote final index: %li\n", quote->i);
+	printf("}\n");
 }

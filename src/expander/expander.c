@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 14:34:12 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/16 16:49:44 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:50:12 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,7 @@ void	manipulate_str(char **str, char **array, t_quotes_system *quotes_sys)
 	temp = *str;
 	*str = remove_quotes(*str);
 	init_quotes_system(quotes_sys);
-	first_filter(*str, quotes_sys);
+	remove_whitespaces(*str, quotes_sys);
 	free(temp);
 }
 

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 14:41:06 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/16 14:34:05 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:52:52 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,12 @@ void	print_redir(t_redirect *redirect)
 	printf("		command's redirections: ");
 	while (redirect)
 	{
-		printf("{ token_id: %i, content: %s, fd: %d, invalid_expansion: %s } -> ",
-			redirect->toked_id, redirect->content, redirect->fd, redirect->invalid_expansion ? "true" : "false");
+		printf("{ token_id: %i, content: %s, fd: %d, ",
+			redirect->toked_id, redirect->content, redirect->fd);
+		if (redirect->invalid_expansion)
+			printf("invalid_expansion: %s } -> ", "true");
+		else
+			printf("invalid_expansion: %s } -> ", "false");
 		redirect = redirect->next;
 	}
 	printf("NULL,\n");

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 14:34:12 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/16 16:17:14 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 16:49:44 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ void	run_redirections(t_redirect *redir)
 	while (redir)
 	{
 		init_quotes_system(&quotes_sys);
-		if (!ft_strlen(redir->content))
+		if (!ft_strlen(redir->content) || redir->toked_id == HERE_DOC_ID)
 		{
 			redir = redir->next;
 			continue ;

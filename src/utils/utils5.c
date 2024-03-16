@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/07 17:57:27 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/14 19:41:24 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:05:10 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,11 @@ t_terminal	*get_terminal(void)
 	return (&terminal);
 }
 
+/// @brief This function checks if the given character is a quote
+/// and updates the quotes_system struct, then it increments the
+/// iterator if the character is not the null terminator.
+/// @param quotes_sys 
+/// @param c 
 void	quotes_iterator(t_quotes_system *quotes_sys, char c)
 {
 	if (!c)
@@ -68,4 +73,19 @@ void	quotes_iterator(t_quotes_system *quotes_sys, char c)
 		quotes_sys->quote = 0;
 	}
 	quotes_sys->i++;
+}
+
+/// @brief This function searches for the sub character in the string
+/// and replaces it with the to_replace character.
+/// @param str 
+/// @param sub 
+/// @param to_replace 
+void	str_chr_subs(char *str, char sub, char to_replace)
+{
+	while (str && *str)
+	{
+		if (*str == sub)
+			*str = to_replace;
+		str++;
+	}
 }

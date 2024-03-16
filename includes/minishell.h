@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:21:35 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/16 15:56:57 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:22:04 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,6 +280,7 @@ void			close_fds(int in, int out);
 void			close_cmds_fds(t_command *cmd, bool close_pipe);
 t_terminal		*get_terminal(void);
 void			quotes_iterator(t_quotes_system *quotes_sys, char c);
+void			str_chr_subs(char *str, char sub, char to_replace);
 // utils 5
 
 // env
@@ -394,6 +395,7 @@ void			remove_echoctl(struct termios *term,
 					struct termios *original, bool *sigint);
 void			here_doc_write_loop(char *line, char *delimiter,
 					int fd, bool *sigint);
+char			*manipulate_delimiter(char *delimiter);
 // here doc utils
 
 // executor
@@ -409,6 +411,8 @@ void			handle_heredoc_signals(void);
 // signal
 
 // new
-char	**run_the_array(char **array);
-void	generic_expansion(t_terminal *terminal);
+char			**run_the_array(char **array);
+void			generic_expansion(t_terminal *terminal);
+char			*expand_str(char *str, t_quotes_system *quotes_sys,
+					bool is_in_here_doc);
 #endif

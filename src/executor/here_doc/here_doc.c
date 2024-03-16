@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 19:03:47 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/14 10:19:46 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 17:21:55 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	write_to_here_doc_pipe(t_terminal *terminal,
 		tcsetattr(STDOUT_FILENO, TCSANOW, &term);
 	}
 	sigint = false;
+	delimiter = manipulate_delimiter(delimiter);
 	here_doc_write_loop(&line, delimiter, fd, &sigint);
 	close(fd);
 	close_cmds_fds(terminal->commands, false);

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 22:44:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/01 19:16:34 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 19:57:38 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,17 @@
 /// remover, e.g. (-n, -nnnn or -nnnn -nnnn -nnnn).
 /// @param option 
 /// @return `bool(true or false)`
-bool	echo_option_checker(char *option)
+bool	echo_option_checker(char *option, bool *new_line)
 {
 	if (*option == '-')
 		option++;
+	if (*option == '\0')
+		return (false);
 	while (*option)
 	{
-		if (*option != 'n')
+		if (*option == 'n')
+			*new_line = false;
+		else if (*option != 'n')
 			return (false);
 		option++;
 	}
@@ -38,10 +42,12 @@ void	echo(char **av, int out, unsigned char *exit_status)
 	bool	new_line;
 
 	new_line = true;
-	while (*av && echo_option_checker(*av))
+	while (*av)
 	{
-		new_line = false;
-		av++;
+		if (echo_option_checker(*av, &new_line))
+			av++;
+		else
+			break ;
 	}
 	while (*av)
 	{

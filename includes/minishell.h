@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:21:35 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/15 18:17:51 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/16 15:56:57 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ typedef struct s_redirect
 {
 	t_token_types		toked_id;
 	char				*content;
+	bool				invalid_expansion;
 	int					fd;
 	struct s_redirect	*next;
 }				t_redirect;
@@ -192,6 +193,10 @@ void			bad_syntax_error(char *str);
 void			invalid_token_error(t_terminal *terminal, char *str);
 void			no_path_error(char *str);
 // error
+
+// error 2
+bool			ambiguous_redir_error(char *content);
+// error 2
 
 // init vars
 void			reset_terminal(t_terminal *terminal);
@@ -315,6 +320,7 @@ void			printf_command(t_command *command);
 void			visualize_commands(t_command *command);
 void			visualise_expanded_var(t_terminal *terminal);
 void			visualize_env(t_env *env, int out);
+void			print_str(char *str);
 // helpers 2
 
 // expansion
@@ -404,4 +410,5 @@ void			handle_heredoc_signals(void);
 
 // new
 char	**run_the_array(char **array);
+void	generic_expansion(t_terminal *terminal);
 #endif

@@ -14,7 +14,7 @@ ENV = 		env/env_management.c env/env_utils.c env/env_utils2.c
 HELPER = 	helper/helpers.c helper/helpers2.c
 PARSER = 	parser/args_redirects.c parser/lexer.c parser/parser.c\
 			parser/prompt_treatment.c parser/tokenize.c
-UTILS = 	utils/error.c utils/init_vars.c utils/memory.c utils/memory2.c\
+UTILS = 	utils/error.c utils/error2.c utils/init_vars.c utils/memory.c utils/memory2.c\
 			utils/utils.c utils/utils2.c utils/utils3.c utils/utils4.c utils/utils5.c
 EXPANDER =	expander/exp_check.c expander/exp_replacement.c expander/exp_ways.c\
 			expander/expansion.c expander/expander.c

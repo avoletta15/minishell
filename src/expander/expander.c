@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 14:34:12 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/16 14:20:26 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 16:17:14 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,60 @@ char	*join_the_array(char **array, char *separator)
 	return (str);
 }
 
+size_t	quotes_count(char *str)
+{
+	size_t	q;
+
+	q = 0;
+	while (str && *str)
+	{
+		if (*str == SINGLE_QUOTE || *str == DOUBLE_QUOTE)
+			q++;
+		str++;
+	}
+	return (q);
+}
+
+char	*remove_quotes(char *old)
+{
+	char	*new;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	if (!old)
+		return (NULL);
+	new = (char *)ft_calloc(ft_strlen(old)
+		- quotes_count(old) + 1, sizeof(char *));
+	if (!new)
+		return (NULL);
+	while (old && old[i])
+	{
+		if (old[i] == SINGLE_QUOTE || old[i] == DOUBLE_QUOTE)
+			i++;
+		if (old[i] != SINGLE_QUOTE && old[i] != DOUBLE_QUOTE && old[i])
+		{
+			new[j] = old[i];
+			i++;
+			j++;
+		}
+	}
+	return (new);
+}
+
+void	manipulate_str(char **str, char **array, t_quotes_system *quotes_sys)
+{
+	char	*temp;
+
+	*str = join_the_array(array, "\1");
+	temp = *str;
+	*str = remove_quotes(*str);
+	init_quotes_system(quotes_sys);
+	first_filter(*str, quotes_sys);
+	free(temp);
+}
+
 char	**run_the_array(char **array)
 {
 	int				i;
@@ -159,7 +213,7 @@ char	**run_the_array(char **array)
 		array[i] = expand_str(array[i], &quotes_sys, false);
 		i++;
 	}
-	str = join_the_array(array, "\1");
+	manipulate_str(&str, array, &quotes_sys);
 	if (!str)
 		return (array);
 	new_array = ft_split(str, PARSER_SEP);
@@ -170,22 +224,40 @@ char	**run_the_array(char **array)
 	return (new_array);
 }
 
-void	command_organization(t_command *command)
+void	run_redirections(t_redirect *redir)
 {
-	while (command)
+	t_quotes_system	quotes_sys;
+	char			*temp;
+
+	while (redir)
 	{
-		command->args = run_the_array(command->args);
-		// command_redirects_organization(command->redirections);
-		command = command->next;
+		init_quotes_system(&quotes_sys);
+		if (!ft_strlen(redir->content))
+		{
+			redir = redir->next;
+			continue ;
+		}
+		redir->content = expand_str(redir->content, &quotes_sys, false);
+		temp = remove_quotes(redir->content);
+		free(redir->content);
+		redir->content = temp;
+		if ((!quotes_sys.was_quoted && ft_strchr(redir->content, ' '))
+			|| !ft_strlen(redir->content))
+			redir->invalid_expansion = true;
+		redir = redir->next;
 	}
 }
 
-// void	command_redirects_organization(t_redirect *redir)
-// {
-// 	while (redir)
-// 	{
-// 		redir->content = ;
-// 		redir = redir
-// 	}
-// }
+void	generic_expansion(t_terminal *terminal)
+{
+	t_command *cmd;
 
+	cmd = terminal->commands;
+	while (cmd)
+	{
+		cmd->args = run_the_array(cmd->args);
+		run_redirections(cmd->redirections);
+		cmd = cmd->next;
+	}
+	cmd = terminal->commands;
+}

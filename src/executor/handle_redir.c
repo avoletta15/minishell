@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:22:32 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/05 21:24:42 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 15:56:45 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	handle_open(t_redirect *redir, int *in, int *out)
 	int	new_fd;
 
 	new_fd = 0;
+	if (redir->invalid_expansion)
+		return (-2);
 	if (redir->toked_id == APPEND_ID || redir->toked_id == OUTPUT_REDIRECT_ID)
 		handle_output_files(redir, out, &new_fd);
 	else
@@ -102,12 +104,16 @@ int	handle_open(t_redirect *redir, int *in, int *out)
 bool	redirection_handle(t_command *cmd, bool parent)
 {
 	t_redirect	*redir;
+	int			new_fd;
 
 	redir = cmd->redirections;
 	while (redir)
 	{
-		if (handle_open(redir, &cmd->std_fds.in, &cmd->std_fds.out) == -1)
+		new_fd = handle_open(redir, &cmd->std_fds.in, &cmd->std_fds.out);
+		if (new_fd == -1)
 			return (open_error(redir->content));
+		else if (new_fd == -2)
+			return (ambiguous_redir_error(redir->content));
 		redir = redir->next;
 	}
 	if (!parent)

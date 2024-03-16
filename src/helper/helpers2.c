@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 16:55:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 20:04:32 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 15:33:19 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,21 @@ void	visualize_env(t_env *env, int out)
 			ft_putendl_fd(env->value, out);
 		}
 		env = env->next;
+	}
+}
+
+void	print_str(char *str)
+{
+	while (str && *str)
+	{
+		if (*str == PARSER_SEP)
+			printf("\\1");
+		else if (*str == SINGLE_QUOTE)
+			printf("\\3");
+		else if (*str == DOUBLE_QUOTE)
+			printf("\\2");
+		else
+			printf("%c", *str);
+		str++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 20:33:33 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 20:35:40 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:31:20 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@
 /// @param cmd 
 void	chose_execve(t_terminal *terminal, t_command *cmd)
 {
-	execve(cmd->cmd_path, cmd->args, convert_env_list_to_array());
+	char		**env;
+
+	env = convert_env_list_to_array();
+	execve(cmd->cmd_path, cmd->args, env);
 	close_cmds_fds(terminal->commands, true);
 	free_terminal(terminal);
+	free_array(env);
 	close(STDIN_FILENO);
 	close(STDOUT_FILENO);
 	perror("minishell");

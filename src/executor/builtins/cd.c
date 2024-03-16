@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariaavoletta <mariaavoletta@student.42    +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 12:06:09 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/05 11:12:03 by mariaavolet      ###   ########.fr       */
+/*   Updated: 2024/03/16 20:15:05 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ bool	change_dir(char *dir_path, unsigned char *exit_status)
 	int		res;
 	t_env	*home;
 
-	if (!*dir_path)
+	if (!dir_path)
 	{
 		home = getvar("HOME");
 		if (!home)
@@ -126,15 +126,21 @@ bool	change_dir(char *dir_path, unsigned char *exit_status)
 /// @param dir_path 
 void	cd(char **dir_path, unsigned char *exit_status)
 {
+	char	*cwd;
+
 	if (size_of_array(dir_path) > 1)
 	{
 		*exit_status = 1;
 		cd_args_count_error();
 		return ;
 	}
+	cwd = getcwd(NULL, 0);
 	if (!change_dir(*dir_path, exit_status))
+	{
+		free(cwd);
 		return ;
-	if (!setpwds(getvar("OLDPWD"), getvar("PWD"), getcwd(NULL, 0)))
+	}
+	if (!setpwds(getvar("OLDPWD"), getvar("PWD"), cwd))
 	{
 		malloc_error();
 		return ;

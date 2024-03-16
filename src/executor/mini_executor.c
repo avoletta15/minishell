@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 21:13:56 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/16 20:27:27 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /// @brief This funcction choses which function to execute.
 /// @param terminal 
 /// @param cmd 
-void	chose_exec(t_terminal *terminal, t_command *cmd)
+void	choose_exec(t_terminal *terminal, t_command *cmd)
 {
 	int	exit_status;
 
@@ -49,9 +49,6 @@ void	chose_exec(t_terminal *terminal, t_command *cmd)
 /// @param out 
 void	child_exec(t_terminal *terminal, t_command *cmd)
 {
-	bool	should_exec;
-
-	should_exec = true;
 	cmd->pid = fork();
 	if (cmd->pid == -1)
 		return (perror("minishell"));
@@ -59,13 +56,15 @@ void	child_exec(t_terminal *terminal, t_command *cmd)
 	{
 		handle_child_signals();
 		if (!redirection_handle(cmd, false))
-			should_exec = false;
+		{
+			close_cmds_fds(cmd, false);
+			close_fds(cmd->pipe_fd[0], cmd->pipe_fd[1]);
+			free_terminal(terminal);
+			exit(errno);
+		}
 		close_fds(cmd->std_fds.in, cmd->std_fds.out);
 		close_fds(cmd->pipe_fd[0], cmd->pipe_fd[1]);
-		if (should_exec)
-			chose_exec(terminal, cmd);
-		free_terminal(terminal);
-		exit(errno);
+		choose_exec(terminal, cmd);
 	}
 	close_fds(cmd->std_fds.in, cmd->std_fds.out);
 }
@@ -132,7 +131,10 @@ void	mini_executor(t_terminal *terminal)
 	if (is_a_single_builtin(cmd))
 	{
 		if (!redirection_handle(cmd, true))
+		{
+			close_cmds_fds(cmd, true);
 			return ;
+		}
 		exec_builtins(terminal, cmd->args, cmd->std_fds.out);
 		close_fds(cmd->std_fds.in, cmd->std_fds.out);
 	}

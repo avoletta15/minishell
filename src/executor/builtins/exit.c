@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 17:45:08 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/13 16:17:40 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/17 17:03:50 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 /// @return 
 bool	check_numeric_arg(char *str)
 {
+	if (!str)
+		return (true);
+	if (*str != '+' && *str != '-' && !ft_isdigit(*str))
+		return (false);
+	str++;
 	while (str && *str)
 	{
 		if (!ft_isdigit(*str))
@@ -37,7 +42,7 @@ void	mini_exit(t_terminal *terminal, char **args)
 	if (*args)
 		exit_code = ft_atoi(*args);
 	else
-		exit_code = 0;
+		exit_code = terminal->exit_status;
 	if (!check_numeric_arg(*args))
 	{
 		exit_non_numeric_arg(*args);

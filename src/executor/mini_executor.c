@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/16 20:27:27 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:29:38 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	choose_exec(t_terminal *terminal, t_command *cmd)
 		exit(0);
 	}
 	else
-		chose_execve(terminal, cmd);
+		choose_execve(terminal, cmd);
 }
 
 /// @brief This function calls the redirection_handle function and
@@ -60,7 +60,7 @@ void	child_exec(t_terminal *terminal, t_command *cmd)
 			close_cmds_fds(cmd, false);
 			close_fds(cmd->pipe_fd[0], cmd->pipe_fd[1]);
 			free_terminal(terminal);
-			exit(errno);
+			exit(EXIT_FAILURE);
 		}
 		close_fds(cmd->std_fds.in, cmd->std_fds.out);
 		close_fds(cmd->pipe_fd[0], cmd->pipe_fd[1]);
@@ -133,6 +133,7 @@ void	mini_executor(t_terminal *terminal)
 		if (!redirection_handle(cmd, true))
 		{
 			close_cmds_fds(cmd, true);
+			terminal->exit_status = EXIT_FAILURE;
 			return ;
 		}
 		exec_builtins(terminal, cmd->args, cmd->std_fds.out);

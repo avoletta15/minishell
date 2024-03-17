@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/03 00:21:14 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/14 10:24:56 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/17 16:06:32 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ bool	set_path(t_command *cmd)
 	real_path = find_path(all_paths, *(cmd->args));
 	free_array(all_paths);
 	if (!real_path)
-		return (false); // Check with martim, he substituted false for true
+		return (false);
 	if (cmd->cmd_path)
 		free(cmd->cmd_path);
 	cmd->cmd_path = real_path;

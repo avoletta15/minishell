@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:21:35 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/16 17:22:04 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/17 17:05:39 by marioliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 # include <signal.h>
 # include <termios.h>
 
-# define PARSER_SEP '\1'
-# define DOUBLE_QUOTE '\2'
-# define SINGLE_QUOTE '\3'
+# define PARSER_SEP 1
+# define DOUBLE_QUOTE 2
+# define SINGLE_QUOTE 3
 
 # define PIPE "|"
 # define INPUT_REDIRECT "<"
@@ -324,39 +324,35 @@ void			visualize_env(t_env *env, int out);
 void			print_str(char *str);
 // helpers 2
 
-// expansion
-void			temporary_arg_saving(t_terminal *terminal);
-void			new_expanded_var(t_terminal *terminal);
-char			*ft_search_variable(char *var);
-void			ft_init_vars(t_terminal *terminal, int arg);
-void			ft_expansion(t_terminal *terminal, char flag);
-// expansion
+// expander
+void			generic_expansion(t_terminal *terminal);
+void			run_redirections(t_redirect *redir);
+char			**run_the_array(char **array);
+char			*expander(char *str, t_quotes_system *quotes_sys);
+// expander
 
-// exp_ways
-char			*should_not_expand(char *str, int *i,
-					t_terminal *terminal, char *expand_var);
-char			*exit_status_expansion(t_terminal *terminal, size_t *i);
-char			*should_expand(char *str, int *i, t_terminal *terminal);
-void			injecting_removed_quotes(t_terminal *terminal);
-// exp_ways
-
-// exp_check
-void			ft_checking_expansion(t_terminal *terminal, char *flag, int i);
-void			single_quote_case(char *str, int *i);
-char			ft_checking_quotes(char *str, char *flag,
-					int *i, t_terminal *terminal);
-bool			ft_forbidden_expansion(char c, int i);
-char			*variable_alias(char *str);
-// exp_check
-
-// exp_replacement
-void			more_elemments_array(t_terminal *terminal, int *i);
-void			comp_var_continue(int *i, int j,
-					int n, char **new);
-void			composed_variable(t_terminal *terminal, int *i);
+// exp_utils
+size_t			quotes_count(char *str);
 char			*remove_quotes(char *old);
-void			ft_replacement(t_terminal *terminal, int *i);
-// exp_replacement
+char			*ft_strrep(char *str, size_t from, size_t len, char *add);
+char			*join_the_array(char **array, char *separator);
+// exp_utils
+
+// exp_utils2
+void			manipulate_str(char **str, char **array,
+					t_quotes_system *quotes_sys);
+char			*expand_str(char *str, t_quotes_system *quotes_sys,
+					bool is_in_here_doc);
+char			*exit_status_management(char *str, t_quotes_system *quotes_sys);
+// exp_utils2
+
+// exp_utils3
+char			*expanded_vars(char *str, size_t *i, char *key);
+int				get_var_len(char *str, size_t i);
+char			*ft_search_variable(char *var);
+char			*variable_alias(char *str);
+bool			ft_forbidden_expansion(char c, int i);
+// exp_utils3
 
 // builtins
 void			echo(char **av, int out, unsigned char *exit_status);
@@ -400,7 +396,7 @@ char			*manipulate_delimiter(char *delimiter);
 
 // executor
 void			mini_executor(t_terminal *terminal);
-void			chose_execve(t_terminal *terminal, t_command *cmd);
+void			choose_execve(t_terminal *terminal, t_command *cmd);
 // executor
 
 // signal

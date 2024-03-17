@@ -16,8 +16,8 @@ PARSER = 	parser/args_redirects.c parser/lexer.c parser/parser.c\
 			parser/prompt_treatment.c parser/tokenize.c
 UTILS = 	utils/error.c utils/error2.c utils/init_vars.c utils/memory.c utils/memory2.c\
 			utils/utils.c utils/utils2.c utils/utils3.c utils/utils4.c utils/utils5.c
-EXPANDER =	expander/exp_check.c expander/exp_replacement.c expander/exp_ways.c\
-			expander/expansion.c expander/expander.c
+EXPANDER =	expander/expander.c expander/exp_util.c expander/exp_util2.c\
+			expander/exp_util3.c
 EXECUTOR = 	executor/mini_executor.c executor/handle_redir.c executor/executor_utils.c
 HERE_DOC = 	executor/here_doc/here_doc.c /executor/here_doc/here_doc_errors.c\
 			executor/here_doc/here_doc_utils.c

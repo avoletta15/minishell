@@ -15,7 +15,7 @@
 int	get_var_len(char *str, size_t i)
 {
 	size_t	start;
-	
+
 	start = i;
 	if (!ft_isalpha(str[i]) && (str[i] != '_' && str[i] != '?'))
 		return (-1);
@@ -30,7 +30,7 @@ char	*ft_strrep(char *str, size_t from, size_t len, char *add)
 	size_t	base_len;
 	size_t	new_len;
 	char	*new;
-	
+
 	base_len = ft_strlen(str);
 	new_len = base_len - len + ft_strlen(add);
 	new = (char *)ft_calloc(new_len + 1, sizeof(char));
@@ -103,7 +103,7 @@ char	*expander(char *str, t_quotes_system *quotes_sys)
 		return (exit_status_management(str, quotes_sys));
 	}
 	new_str = expanded_vars(str, &quotes_sys->i, key);
-	free(key); 
+	free(key);
 	return (new_str);
 }
 
@@ -192,10 +192,12 @@ void	manipulate_str(char **str, char **array, t_quotes_system *quotes_sys)
 	char	*temp;
 
 	*str = join_the_array(array, "\1");
+	if (!*str)
+		return ;
+	remove_whitespaces(*str, quotes_sys);
 	temp = *str;
 	*str = remove_quotes(*str);
 	init_quotes_system(quotes_sys);
-	remove_whitespaces(*str, quotes_sys);
 	free(temp);
 }
 

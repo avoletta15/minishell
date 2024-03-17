@@ -18,6 +18,7 @@ void	handle_child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	signal(SIGPIPE, SIG_IGN);
 }
 
 /// @brief This function sets the signal handler for the here_doc process.

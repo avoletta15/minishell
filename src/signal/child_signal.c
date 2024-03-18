@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/06 14:10:10 by mariaavolet       #+#    #+#             */
-/*   Updated: 2024/03/13 20:25:15 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/18 11:51:02 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	handle_child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	signal(SIGPIPE, SIG_IGN);
 }
 
 /// @brief This function sets the signal handler for the here_doc process.

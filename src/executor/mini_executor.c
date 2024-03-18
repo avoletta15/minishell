@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_executor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marioliv <marioliv@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 14:08:05 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/17 16:29:38 by marioliv         ###   ########.fr       */
+/*   Updated: 2024/03/18 11:50:02 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	child_exec(t_terminal *terminal, t_command *cmd)
 		handle_child_signals();
 		if (!redirection_handle(cmd, false))
 		{
-			close_cmds_fds(cmd, false);
-			close_fds(cmd->pipe_fd[0], cmd->pipe_fd[1]);
+			printf("cmd: %s[%d]\n", cmd->cmd_path, getpid());
+			close_cmds_fds(terminal->commands, true);
 			free_terminal(terminal);
 			exit(EXIT_FAILURE);
 		}

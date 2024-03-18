@@ -6,7 +6,7 @@
 /*   By: arabelo- <arabelo-@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 22:44:15 by arabelo-          #+#    #+#             */
-/*   Updated: 2024/03/16 19:57:38 by arabelo-         ###   ########.fr       */
+/*   Updated: 2024/03/18 11:41:48 by arabelo-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ bool	echo_option_checker(char *option, bool *new_line)
 {
 	if (*option == '-')
 		option++;
+	else
+		return (false);
 	if (*option == '\0')
 		return (false);
 	while (*option)
